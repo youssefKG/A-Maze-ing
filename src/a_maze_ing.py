@@ -18,6 +18,4 @@ if __name__ == "__main__":
     win_ptr = m.mlx_new_window(mlx_ptr, 400, 400, "win title")
     m.mlx_clear_window(mlx_ptr, win_ptr)
     m.mlx_string_put(mlx_ptr, win_ptr, 20, 20, 255, "Hello PyMlx!")
-    m.mlx_hook(win_ptr, 33, 0, gere_close, None)
-    print(f"Got screen size: {w} x {h} .")
     m.mlx_loop(mlx_ptr)
