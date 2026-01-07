@@ -45,7 +45,7 @@ class Mlx:
 
   def mlx_destroy_window(self, mlx_ptr, win_ptr):
     self.mlx_func.mlx_destroy_window.argtypes = [c_void_p, c_void_p]
-    self.mlx_func.mlx_destroy_window.restype = c_int
+    self.mlx_func.mlx_destroy_window.restype = c_mlx_ptr
     return self.mlx_func.mlx_destroy_window(mlx_ptr, win_ptr)
 
 # Images
