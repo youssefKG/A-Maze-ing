@@ -1,22 +1,23 @@
 from mlx.mlx.mlx import Mlx
-from renderer.images.cellImg import CellImage
+from renderer.image.image import CellImage
 from maze.cell import * 
 
 class Window:
     def __init__(self, mlx: Mlx, mlx_ptr, width: int, height: int, title: str) -> None: 
         self.mlx = mlx
-        self.width = width
+        self.widht = width
         self.height = height
         self.title = title
         self.mlx_ptr = mlx_ptr
-        self.ptr = self.mlx.mlx_new_window(
-                self.mlx_ptr, self.width, self.height, self.title
-                )
-        cell = Cell(True, True, True, True)
-        cellImg = CellImage(self.mlx, self.mlx_ptr, int(self.width / 20),
-                            int(self.height / 20), cell)
-        self.mlx.mlx_put_image_to_window(self.mlx_ptr, self.ptr, cellImg.ptr,
-                                         0, 0)
+        self.ptr = self.mlx.mlx_new_window(self.mlx_ptr, self.widht, self.height, self.title)
+        cellWall = CellWalls(True, True, True, False)
+        cell = Cell(50, 50, cellWall)
+        cellWall_2 = CellWalls(True, True, True, False)
+        cell_2 = Cell(50, 50, cellWall_2)
+        cellImg = CellImage(self.mlx, self.mlx_ptr, cell)
+        cellImg_2 = CellImage(self.mlx, self.mlx_ptr, cell_2)
+        self.mlx.mlx_put_image_to_window(self.mlx_ptr, self.ptr, cellImg.ptr, 0, 0)
+        self.mlx.mlx_put_image_to_window(self.mlx_ptr, self.ptr, cellImg_2.ptr, 50, 0)
         self.mlx.mlx_hook(self.ptr, 30, 0, self.gere_close, None)
         self.mlx.mlx_key_hook(self.ptr, self.mykey, [1, 2])
 
@@ -31,3 +32,4 @@ class Window:
     def gere_close(self, dummy):
         self.mlx.mlx_loop_exit(self.mlx_ptr)
 
+    # Draw a diagonal line

@@ -9,5 +9,5 @@ class Renderer:
         self.win = Window(self.mlx, self.mlx_ptr, 800, 800, "HELLO WORLD")
 
     def render(self):
-        self.mlx.mlx_clear_window(self.mlx_ptr, self.win.ptr)
+        # self.mlx.mlx_clear_window(self.mlx_ptr, self.win.ptr)
         self.mlx.mlx_loop(self.mlx_ptr)

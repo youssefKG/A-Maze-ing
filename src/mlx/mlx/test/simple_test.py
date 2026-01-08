@@ -1,3 +1,8 @@
+import sys
+import os
+sys.path.append(
+    os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+)
 from mlx import Mlx
 
 def mymouse(button, x, y, mystuff):
@@ -11,6 +16,19 @@ def mykey(keynum, mystuff):
 
 def gere_close(dummy):
     m.mlx_loop_exit(mlx_ptr)
+    
+class CellWalls:
+    def __init__(self, north, south, east, west) -> None:
+        self.north = north
+        self.south = south
+        self.east = east
+        self.west = west
+
+class Cell:
+    def __init__(self, width: int, height: int, walls: CellWalls) -> None:
+        self.width = width
+        self.height =height
+        self.walls  = walls
     
 class CellImage:
     def __init__(self, mlx: Mlx, mlx_ptr, cell: Cell ) -> None:
@@ -30,22 +48,17 @@ class CellWalls:
         self.east = east
         self.west = west
 
-class Cell:
-    def __init__(self, width: int, height: int, walls: CellWalls) -> None:
-        self.width = width
-        self.height =height
-        self.walls  = walls
 m = Mlx()
 mlx_ptr = m.mlx_init()
 win_ptr = m.mlx_new_window(mlx_ptr, 200, 200, "win title")
 m.mlx_clear_window(mlx_ptr, win_ptr)
 m.mlx_string_put(mlx_ptr, win_ptr, 20, 20, 255, "Hello PyMlx!")
 (ret, w, h) = m.mlx_get_screen_size(mlx_ptr)
-print(f"Got screen size: {w} x {h} .")
 
+cellWall = CellWalls(True, True, True, True)
 cell = Cell(20, 20, cellWall)
-cellImg = CellImage(self.mlx, self.mlx_ptr, cell)
-self.mlx.mlx_put_image_to_window(mlx_ptr, wind_ptr, cellImg.ptr, 10, 10)
+cellImg = CellImage(m, mlx_ptr, cell)
+m.mlx_put_image_to_window(mlx_ptr, win_ptr, cellImg.ptr, 10, 10)
 
 stuff = [1, 2]
 m.mlx_mouse_hook(win_ptr, mymouse, None)
