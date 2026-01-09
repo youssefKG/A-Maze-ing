@@ -263,6 +263,3 @@ class Mlx:
     self.mlx_func.mlx_sync.restype = c_int
     return self.mlx_func.mlx_sync(mlx_ptr, cmd, img_or_win_ptr)
 
-  SYNC_IMAGE_WRITABLE = 1
-  SYNC_WIN_FLUSH = 2
-  SYNC_WIN_COMPLETED = 3
