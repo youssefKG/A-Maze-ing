@@ -16,6 +16,6 @@ class Image:
         (self.data, self.bpp, self.sl, self.format) = \
                 self.mlx.mlx_get_data_addr(self.ptr)
 
-    def put_pixel(self, x, y):
+    def put_pixel(self, x, y, color):
         offset = (y * self.sl) + (x * 4) 
-        self.data[offset: offset + 4] = (0xFFFFFFFF).to_bytes(4, 'little')
+        self.data[offset: offset + 4] = (color).to_bytes(4, 'little')

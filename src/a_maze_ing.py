@@ -12,5 +12,6 @@ def main():
     amazeing = Amazeing()
     amazeing.renderer.render()
 
-main()
+if __name__ == "__main__":
+    main()
 
