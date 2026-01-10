@@ -10,23 +10,16 @@ class MazeGenerator:
         self.mlx_ptr = mlx_ptr
         self.width = width
         self.height = height
-        self.vertical_cells = 40
-        self.horizontal_cells = 40
         self.cell_width = self.get_cell_width()
         self.cell_height = self.get_cell_height()
+        self.vertical_cells = 40
+        self.horizontal_cells = 40
         self.win_ptr = win_ptr
-        self.cells_img  = CellsImage(self.mlx, self.mlx_ptr, self.width, self.height, self.cell_width, self.cell_height)
-        i = 0
-        while i < 40:
-            j = 0
-            while j < 40:
-                self.cells_img.draw_walls(i, j, Cell())
-                j += 1
-            i += 1
-
+        self.cells_img = CellsImage(self.mlx, self.mlx_ptr, self.width,
+                                   self.height, self.cell_width,
+                                   self.cell_height)
     def get_cell_width(self):
-        return int((self.width / self.vertical_cells)) - 4
-
+        return int(self.width / self.vertical_cells - 4)
     def get_cell_height(self):
-        return int((self.height / self.horizontal_cells)) - 4
+        return int(self.height / self.horizontal_cells - 4)
 

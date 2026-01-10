@@ -11,4 +11,3 @@ class Renderer:
 
     def render(self):
         self.mlx.mlx_loop(self.mlx_ptr)
-        self.mlx.mlx_clear_window(self.mlx_ptr, self.win.ptr)
