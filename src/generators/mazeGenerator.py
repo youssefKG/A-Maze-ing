@@ -12,8 +12,8 @@ class MazeGenerator:
         self.width = width
         self.height = height
         self.win_ptr = win_ptr
-        self.vertical_cells = 10
-        self.horizontal_cells = 10
+        self.vertical_cells = 5
+        self.horizontal_cells = 5
         self.cell_width = self.get_cell_width()
         self.cell_height = self.get_cell_height()
         self.cells_img = CellsImage(
@@ -48,24 +48,26 @@ class MazeGenerator:
 
     def generate(self):
         self.current_cell.is_visited = True
-        self.stack.append(self.current_cell)
         self.mlx.mlx_loop_hook(self.mlx_ptr, self.generate_DFS_animation, None)
 
     def remove_wall(self):
-        x = self.current_cell.x - self.next_cell.x
-        y = self.current_cell.y - self.next_cell.y
-        if x == 1:
-            self.current_cell.north = False
-            self.next_cell.south = False
-        elif x == -1:
-            self.current_cell.south = False
-            self.next_cell.north = False
-        if y == 1:
-            self.current_cell.east = False
-            self.next_cell.west = False
-        elif y == -1:
-            self.current_cell.west = False
-            self.next_cell.east = False
+        if (self.next_cell):
+            x = self.current_cell.x - self.next_cell.x
+            y = self.current_cell.y - self.next_cell.y
+            if x == 1:
+                self.current_cell.south= False
+                self.next_cell.north = False
+            if x == -1:
+                self.current_cell.south = False
+                self.next_cell.north =  False
+            if y == 1:
+                self.current_cell.west = False
+                self.next_cell.east = False
+            if y == -1:
+                self.current_cell.east = False
+                self.next_cell.west = False
+            print(self.current_cell.north, self.current_cell.south,
+                  self.current_cell.west, self.current_cell.east)
 
     def check_neighbors(self):
         x = self.current_cell.x
@@ -75,11 +77,11 @@ class MazeGenerator:
             north = self.cells_grid[x - 1][y]
             if not north.is_visited:
                 neighbors.append(north)
-        if x + 1 < self.horizontal_cells:
+        if x + 1 < self.vertical_cells:
             south = self.cells_grid[x + 1][y]
             if not south.is_visited:
                 neighbors.append(south) 
-        if y + 1 < self.vertical_cells:
+        if y + 1 < self.horizontal_cells:
             east = self.cells_grid[x][y + 1]
             if not east.is_visited:
                 neighbors.append(east)
@@ -93,20 +95,17 @@ class MazeGenerator:
 
     def generate_DFS_animation(self, _):
         self.frames += 1
-        if self.frames % 155 != 0:
+        if self.frames % 15 != 0:
             return
-        if len(self.stack) == 0:
-            return 
         self.next_cell  = self.check_neighbors()
         if self.next_cell is not None:
-            self.stack.append(self.current_cell)
+            print(self.next_cell)
             self.next_cell.is_visited = True
             self.remove_wall()
+            self.stack.append(self.current_cell)
             self.cells_img.draw_cell(self.current_cell.x, self.current_cell.y,
-                    self.current_cell, 0x000000)
-            self.current_cell = self.next_cell
-            self.cells_img.draw_cell(self.current_cell.x, self.current_cell.y,
-                self.current_cell, 0xFFF0000)
+                self.current_cell)
             self.mlx.mlx_put_image_to_window(self.mlx_ptr, self.win_ptr, self.cells_img.ptr, 0, 0)
-        else:
+            self.current_cell = self.next_cell
+        elif (self.stack):
             self.current_cell = self.stack.pop()

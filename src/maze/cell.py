@@ -1,7 +1,7 @@
 class Cell:
     def __init__(self, x: int, y: int, north=True, south=True, east=True,
             west=True) -> None:
-        self.north = west
+        self.north = north
         self.south = south
         self.east = east
         self.west = west
