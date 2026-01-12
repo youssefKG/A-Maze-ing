@@ -12,8 +12,8 @@ class MazeGenerator:
         self.width = width
         self.height = height
         self.win_ptr = win_ptr
-        self.vertical_cells = 5
-        self.horizontal_cells = 5
+        self.vertical_cells = 15555
+        self.horizontal_cells = 15555
         self.cell_width = self.get_cell_width()
         self.cell_height = self.get_cell_height()
         self.cells_img = CellsImage(
@@ -25,8 +25,6 @@ class MazeGenerator:
             self.cell_height,
         )
         self.cells_grid = []
-        self.init_grid_cells()
-        self.current_cell = self.cells_grid[0][0]
         self.stack = []
         self.solution = []
         self.is_end = False
@@ -47,27 +45,29 @@ class MazeGenerator:
             self.cells_grid.append(row)
 
     def generate(self):
+        self.init_grid_cells()
+        i = 0
+        self.current_cell = self.cells_grid[0][0]
         self.current_cell.is_visited = True
+        self.stack.append(self.current_cell)
         self.mlx.mlx_loop_hook(self.mlx_ptr, self.generate_DFS_animation, None)
 
     def remove_wall(self):
         if (self.next_cell):
             x = self.current_cell.x - self.next_cell.x
             y = self.current_cell.y - self.next_cell.y
-            if x == 1:
-                self.current_cell.south= False
-                self.next_cell.north = False
-            if x == -1:
+            if y == 1:
+                self.current_cell.north= False
+                self.next_cell.south = False
+            if y == -1:
                 self.current_cell.south = False
                 self.next_cell.north =  False
-            if y == 1:
+            if x == 1:
                 self.current_cell.west = False
                 self.next_cell.east = False
-            if y == -1:
+            if x == -1:
                 self.current_cell.east = False
                 self.next_cell.west = False
-            print(self.current_cell.north, self.current_cell.south,
-                  self.current_cell.west, self.current_cell.east)
 
     def check_neighbors(self):
         x = self.current_cell.x
@@ -93,19 +93,40 @@ class MazeGenerator:
             return choice(neighbors)
         return None
 
-    def generate_DFS_animation(self, _):
-        self.frames += 1
-        if self.frames % 15 != 0:
-            return
-        self.next_cell  = self.check_neighbors()
-        if self.next_cell is not None:
-            print(self.next_cell)
-            self.next_cell.is_visited = True
-            self.remove_wall()
-            self.stack.append(self.current_cell)
+    """
+        def generate_DFS_animation(self, _):
+            self.frames += 1
+            if len(self.stack) != 0:
+                self.current_cell = self.stack.pop()
+                self.current_cell.is_visited = True
+                self.next_cell  = self.check_neighbors()
+                if self.next_cell is not None:
+                    self.stack.append(self.current_cell)
+                    self.remove_wall()
+                    self.stack.append(self.next_cell)
             self.cells_img.draw_cell(self.current_cell.x, self.current_cell.y,
                 self.current_cell)
             self.mlx.mlx_put_image_to_window(self.mlx_ptr, self.win_ptr, self.cells_img.ptr, 0, 0)
-            self.current_cell = self.next_cell
-        elif (self.stack):
-            self.current_cell = self.stack.pop()
+    """
+    def generate_DFS_animation(self, _):
+        self.frames += 1
+        if not len(self.stack):
+            print("end")
+            i = 0
+            while i < self.vertical_cells:
+                j = 0
+                while j < self.horizontal_cells:
+                    self.cells_img.draw_cell(i, j, self.cells_grid[i][j])
+                    j += 1
+                i += 1
+                self.mlx.mlx_put_image_to_window(self.mlx_ptr, self.win_ptr, self.cells_img.ptr, 0, 0)
+            return
+        self.current_cell = self.stack[-1]
+        self.next_cell = self.check_neighbors()
+        self.mlx.mlx_clear_window(self.mlx_ptr, self.win_ptr)
+        if self.next_cell:
+            self.remove_wall()
+            self.next_cell.is_visited = True
+            self.stack.append(self.next_cell)
+        else:
+            self.stack.pop()   # backtrack
