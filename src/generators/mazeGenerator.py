@@ -12,8 +12,8 @@ class MazeGenerator:
         self.width = width
         self.height = height
         self.win_ptr = win_ptr
-        self.vertical_cells = 2
-        self.horizontal_cells = 2
+        self.vertical_cells = 25
+        self.horizontal_cells = 25
         self.cell_width = self.get_cell_width()
         self.cell_height = self.get_cell_height()
         self.cells_img = CellsImage(
@@ -109,13 +109,13 @@ class MazeGenerator:
         if self.is_finished:
             return
         if not len(self.stack):
-            i = 0
-            while i < self.vertical_cells:
-                j = 0
-                while j < self.horizontal_cells:
-                    self.cells_img.draw_cell(i, j, self.cells_grid[i][j])
-                    j += 1
-                i += 1
+            # i = 0
+            # while i < self.vertical_cells:
+            #     j = 0
+            #     while j < self.horizontal_cells:
+            #         self.cells_img.draw_cell(i, j, self.cells_grid[i][j])
+            #         j += 1
+            #     i += 1
             self.is_finished = True
             self.mlx.mlx_put_image_to_window(self.mlx_ptr, self.win_ptr, self.cells_img.ptr, 0, 0)
             return
@@ -128,7 +128,7 @@ class MazeGenerator:
             self.cells_img.clear_cell(self.current_cell)
             self.remove_wall()
             self.cells_img.draw_cell(self.current_cell.x, self.current_cell.y, self.current_cell)
-            self.cells_img.draw_cell(self.next_cell.x, self.next_cell.y, self.next_cell, 0xABCDFFFF)
+            self.cells_img.draw_cell(self.next_cell.x, self.next_cell.y, self.next_cell, 0xEFCDFFFF)
             self.mlx.mlx_put_image_to_window(self.mlx_ptr, self.win_ptr, self.cells_img.ptr, 0, 0)
             self.next_cell.is_visited = True
             self.stack.append(self.next_cell)

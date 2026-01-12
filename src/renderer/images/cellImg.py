@@ -1,6 +1,7 @@
 from mlx.mlx import Mlx
 from maze.cell import Cell
 from renderer.images.image import Image
+from random import choice
 
 class CellsImage(Image):
     def __init__(
@@ -10,13 +11,12 @@ class CellsImage(Image):
         width: int,
         height: int,
         cell_width: int = 30,
-        cell_height: int = 30,
-    ):
+        cell_height: int = 30):
         super().__init__(mlx, mlx_ptr, width, height)
         self.cellWidth = int(cell_width - cell_width / 4)
         self.cellHeight = int(cell_height - cell_height / 4)
         self.cellBorder = int(self.cellHeight * 0.15)
-
+        self.color = choice([ 0x1E1E1EFF,  0x2C2C54FF,  0x3B2F2FFF, 0x1B3A4BFF, 0x2F3E2EFF, 0x3A1F2BFF, 0x4B3621FF, 0x262626FF])
     def draw_cell(self, i, j, cell: Cell, backgroundColor=None):
         # draw north wall
         if backgroundColor is not None:
@@ -61,4 +61,4 @@ class CellsImage(Image):
             for y in range(self.cellHeight):
                 x_axis = cell.x * self.cellWidth + x
                 y_axis = cell.y * self.cellHeight + y
-                self.put_pixel(x_axis, y_axis, 0xFFFF0000)
+                self.put_pixel(x_axis, y_axis, self.color)
