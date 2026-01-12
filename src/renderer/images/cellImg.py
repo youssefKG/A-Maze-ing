@@ -13,8 +13,8 @@ class CellsImage(Image):
         cell_height: int = 30,
     ):
         super().__init__(mlx, mlx_ptr, width, height)
-        self.cellWidth = cell_width
-        self.cellHeight = cell_height
+        self.cellWidth = int(cell_width - cell_width / 4)
+        self.cellHeight = int(cell_height - cell_height / 4)
         self.cellBorder = int(self.cellHeight * 0.15)
 
     def draw_cell(self, i, j, cell: Cell, backgroundColor=None):
@@ -25,6 +25,7 @@ class CellsImage(Image):
                     x_axis = i * self.cellWidth + x
                     y_axis = j * self.cellHeight + y
                     self.put_pixel(x_axis, y_axis, backgroundColor)
+
         if cell.north:
             for x in range(self.cellWidth + self.cellBorder):
                 for y in range(self.cellBorder):
@@ -34,7 +35,7 @@ class CellsImage(Image):
 
         # draw south wall
         if cell.south:
-            for x in range(self.cellWidth):
+            for x in range(self.cellWidth + self.cellBorder):
                 for y in range(self.cellBorder):
                     x_axis = x + (self.cellWidth * i)
                     y_axis = (j * self.cellHeight) + y + self.cellHeight
@@ -42,14 +43,14 @@ class CellsImage(Image):
 
         # draw west wall
         if cell.west:
-            for y in range(self.cellHeight):
+            for y in range(self.cellHeight + self.cellBorder):
                 for x in range(self.cellBorder):
                     x_axis = x + (self.cellWidth * i)
                     y_axis = (j * self.cellHeight) + y
                     self.put_pixel(x_axis, y_axis, 0xFFFFFFFF)
         # draw east wall
         if cell.east:
-            for y in range(self.cellHeight):
+            for y in range(self.cellHeight + self.cellBorder):
                 for x in range(self.cellBorder):
                     x_axis = x + (self.cellWidth * i) + self.cellWidth
                     y_axis = (j * self.cellHeight) + y
