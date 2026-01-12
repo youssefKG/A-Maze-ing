@@ -12,8 +12,8 @@ class MazeGenerator:
         self.width = width
         self.height = height
         self.win_ptr = win_ptr
-        self.vertical_cells = 15555
-        self.horizontal_cells = 15555
+        self.vertical_cells = 15
+        self.horizontal_cells = 15
         self.cell_width = self.get_cell_width()
         self.cell_height = self.get_cell_height()
         self.cells_img = CellsImage(
@@ -27,7 +27,7 @@ class MazeGenerator:
         self.cells_grid = []
         self.stack = []
         self.solution = []
-        self.is_end = False
+        self.is_finished = False
         self.frames = 0
         self.next_cell = None
 
@@ -43,12 +43,30 @@ class MazeGenerator:
             for j in range(self.horizontal_cells):
                 row.append(Cell(i, j))
             self.cells_grid.append(row)
+        i = 0
+        while i < self.vertical_cells:
+            j = 0
+            while j < self.horizontal_cells:
+                self.cells_img.draw_cell(i, j, self.cells_grid[i][j])
+                j += 1
+            i += 1
+        self.mlx.mlx_put_image_to_window(self.mlx_ptr, self.win_ptr, self.cells_img.ptr, 0, 0)
 
     def generate(self):
         self.init_grid_cells()
         i = 0
         self.current_cell = self.cells_grid[0][0]
         self.current_cell.is_visited = True
+        """
+        self.next_cell = self.cells_grid[0][1]
+        self.cells_img.draw_cell(self.current_cell.x, self.current_cell.y, self.current_cell)
+        self.cells_img.draw_cell(self.next_cell.x, self.next_cell.y, self.next_cell)
+        self.mlx.mlx_put_image_to_window(self.mlx_ptr, self.win_ptr, self.cells_img.ptr, 0, 0)
+        self.remove_wall()
+        self.cells_img.draw_cell(self.current_cell.x, self.current_cell.y, self.current_cell)
+        self.cells_img.draw_cell(self.next_cell.x, self.next_cell.y, self.next_cell)
+        self.mlx.mlx_put_image_to_window(self.mlx_ptr, self.win_ptr, self.cells_img.ptr, 0, 0)
+        """
         self.stack.append(self.current_cell)
         self.mlx.mlx_loop_hook(self.mlx_ptr, self.generate_DFS_animation, None)
 
@@ -93,40 +111,27 @@ class MazeGenerator:
             return choice(neighbors)
         return None
 
-    """
-        def generate_DFS_animation(self, _):
-            self.frames += 1
-            if len(self.stack) != 0:
-                self.current_cell = self.stack.pop()
-                self.current_cell.is_visited = True
-                self.next_cell  = self.check_neighbors()
-                if self.next_cell is not None:
-                    self.stack.append(self.current_cell)
-                    self.remove_wall()
-                    self.stack.append(self.next_cell)
-            self.cells_img.draw_cell(self.current_cell.x, self.current_cell.y,
-                self.current_cell)
-            self.mlx.mlx_put_image_to_window(self.mlx_ptr, self.win_ptr, self.cells_img.ptr, 0, 0)
-    """
     def generate_DFS_animation(self, _):
         self.frames += 1
+        if self.frames % 5 != 0:
+            return
+        if self.is_finished:
+            return
         if not len(self.stack):
             print("end")
-            i = 0
-            while i < self.vertical_cells:
-                j = 0
-                while j < self.horizontal_cells:
-                    self.cells_img.draw_cell(i, j, self.cells_grid[i][j])
-                    j += 1
-                i += 1
-                self.mlx.mlx_put_image_to_window(self.mlx_ptr, self.win_ptr, self.cells_img.ptr, 0, 0)
+            self.is_finished = True
             return
         self.current_cell = self.stack[-1]
         self.next_cell = self.check_neighbors()
-        self.mlx.mlx_clear_window(self.mlx_ptr, self.win_ptr)
         if self.next_cell:
+            self.cells_img.clear_cell(self.current_cell)
             self.remove_wall()
+            self.cells_img.clear_cell(self.next_cell)
+            self.cells_img.draw_cell(self.current_cell.x, self.current_cell.y, self.current_cell)
+            self.mlx.mlx_put_image_to_window(self.mlx_ptr, self.win_ptr, self.cells_img.ptr, 0, 0)
             self.next_cell.is_visited = True
             self.stack.append(self.next_cell)
         else:
-            self.stack.pop()   # backtrack
+            self.current = self.stack.pop()
+            self.cells_img.draw_cell(self.current_cell.x, self.current_cell.y, self.current_cell)
+            self.mlx.mlx_put_image_to_window(self.mlx_ptr, self.win_ptr, self.cells_img.ptr, 0, 0)

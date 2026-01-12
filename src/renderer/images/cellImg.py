@@ -31,26 +31,14 @@ class CellsImage(Image):
                     x_axis = x + (self.cellWidth * i)
                     y_axis = (j * self.cellHeight) + y
                     self.put_pixel(x_axis, y_axis, 0xFFFFFFFF)
-        else:
-            for x in range(self.cellWidth + self.cellBorder):
-                for y in range(self.cellBorder):
-                    x_axis = x + (self.cellWidth * i)
-                    y_axis = (j * self.cellHeight) + y
-                    self.put_pixel(x_axis, y_axis, 0x0000000)
 
         # draw south wall
         if cell.south:
-            for x in range(self.cellWidth + self.cellBorder):
+            for x in range(self.cellWidth):
                 for y in range(self.cellBorder):
                     x_axis = x + (self.cellWidth * i)
                     y_axis = (j * self.cellHeight) + y + self.cellHeight
                     self.put_pixel(x_axis, y_axis, 0xFFFFFFFF)
-        else:
-            for x in range(self.cellWidth + self.cellBorder):
-                for y in range(self.cellBorder):
-                    x_axis = x + (self.cellWidth * i)
-                    y_axis = (j * self.cellHeight) + y + self.cellHeight
-                    self.put_pixel(x_axis, y_axis, 0x0000000)
 
         # draw west wall
         if cell.west:
@@ -59,13 +47,6 @@ class CellsImage(Image):
                     x_axis = x + (self.cellWidth * i)
                     y_axis = (j * self.cellHeight) + y
                     self.put_pixel(x_axis, y_axis, 0xFFFFFFFF)
-        else:
-            for y in range(self.cellHeight):
-                for x in range(self.cellBorder):
-                    x_axis = x + (self.cellWidth * i)
-                    y_axis = (j * self.cellHeight) + y
-                    self.put_pixel(x_axis, y_axis, 0x00000000)
-
         # draw east wall
         if cell.east:
             for y in range(self.cellHeight):
@@ -73,9 +54,10 @@ class CellsImage(Image):
                     x_axis = x + (self.cellWidth * i) + self.cellWidth
                     y_axis = (j * self.cellHeight) + y
                     self.put_pixel(x_axis, y_axis, 0xFFFFFFFF)
-        else:
+
+    def clear_cell(self, cell: Cell):
+        for x in range(self.cellWidth):
             for y in range(self.cellHeight):
-                for x in range(self.cellBorder):
-                    x_axis = x + (self.cellWidth * i) + self.cellWidth
-                    y_axis = (j * self.cellHeight) + y
-                    self.put_pixel(x_axis, y_axis, 0x00000000)
+                x_axis = cell.x * self.cellWidth + x
+                y_axis = cell.y * self.cellHeight + y
+                self.put_pixel(x_axis, y_axis, 0xFFFF0000)

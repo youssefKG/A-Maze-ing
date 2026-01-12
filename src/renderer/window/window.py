@@ -15,7 +15,7 @@ class Window:
         self.ptr = self.mlx.mlx_new_window(
                 self.mlx_ptr, self.width, self.height, self.title
                 )
-        self.maze_generator = MazeGenerator(self.mlx, self.mlx_ptr, self.ptr, 1000, 1000)
+        self.maze_generator = MazeGenerator(self.mlx, self.mlx_ptr, self.ptr, 1200, 1200)
         self.mlx.mlx_key_hook(self.ptr, self.mykey, [1, 2])
         self.maze_generator.generate()
         # cells_imgs = CellsImage(self.mlx, self.mlx_ptr, 900, 900, 40, 40)
