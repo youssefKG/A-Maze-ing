@@ -6,7 +6,7 @@
 #    By: ytaoussi <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/14 15:45:39 by ytaoussi          #+#    #+#              #
-#    Updated: 2026/01/14 16:13:24 by ytaoussi         ###   ########.fr        #
+#    Updated: 2026/01/14 17:24:55 by ytaoussi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,8 +24,8 @@ class MazeGenerator:
         self.width = width
         self.height = height
         self.win_ptr = win_ptr
-        self.vertical_cells = 10 
-        self.horizontal_cells = 10
+        self.vertical_cells = 21 
+        self.horizontal_cells = 21
         self.cell_width = self.get_cell_width()
         self.cell_height = self.get_cell_height()
         self.cells_img = CellsImage(
@@ -54,39 +54,53 @@ class MazeGenerator:
         for i in range(self.vertical_cells):
             row = []
             for j in range(self.horizontal_cells):
-                row.append(Cell(i, j))
+                row.append(Cell(j, i))
             self.cells_grid.append(row)
         i = 0
         start_row = int(((self.vertical_cells - 1) / 2) - 2)
         start_col = int(((self.horizontal_cells - 1) / 2) - 3)
-        while i < self.horizontal_cells:
+        while i < self.vertical_cells:
             j = 0
-            while j < self.vertical_cells:
+            while j < self.horizontal_cells:
                 self.cells_img.draw_cell(i, j, self.cells_grid[i][j])
                 j += 1
             i += 1
-        self.draw_42()
+        if self.vertical_cells > 5 and self.horizontal_cells > 7:
+            self.draw_42()
         self.mlx.mlx_put_image_to_window(self.mlx_ptr, self.win_ptr, self.cells_img.ptr, 0, 0)
-        """
-            if j >= start_row and j <=  start_row + 4 and  i  >= start_col and i <= start_col + 6:
-                if i != self.vertical_cells / 2  - 1:
-                    self.cells_img.draw_cell(i, j, self.cells_grid[i][j], 0xFFF0000)
-                    self.cells_grid[i][j].is_visited = True
-            else:
-        """
 
     def draw_42(self):
         y = int(((self.vertical_cells) / 2) - 2)
         x = int(((self.horizontal_cells) / 2) - 3)
         # draw 4
         for i in range(y, y + 3):
-            self.cells_grid[x][i].is_visited = True
+            self.cells_grid[i][x].is_visited = True
             self.cells_img.draw_cell(x, i, self.cells_grid[x][i], 0xFFF00000)
         for i in range(x + 1, x + 3):
             self.cells_grid[y + 2][i].is_visited = True
             self.cells_img.draw_cell(i, y + 2, self.cells_grid[y + 2][i], 0xFFF00000)
-            
-
+        for i in range(y + 3, y + 5):
+            self.cells_grid[i][x + 2].is_visited = True
+            self.cells_img.draw_cell(x + 2,  i, self.cells_grid[i][x + 2], 0xFFF00000)
+        # Draw 2
+        for i in range(x + 4, x + 7):
+            self.cells_grid[y][i].is_visited = True
+            self.cells_img.draw_cell(i, y, self.cells_grid[y][i], 0xFFF00000)
+        for i in range(y + 1, y + 3):
+            self.cells_grid[i][x + 6].is_visited = True
+            self.cells_img.draw_cell(x + 6, i, self.cells_grid[i][x + 6], 0xFFF00000)
+        for i in range(x + 4 , x + 7):
+            self.cells_grid[y + 2][i].is_visited = True
+            self.cells_img.draw_cell(i, y + 2, self.cells_grid[y + 2][i], 0xFFF00000)
+        for i in range(y + 3, y + 5):
+            self.cells_grid[i][x + 4].is_visited = True
+            self.cells_img.draw_cell(x + 4, i, self.cells_grid[y][x + 4], 0xFFF00000)
+        for i in range(y + 3, y + 5):
+            self.cells_grid[i][x + 4].is_visited = True
+            self.cells_img.draw_cell(x + 4, i, self.cells_grid[y][x + 4], 0xFFF00000)
+        for i in range(x + 4, x + 7):
+            self.cells_grid[y + 4][i].is_visited = True
+            self.cells_img.draw_cell(i, y + 4, self.cells_grid[y + 4][i], 0xFFF00000)
 
     def generate(self):
         self.init_grid_cells()
@@ -117,20 +131,20 @@ class MazeGenerator:
         x = self.current_cell.x
         y = self.current_cell.y
         neighbors = []
-        if x - 1 >= 0:
-            north = self.cells_grid[x - 1][y]
+        if y - 1 >= 0:
+            north = self.cells_grid[y - 1][x]
             if not north.is_visited:
                 neighbors.append(north)
-        if x + 1 < self.vertical_cells:
-            south = self.cells_grid[x + 1][y]
+        if y + 1 < self.vertical_cells:
+            south = self.cells_grid[y + 1][x]
             if not south.is_visited:
                 neighbors.append(south) 
-        if y + 1 < self.horizontal_cells:
-            east = self.cells_grid[x][y + 1]
+        if x + 1 < self.horizontal_cells:
+            east = self.cells_grid[y][x + 1]
             if not east.is_visited:
                 neighbors.append(east)
-        if y - 1 >= 0:
-            west = self.cells_grid[x][y - 1]
+        if x - 1 >= 0:
+            west = self.cells_grid[y][x - 1]
             if not west.is_visited:
                 neighbors.append(west)
         if len(neighbors) != 0:
