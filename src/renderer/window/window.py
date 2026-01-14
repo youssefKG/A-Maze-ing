@@ -6,16 +6,12 @@ from maze.cell import *
 
 
 class Window:
-    def __init__(self, mlx: Mlx, mlx_ptr, width: int, height: int, title: str) -> None: 
+    def __init__(self, mlx: Mlx, mlx_ptr, screen_params) -> None: 
         self.mlx = mlx
-        self.width = width
-        self.height = height
-        self.title = title
+        self.width, self.height, self.title = screen_params
         self.mlx_ptr = mlx_ptr
-        self.ptr = self.mlx.mlx_new_window(
-                self.mlx_ptr, self.width, self.height, self.title
-                )
-        self.maze_generator = MazeGenerator(self.mlx, self.mlx_ptr, self.ptr, 1200, 1200)
+        self.ptr = self.mlx.mlx_new_window(self.mlx_ptr, self.width, self.height, self.title)
+        self.maze_generator = MazeGenerator(self.mlx, self.mlx_ptr, self.ptr)
         self.mlx.mlx_key_hook(self.ptr, self.mykey, [1, 2])
         self.maze_generator.generate()
 
