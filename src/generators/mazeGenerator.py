@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    mazeGenerator.py                                   :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: ytaoussi <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2026/01/14 15:45:39 by ytaoussi          #+#    #+#              #
+#    Updated: 2026/01/14 16:13:24 by ytaoussi         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 from maze.cell import Cell
 from mlx.mlx.mlx import Mlx
 from renderer.images.cellImg import CellsImage
@@ -12,8 +24,8 @@ class MazeGenerator:
         self.width = width
         self.height = height
         self.win_ptr = win_ptr
-        self.vertical_cells = 25
-        self.horizontal_cells = 25
+        self.vertical_cells = 10 
+        self.horizontal_cells = 10
         self.cell_width = self.get_cell_width()
         self.cell_height = self.get_cell_height()
         self.cells_img = CellsImage(
@@ -45,13 +57,36 @@ class MazeGenerator:
                 row.append(Cell(i, j))
             self.cells_grid.append(row)
         i = 0
-        while i < self.vertical_cells:
+        start_row = int(((self.vertical_cells - 1) / 2) - 2)
+        start_col = int(((self.horizontal_cells - 1) / 2) - 3)
+        while i < self.horizontal_cells:
             j = 0
-            while j < self.horizontal_cells:
+            while j < self.vertical_cells:
                 self.cells_img.draw_cell(i, j, self.cells_grid[i][j])
                 j += 1
             i += 1
+        self.draw_42()
         self.mlx.mlx_put_image_to_window(self.mlx_ptr, self.win_ptr, self.cells_img.ptr, 0, 0)
+        """
+            if j >= start_row and j <=  start_row + 4 and  i  >= start_col and i <= start_col + 6:
+                if i != self.vertical_cells / 2  - 1:
+                    self.cells_img.draw_cell(i, j, self.cells_grid[i][j], 0xFFF0000)
+                    self.cells_grid[i][j].is_visited = True
+            else:
+        """
+
+    def draw_42(self):
+        y = int(((self.vertical_cells) / 2) - 2)
+        x = int(((self.horizontal_cells) / 2) - 3)
+        # draw 4
+        for i in range(y, y + 3):
+            self.cells_grid[x][i].is_visited = True
+            self.cells_img.draw_cell(x, i, self.cells_grid[x][i], 0xFFF00000)
+        for i in range(x + 1, x + 3):
+            self.cells_grid[y + 2][i].is_visited = True
+            self.cells_img.draw_cell(i, y + 2, self.cells_grid[y + 2][i], 0xFFF00000)
+            
+
 
     def generate(self):
         self.init_grid_cells()
@@ -109,16 +144,10 @@ class MazeGenerator:
         if self.is_finished:
             return
         if not len(self.stack):
-            # i = 0
-            # while i < self.vertical_cells:
-            #     j = 0
-            #     while j < self.horizontal_cells:
-            #         self.cells_img.draw_cell(i, j, self.cells_grid[i][j])
-            #         j += 1
-            #     i += 1
             self.is_finished = True
-            self.mlx.mlx_put_image_to_window(self.mlx_ptr, self.win_ptr, self.cells_img.ptr, 0, 0)
             return
+        self.cells_img.clear_cell(self.current_cell)
+        self.cells_img.draw_cell(self.current_cell.x, self.current_cell.y, self.current_cell)
         self.current_cell = self.stack[-1]
         self.cells_img.clear_cell(self.current_cell)
         self.cells_img.draw_cell(self.current_cell.x, self.current_cell.y, self.current_cell)
@@ -134,5 +163,5 @@ class MazeGenerator:
             self.stack.append(self.next_cell)
         else:
             self.current = self.stack.pop()
-            self.cells_img.draw_cell(self.current_cell.x, self.current_cell.y, self.current_cell)
+            self.cells_img.draw_cell(self.current_cell.x, self.current_cell.y, self.current_cell, 0xEFCDFFFF)
             self.mlx.mlx_put_image_to_window(self.mlx_ptr, self.win_ptr, self.cells_img.ptr, 0, 0)

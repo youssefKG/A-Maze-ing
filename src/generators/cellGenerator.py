@@ -14,5 +14,3 @@ class CellGenerator:
         south = True if bin_hexa[2] == '1' else False
         west = True if bin_hexa[3] == '1' else False
         return (north, east, south, west)
-
-print(CellGenerator.wall_generator(4))

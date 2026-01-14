@@ -16,7 +16,7 @@ class CellsImage(Image):
         self.cellWidth = int(cell_width - cell_width / 4)
         self.cellHeight = int(cell_height - cell_height / 4)
         self.cellBorder = int(self.cellHeight * 0.15)
-        self.color = choice([ 0x1E1E1EFF,  0x2C2C54FF,  0x3B2F2FFF, 0x1B3A4BFF, 0x2F3E2EFF, 0x3A1F2BFF, 0x4B3621FF, 0x262626FF])
+        self.color = choice([ 0x1E1E1EFF, 0x2C2C54FF,  0x3B2F2FFF, 0x1B3A4BFF, 0x2F3E2EFF, 0x3A1F2BFF, 0x4B3621FF, 0x262626FF])
     def draw_cell(self, i, j, cell: Cell, backgroundColor=None):
         # draw north wall
         if backgroundColor is not None:
