@@ -1,4 +1,3 @@
-from maze.cell import Cell
 from mlx.mlx.mlx import Mlx
 from renderer.images.cellImg import CellsImage
 from random import choice
@@ -14,7 +13,6 @@ class DfsMazeGenerator:
         self.cells_img = cells_img
         self.next_cell = None
         self.current_cell = self.cells_grid[0][0]
-        dfs_solution = []
         self.stack = []
         self.frames = 0
         self.is_finished = False
@@ -44,6 +42,7 @@ class DfsMazeGenerator:
     def check_neighbors(self):
         x = self.current_cell.x
         y = self.current_cell.y
+        print(x, y)
         neighbors = []
         if y - 1 >= 0:
             north = self.cells_grid[y - 1][x]
@@ -74,10 +73,10 @@ class DfsMazeGenerator:
         if not len(self.stack):
             self.is_finished = True
             return
+        self.current_cell = self.stack[-1]
         """
         self.cells_img.clear_cell(self.current_cell)
         self.cells_img.draw_cell(self.current_cell)
-        self.current_cell = self.stack[-1]
         self.cells_img.clear_cell(self.current_cell)
         self.cells_img.draw_cell(self.current_cell)
         self.mlx.mlx_put_image_to_window(self.mlx_ptr, self.win_ptr, self.cells_img.ptr, 0, 0)
@@ -87,13 +86,11 @@ class DfsMazeGenerator:
             self.cells_img.clear_cell(self.current_cell)
             self.remove_wall()
             self.cells_img.draw_cell(self.current_cell)
-            self.cells_img.draw_cell(self.next_cell, 0xEFCDFFFF)
+            # self.cells_img.draw_cell(self.next_cell, 0xEFCDFFFF)
             self.mlx.mlx_put_image_to_window(self.mlx_ptr, self.win_ptr, self.cells_img.ptr, 0, 0)
             self.next_cell.is_visited = True
             self.stack.append(self.next_cell)
         else:
             self.current = self.stack.pop()
-            """
-            self.cells_img.draw_cell(self.current_cell, 0xEFCDFFFF)
-            self.mlx.mlx_put_image_to_window(self.mlx_ptr, self.win_ptr, self.cells_img.ptr, 0, 0)
-            """
+            # self.cells_img.draw_cell(self.current_cell)
+            # self.mlx.mlx_put_image_to_window(self.mlx_ptr, self.win_ptr, self.cells_img.ptr, 0, 0)

@@ -6,8 +6,8 @@ from random import choice
 class CellsImage(Image):
     def __init__(self, mlx: Mlx, mlx_ptr, width=1200, height=1200):
         super().__init__(mlx, mlx_ptr, width, height)
-        self.vertical_cells = 10
-        self.horizontal_cells = 10
+        self.vertical_cells = 21
+        self.horizontal_cells = 21
         self.cellWidth = self.set_cell_width()
         self.cellHeight = self.set_cell_height()
         self.cellBorder = int(self.cellHeight * 0.15)
@@ -30,8 +30,6 @@ class CellsImage(Image):
                     y_axis = cell.y * self.cellHeight + y
                     self.put_pixel(x_axis, y_axis, backgroundColor)
                     
-
-
         if cell.north:
             for x in range(self.cellWidth + self.cellBorder):
                 for y in range(self.cellBorder):

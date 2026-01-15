@@ -1,7 +1,6 @@
 from maze.cell import Cell
 from mlx.mlx.mlx import Mlx
 from renderer.images.cellImg import CellsImage
-from random import choice
 from generators.dfs_maze_generator import DfsMazeGenerator
 
 class MazeGenerator:
@@ -9,13 +8,15 @@ class MazeGenerator:
         self.mlx = mlx
         self.mlx_ptr = mlx_ptr
         self.win_ptr = win_ptr
-        self.vertical_cells = 11 
-        self.horizontal_cells = 11 
+        self.vertical_cells = 21 
+        self.horizontal_cells = 21 
         self.cells_img = CellsImage(self.mlx, self.mlx_ptr)
         self.cells_grid = []
         self.init_grid_cells()
-        self.dfs_maze_generator = DfsMazeGenerator(self.mlx, self.mlx_ptr, self.win_ptr, self.cells_img, self.cells_grid)
-
+        self.dfs_maze_generator = DfsMazeGenerator(self.mlx, self.mlx_ptr,
+                                                   self.win_ptr,
+                                                   self.cells_img,
+                                                   self.cells_grid)
     def init_grid_cells(self):
         for i in range(self.vertical_cells):
             row = []
