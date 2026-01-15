@@ -4,14 +4,14 @@ from renderer.images.image import Image
 from random import choice
 
 class CellsImage(Image):
-    def __init__(self, mlx: Mlx, mlx_ptr, width=1200, height=1200):
+    def __init__(self, mlx: Mlx, mlx_ptr, vertical_cells, horizontal_cells,
+            width=1200, height=1200):
         super().__init__(mlx, mlx_ptr, width, height)
-        self.vertical_cells = 21
-        self.horizontal_cells = 21
+        self.vertical_cells = vertical_cells
+        self.horizontal_cells = horizontal_cells
         self.cellWidth = self.set_cell_width()
         self.cellHeight = self.set_cell_height()
         self.cellBorder = int(self.cellHeight * 0.15)
-        self.color = choice([ 0x1E1E1EFF, 0x2C2C54FF,  0x3B2F2FFF, 0x1B3A4BFF, 0x2F3E2EFF, 0x3A1F2BFF, 0x4B3621FF, 0x262626FF])
 
     def set_cell_width(self):
         cell_width = int(self.width / self.horizontal_cells)
@@ -25,7 +25,7 @@ class CellsImage(Image):
         # draw north wall
         if backgroundColor is not None:
             for y in range(self.cellHeight):
-                for x in range(self.cellBorder, self.cellWidth):
+                for x in range(self.cellWidth):
                     x_axis = cell.x * self.cellWidth + x
                     y_axis = cell.y * self.cellHeight + y
                     self.put_pixel(x_axis, y_axis, backgroundColor)
@@ -60,9 +60,9 @@ class CellsImage(Image):
                     y_axis = (cell.y * self.cellHeight) + y
                     self.put_pixel(x_axis, y_axis, 0xFFFFFFFF)
 
-    def clear_cell(self, cell: Cell):
-        for x in range(self.cellWidth):
-            for y in range(self.cellHeight):
-                x_axis = cell.y * self.cellWidth + x
-                y_axis = cell.x * self.cellHeight + y
-                self.put_pixel(x_axis, y_axis, self.color)
+    def clear_cell(self, cell: Cell, color=0x98340EAB):
+        for y in range(self.cellHeight):
+            for x in range(self.cellWidth):
+                y_axis = cell.y * self.cellHeight + y
+                x_axis = cell.x * self.cellWidth + x
+                self.put_pixel(x_axis, y_axis, color)
