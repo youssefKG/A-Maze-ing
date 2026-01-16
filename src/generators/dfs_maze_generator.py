@@ -2,21 +2,31 @@ from mlx.mlx.mlx import Mlx
 from renderer.images.cellImg import CellsImage
 from random import choice
 from time import sleep
+from generators.maze_generator_algo import MazeGeneratorAlgo
 
 
-class DfsMazeGenerator:
-    def __init__( self, mlx: Mlx, mlx_ptr: int, win_ptr, cells_img: CellsImage,
-            cells_grid, vertical_cells, horizontal_cells):
-        self.mlx = mlx
-        self.mlx_ptr = mlx_ptr
-        self.horizontal_cells = horizontal_cells 
-        self.vertical_cells = vertical_cells 
-        self.cells_grid = cells_grid
-        self.win_ptr = win_ptr
-        self.cells_img = cells_img
+class DfsMazeGenerator(MazeGeneratorAlgo):
+    def __init__(
+        self,
+        mlx: Mlx,
+        mlx_ptr: int,
+        win_ptr,
+        cells_img: CellsImage,
+        cells_grid,
+        vertical_cells,
+        horizontal_cells,
+    ):
+        super().__init__(
+            mlx,
+            mlx_ptr,
+            win_ptr,
+            cells_img,
+            cells_grid,
+            vertical_cells,
+            horizontal_cells,
+        )
         self.next_cell = None
         self.current_cell = self.cells_grid[0][0]
-       # self.current_cell = None
         self.stack = []
         self.frames = 0
         self.is_finished = False
@@ -101,7 +111,7 @@ class DfsMazeGenerator:
             self.stack.append(self.next_cell)
         else:
             self.current = self.stack.pop()
-            #self.cells_img.clear_cell(self.current_cell)
+            # self.cells_img.clear_cell(self.current_cell)
             self.cells_img.draw_cell(self.current_cell, 0x895DF000)
         self.mlx.mlx_put_image_to_window(
             self.mlx_ptr, self.win_ptr, self.cells_img.ptr, 0, 0

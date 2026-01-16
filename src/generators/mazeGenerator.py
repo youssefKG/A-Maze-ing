@@ -3,7 +3,6 @@ from mlx.mlx.mlx import Mlx
 from renderer.images.cellImg import CellsImage
 from generators.dfs_maze_generator import DfsMazeGenerator
 
-
 class MazeGenerator:
     def __init__(self, mlx: Mlx, mlx_ptr: int, win_ptr) -> None:
         self.mlx = mlx
