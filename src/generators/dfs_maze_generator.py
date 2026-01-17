@@ -114,6 +114,5 @@ class DfsMazeGenerator(MazeGeneratorAlgo):
             # self.cells_img.clear_cell(self.current_cell)
             self.cells_img.draw_cell(self.current_cell, 0x895DF000)
         self.mlx.mlx_put_image_to_window(
-            self.mlx_ptr, self.win_ptr, self.cells_img.ptr, 0, 0
-        )
+            self.mlx_ptr, self.win_ptr, self.cells_img.ptr, 0, 0)
         sleep(0.052)

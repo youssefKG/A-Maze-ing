@@ -1,7 +1,6 @@
 from mlx.mlx import Mlx
 from maze.cell import Cell
 from renderer.images.image import Image
-from random import choice
 
 class CellsImage(Image):
     def __init__(self, mlx: Mlx, mlx_ptr, vertical_cells, horizontal_cells,

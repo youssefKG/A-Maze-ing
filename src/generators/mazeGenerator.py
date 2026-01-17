@@ -1,3 +1,4 @@
+from generators.wilson_maze_generator import WilsonMazeGenerator
 from maze.cell import Cell
 from mlx.mlx.mlx import Mlx
 from renderer.images.cellImg import CellsImage
@@ -8,14 +9,29 @@ class MazeGenerator:
         self.mlx = mlx
         self.mlx_ptr = mlx_ptr
         self.win_ptr = win_ptr
-        self.vertical_cells = 20
-        self.horizontal_cells = 20
+        self.vertical_cells = 15
+        self.horizontal_cells = 15
         self.cells_img = CellsImage(self.mlx, self.mlx_ptr, self.vertical_cells, self.horizontal_cells)
         self.cells_grid = []
         self.init_grid_cells()
-        self.dfs_maze_generator = DfsMazeGenerator( self.mlx, self.mlx_ptr,
-                self.win_ptr, self.cells_img, self.cells_grid,
-                self.vertical_cells, self.horizontal_cells)
+        self.dfs_maze_generator = DfsMazeGenerator(
+               self.mlx,
+               self.mlx_ptr,
+               self.win_ptr,
+               self.cells_img,
+               self.cells_grid,
+               self.vertical_cells,
+               self.horizontal_cells
+               )
+        self.wilson_maze_generator = WilsonMazeGenerator(
+                self.mlx,
+                self.mlx_ptr,
+                self.win_ptr,
+                self.cells_img,
+                self.cells_grid,
+                self.vertical_cells,
+                self.horizontal_cells
+                )
 
     def init_grid_cells(self):
         for i in range(self.vertical_cells):
@@ -78,10 +94,5 @@ class MazeGenerator:
             self.cells_img.draw_cell(self.cells_grid[y + 4][i], 0xFFF00000)
 
     def generate(self):
-        """
-        cell = Cell(3, 4, False, False, False, True)
-        self.cells_img.clear_cell(cell)
-        self.cells_img.draw_cell(cell)
-        self.mlx.mlx_put_image_to_window(self.mlx_ptr, self.win_ptr, self.cells_img.ptr, 0, 0)
-        """
         self.dfs_maze_generator.generate()
+        # self.wilson_maze_generator.generate()
