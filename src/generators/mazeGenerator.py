@@ -9,8 +9,8 @@ class MazeGenerator:
         self.mlx = mlx
         self.mlx_ptr = mlx_ptr
         self.win_ptr = win_ptr
-        self.vertical_cells = 15
-        self.horizontal_cells = 15
+        self.vertical_cells = 16
+        self.horizontal_cells = 16
         self.cells_img = CellsImage(self.mlx, self.mlx_ptr, self.vertical_cells, self.horizontal_cells)
         self.cells_grid = []
         self.init_grid_cells()

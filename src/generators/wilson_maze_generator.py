@@ -2,7 +2,6 @@ from generators.maze_generator_algo import MazeGeneratorAlgo
 from mlx.mlx.mlx import Mlx
 from renderer.images.cellImg import CellsImage
 from random import choice
-from maze.cell import Cell
 
 class WilsonMazeGenerator(MazeGeneratorAlgo):
     def __init__(
@@ -24,7 +23,10 @@ class WilsonMazeGenerator(MazeGeneratorAlgo):
             vertical_cells,
             horizontal_cells,
         )
-        self.invisited = set((cell for cell_row in self.cells_grid for cell in cell_row))
+        self.unvisited = set()
+        for cell_row in self.cells_grid:
+            for cell in cell_row:
+                self.unvisited.add(cell)
         self.visited = set()
         self.current_cell = None
         self.next = None
@@ -50,34 +52,51 @@ class WilsonMazeGenerator(MazeGeneratorAlgo):
                 return choice(neighbors)
 
     def generate(self):
-        target_cell = choice(list(self.invisited))
+        target_cell = choice(list(self.unvisited))
         self.visited.add(target_cell)
-        self.invisited.remove(target_cell)
+        self.unvisited.remove(target_cell)
         self.generate_wilson_animations(None)
         # self.mlx.mlx_loop_hook(self.mlx_ptr, self.generate_wilson_animations, None)
+    def remove_wall(self, current_cell, next_cell):
+        x = current_cell.x - next_cell.x
+        y = current_cell.y - next_cell.y
+        if y == 1:
+            current_cell.north = False
+            next_cell.south = False
+        if y == -1:
+            current_cell.south = False
+            next_cell.north = False
+        if x == 1:
+            current_cell.west = False
+            next_cell.east = False
+        if x == -1:
+            current_cell.east = False
+            next_cell.west = False
                  
     def generate_wilson_animations(self, _):
-        while len(self.invisited) > 0:
+        while len(self.unvisited) > 0:
             path = []
-            self.current_cell = choice(list(self.invisited))
-            print(dir(self.current_cell))
+            self.current_cell = choice(list(self.unvisited))
             while self.current_cell not in self.visited:
                 path.append(self.current_cell)
                 self.next = self.check_neighbors()
                 try:
-                    loop_index = path.index(next)
+                    loop_index = path.index(self.next)
                     path = path[:loop_index + 1]
                 except:
-                    if next != None:
-                        path.append(next)
+                    path.append(self.next)
+                self.current_cell = self.next
                 for cell in path:
-                    print(cell.x, cell.y)
-                self.current = next
-            for cell in path:
-                print(cell.x, cell.y)
-                self.cells_img.clear_cell(cell)
-                self.cells_img.draw_cell(cell)
-                self.visited.add(cell)
-                self.visited.remove(cell)
-        self.mlx.mlx_put_image_to_window(self.mlx_ptr, self.win_ptr,
-                                         self.cells_img.ptr, 0, 0)
+                    print(cell.x, cell. y)
+            print("")
+            for i in range(len(path) - 1):
+                self.remove_wall(path[i], path[i + 1])
+                self.cells_img.clear_cell(path[i])
+                self.cells_img.clear_cell(path[i + 1])
+                self.cells_img.draw_cell(path[i])
+                self.cells_img.draw_cell(path[i + 1])
+                self.visited.add(path[i])
+                if path[i] in self.unvisited:
+                    self.unvisited.remove(path[i])
+            self.mlx.mlx_put_image_to_window(self.mlx_ptr, self.win_ptr,
+                                             self.cells_img.ptr, 0, 0)
