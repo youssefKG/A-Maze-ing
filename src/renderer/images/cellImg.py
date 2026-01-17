@@ -3,9 +3,10 @@ from maze.cell import Cell
 from renderer.images.image import Image
 
 class CellsImage(Image):
-    def __init__(self, mlx: Mlx, mlx_ptr, vertical_cells, horizontal_cells,
-            width=1200, height=1200):
-        super().__init__(mlx, mlx_ptr, width, height)
+    width = 1200
+    height = 1200
+    def __init__(self, mlx: Mlx, mlx_ptr, vertical_cells, horizontal_cells):
+        super().__init__(mlx, mlx_ptr)
         self.vertical_cells = vertical_cells
         self.horizontal_cells = horizontal_cells
         self.cellWidth = self.set_cell_width()
@@ -13,11 +14,11 @@ class CellsImage(Image):
         self.cellBorder = int(self.cellHeight * 0.15)
 
     def set_cell_width(self):
-        cell_width = int(self.width / self.horizontal_cells)
+        cell_width = int(width / self.horizontal_cells)
         return int(cell_width - cell_width / 4)
 
     def set_cell_height(self):
-        cell_height = int(self.height / self.vertical_cells)
+        cell_height = int(height / self.vertical_cells)
         return int(cell_height - cell_height / 4)
 
     def draw_cell(self, cell: Cell, backgroundColor=None):

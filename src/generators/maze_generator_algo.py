@@ -11,6 +11,8 @@ class MazeGeneratorAlgo(ABC):
         cells_grid,
         vertical_cells,
         horizontal_cells,
+        screen_height,
+        screen_width,
         speed=0.06,
     ):
         self.mlx = mlx
@@ -21,9 +23,11 @@ class MazeGeneratorAlgo(ABC):
         self.horizontal_cells = horizontal_cells
         self.win_ptr = win_ptr
         self.speed = speed
+        self.screen_width = screen_width
+        self.screen_height = screen_height
 
     def generate(self):
         pass
 
-
-
+    def put_cells_img_to_window(self):
+        self.mlx.mlx_put_image_to_window(self.mlx_ptr, self.win_ptr, self.cells_img.ptr, 0, 0)

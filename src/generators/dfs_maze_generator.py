@@ -15,6 +15,8 @@ class DfsMazeGenerator(MazeGeneratorAlgo):
         cells_grid,
         vertical_cells,
         horizontal_cells,
+        screen_width,
+        screen_height
     ):
         super().__init__(
             mlx,
@@ -24,6 +26,8 @@ class DfsMazeGenerator(MazeGeneratorAlgo):
             cells_grid,
             vertical_cells,
             horizontal_cells,
+            screen_width,
+            screen_height
         )
         self.next_cell = None
         self.current_cell = self.cells_grid[0][0]
@@ -84,23 +88,17 @@ class DfsMazeGenerator(MazeGeneratorAlgo):
             self.is_finished = True
             self.cells_img.clear_cell(self.current_cell)
             self.cells_img.draw_cell(self.current_cell)
-            self.mlx.mlx_put_image_to_window(
-                self.mlx_ptr, self.win_ptr, self.cells_img.ptr, 0, 0
-            )
+            self.put_cells_img_to_window()
             self.cells_img.clear_cell(self.current_cell)
             self.cells_img.draw_cell(self.current_cell)
-            self.mlx.mlx_put_image_to_window(
-                self.mlx_ptr, self.win_ptr, self.cells_img.ptr, 0, 0
-            )
+            self.put_cells_img_to_window()
             return
         self.cells_img.clear_cell(self.current_cell)
         self.cells_img.draw_cell(self.current_cell)
         self.current_cell = self.stack[-1]
         self.cells_img.clear_cell(self.current_cell)
         self.cells_img.draw_cell(self.current_cell)
-        self.mlx.mlx_put_image_to_window(
-            self.mlx_ptr, self.win_ptr, self.cells_img.ptr, 0, 0
-        )
+        self.put_cells_img_to_window()
         self.next_cell = self.check_neighbors()
         if self.next_cell:
             self.remove_wall()
@@ -111,8 +109,7 @@ class DfsMazeGenerator(MazeGeneratorAlgo):
             self.stack.append(self.next_cell)
         else:
             self.current = self.stack.pop()
-            # self.cells_img.clear_cell(self.current_cell)
+            self.cells_img.clear_cell(self.current_cell)
             self.cells_img.draw_cell(self.current_cell, 0x895DF000)
-        self.mlx.mlx_put_image_to_window(
-            self.mlx_ptr, self.win_ptr, self.cells_img.ptr, 0, 0)
+        self.put_cells_img_to_window()
         sleep(0.052)

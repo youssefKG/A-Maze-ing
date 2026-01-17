@@ -11,7 +11,7 @@ class Window:
         self.width, self.height, self.title = screen_params
         self.mlx_ptr = mlx_ptr
         self.ptr = self.mlx.mlx_new_window(self.mlx_ptr, self.width, self.height, self.title)
-        self.maze_generator = MazeGenerator(self.mlx, self.mlx_ptr, self.ptr)
+        self.maze_generator = MazeGenerator(self.mlx, self.mlx_ptr, self.ptr, (self.width, self.height))
         self.mlx.mlx_key_hook(self.ptr, self.mykey, [1, 2])
         self.maze_generator.generate()
 

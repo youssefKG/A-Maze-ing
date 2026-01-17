@@ -13,6 +13,8 @@ class WilsonMazeGenerator(MazeGeneratorAlgo):
         cells_grid,
         vertical_cells,
         horizontal_cells,
+        screen_width,
+        screen_height
     ):
 
         super().__init__(mlx,
@@ -22,11 +24,14 @@ class WilsonMazeGenerator(MazeGeneratorAlgo):
             cells_grid,
             vertical_cells,
             horizontal_cells,
+            screen_width,
+            screen_height
         )
         self.unvisited = set()
         for cell_row in self.cells_grid:
             for cell in cell_row:
-                self.unvisited.add(cell)
+                if not cell.is_42_cell:
+                    self.unvisited.add(cell)
         self.visited = set()
         self.current_cell = None
         self.next = None
@@ -38,16 +43,20 @@ class WilsonMazeGenerator(MazeGeneratorAlgo):
             neighbors = []
             if y - 1 >= 0:
                 north = self.cells_grid[y - 1][x]
-                neighbors.append(north)
+                if not north.is_42_cell:
+                    neighbors.append(north)
             if y + 1 < self.vertical_cells:
                 south = self.cells_grid[y + 1][x]
-                neighbors.append(south)
+                if not south.is_42_cell:
+                    neighbors.append(south)
             if x + 1 < self.horizontal_cells:
                 east = self.cells_grid[y][x + 1]
-                neighbors.append(east)
+                if not east.is_42_cell:
+                    neighbors.append(east)
             if x - 1 >= 0:
                 west = self.cells_grid[y][x - 1]
-                neighbors.append(west)
+                if not west.is_42_cell:
+                    neighbors.append(west)
             if len(neighbors) != 0:
                 return choice(neighbors)
 
@@ -98,5 +107,4 @@ class WilsonMazeGenerator(MazeGeneratorAlgo):
                 self.visited.add(path[i])
                 if path[i] in self.unvisited:
                     self.unvisited.remove(path[i])
-            self.mlx.mlx_put_image_to_window(self.mlx_ptr, self.win_ptr,
-                                             self.cells_img.ptr, 0, 0)
+                self.put_cells_img_to_window()
