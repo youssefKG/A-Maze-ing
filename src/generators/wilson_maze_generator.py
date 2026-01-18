@@ -9,29 +9,9 @@ class WilsonMazeGenerator(MazeGeneratorAlgo):
         mlx: Mlx,
         mlx_ptr: int,
         win_ptr,
-        cells_img: CellsImage,
-        cells_grid,
-        vertical_cells,
-        horizontal_cells,
-        screen_width,
-        screen_height
     ):
-
-        super().__init__(mlx,
-            mlx_ptr,
-            win_ptr,
-            cells_img,
-            cells_grid,
-            vertical_cells,
-            horizontal_cells,
-            screen_width,
-            screen_height
-        )
+        super().__init__(mlx, mlx_ptr, win_ptr)
         self.unvisited = set()
-        for cell_row in self.cells_grid:
-            for cell in cell_row:
-                if not cell.is_42_cell:
-                    self.unvisited.add(cell)
         self.visited = set()
         self.current_cell = None
         self.next = None
@@ -61,6 +41,10 @@ class WilsonMazeGenerator(MazeGeneratorAlgo):
                 return choice(neighbors)
 
     def generate(self):
+        for cell_row in self.cells_grid:
+            for cell in cell_row:
+                if not cell.is_42_cell:
+                    self.unvisited.add(cell)
         target_cell = choice(list(self.unvisited))
         self.visited.add(target_cell)
         self.unvisited.remove(target_cell)

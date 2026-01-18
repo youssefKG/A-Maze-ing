@@ -1,7 +1,5 @@
 from generators.mazeGenerator import MazeGenerator
 from mlx.mlx.mlx import Mlx
-from renderer.images import cellImg
-from renderer.images.cellImg import CellsImage
 from maze.cell import * 
 
 
@@ -13,8 +11,8 @@ class Window:
         self.ptr = self.mlx.mlx_new_window(self.mlx_ptr, self.width, self.height, self.title)
         self.maze_generator = MazeGenerator(self.mlx, self.mlx_ptr, self.ptr, (self.width, self.height))
         self.mlx.mlx_key_hook(self.ptr, self.mykey, [1, 2])
-        self.maze_generator.generate()
+        self.maze_generator.generate("dfs")
 
-    def mykey(self, keynum, data):
+    def mykey(self, keynum, _):
         if keynum == 65307:
             self.mlx.mlx_loop_exit(self.mlx_ptr)

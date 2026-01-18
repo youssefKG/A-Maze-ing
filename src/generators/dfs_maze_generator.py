@@ -11,31 +11,19 @@ class DfsMazeGenerator(MazeGeneratorAlgo):
         mlx: Mlx,
         mlx_ptr: int,
         win_ptr,
-        cells_img: CellsImage,
-        cells_grid,
-        vertical_cells,
-        horizontal_cells,
-        screen_width,
-        screen_height
     ):
         super().__init__(
             mlx,
             mlx_ptr,
             win_ptr,
-            cells_img,
-            cells_grid,
-            vertical_cells,
-            horizontal_cells,
-            screen_width,
-            screen_height
         )
         self.next_cell = None
-        self.current_cell = self.cells_grid[0][0]
         self.stack = []
         self.frames = 0
         self.is_finished = False
 
     def generate(self):
+        self.current_cell = self.cells_grid[0][0]
         self.current_cell.is_visited = True
         self.stack.append(self.current_cell)
         self.mlx.mlx_loop_hook(self.mlx_ptr, self.generate_DFS_animation, None)
