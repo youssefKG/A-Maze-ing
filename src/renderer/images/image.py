@@ -1,5 +1,4 @@
 from mlx.mlx import Mlx
-from Exceptions.ImageException import ImageException
 
 class Image:
     width = 1200

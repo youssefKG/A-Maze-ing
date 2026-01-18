@@ -11,7 +11,7 @@ class Window:
         self.ptr = self.mlx.mlx_new_window(self.mlx_ptr, self.width, self.height, self.title)
         self.maze_generator = MazeGenerator(self.mlx, self.mlx_ptr, self.ptr, (self.width, self.height))
         self.mlx.mlx_key_hook(self.ptr, self.mykey, [1, 2])
-        self.maze_generator.generate("dfs")
+        self.maze_generator.generate("wilson")
 
     def mykey(self, keynum, _):
         if keynum == 65307:
