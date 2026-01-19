@@ -18,7 +18,7 @@ class MazeGeneratorAlgo(ABC):
     def put_cells_img_to_window(self):
         x = int((self.screen_width * 0.8) / 2 - self.cells_img.width / 2)
         y = int(self.screen_height / 2 - self.cells_img.height / 2)
-        self.mlx.mlx_put_image_to_window(self.mlx_ptr, self.win_ptr, self.cells_img.ptr, x, y)
+        self.mlx.mlx_put_image_to_window(self.mlx_ptr, self.win_ptr, self.cells_img.ptr, x, 80)
 
     def set_horizontal_cells(self, horizontal_cells):
         self.horizontal_cells = horizontal_cells

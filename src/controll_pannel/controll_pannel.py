@@ -44,6 +44,7 @@ class ControllPannel(Image):
         if keynum == 65307:
             self.mlx.mlx_loop_exit(self.mlx_ptr)
         if keynum == 113:
+            self.maze_generator.init_grid_cells()
             self.maze_generator.generate("dfs")
         if keynum == 98:
             self.maze_generator.init_grid_cells()

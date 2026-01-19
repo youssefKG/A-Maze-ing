@@ -14,4 +14,3 @@ class AlgoFactory:
         elif name == "dfs":
                 return DfsMazeGenerator(self.mlx, self.mlx_ptr, self.win_ptr)
         return MazeGeneratorAlgo(self.mlx, self.mlx_ptr, self.win_ptr)
-

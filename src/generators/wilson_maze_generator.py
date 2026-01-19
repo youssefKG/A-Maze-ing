@@ -52,8 +52,8 @@ class WilsonMazeGenerator(MazeGeneratorAlgo):
                     self.unvisited.add(cell)
         target_cell = choice(list(self.unvisited))
         self.current_cell = choice(list(self.unvisited))
-        self.cells_img.clear_cell(target_cell)
-        self.cells_img.draw_cell(target_cell)
+        self.cells_img.clear_cell(target_cell, Colors.WHITE)
+        self.cells_img.draw_cell(target_cell, Colors.WHITE)
         self.put_cells_img_to_window()
         self.visited.add(target_cell)
         self.unvisited.remove(target_cell)
@@ -78,6 +78,7 @@ class WilsonMazeGenerator(MazeGeneratorAlgo):
     def generate_wilson_animations(self, _):
         if self.frames % 12 != 0:
             return 
+        print("wilson")
         if len(self.unvisited) == 0:
             return 
         if self.current_cell not in self.visited:
@@ -87,21 +88,21 @@ class WilsonMazeGenerator(MazeGeneratorAlgo):
                 loop_index = self.path.index(self.next)
                 for cell in self.path[loop_index + 1:]:
                     self.cells_img.clear_cell(cell, Colors.WHITE)
-                    self.cells_img.draw_cell(cell, 0xFF000000)
+                    self.cells_img.draw_cell(cell, Colors.GRAY)
                 self.path = self.path[:loop_index + 1]
             except:
                 self.path.append(self.next)
             self.current_cell = self.next
             self.cells_img.clear_cell(self.current_cell, Colors.WHITE)
-            self.cells_img.draw_cell(self.current_cell)
+            self.cells_img.draw_cell(self.current_cell, Colors.WHITE)
             self.put_cells_img_to_window()
             sleep(0.021)
         elif self.path_start < len(self.path) - 1:
                 self.remove_wall(self.path[self.path_start], self.path[self.path_start + 1])
-                self.cells_img.clear_cell(self.path[self.path_start], Colors.WHITE)
-                self.cells_img.clear_cell(self.path[self.path_start + 1], Colors.WHITE)
-                self.cells_img.draw_cell(self.path[self.path_start])
-                self.cells_img.draw_cell(self.path[self.path_start + 1])
+                self.cells_img.clear_cell(self.path[self.path_start], Colors.GRAY)
+                self.cells_img.clear_cell(self.path[self.path_start + 1], Colors.GRAY)
+                self.cells_img.draw_cell(self.path[self.path_start], Colors.GRAY)
+                self.cells_img.draw_cell(self.path[self.path_start + 1], Colors.GRAY)
                 self.put_cells_img_to_window()
                 self.visited.add(self.path[self.path_start])
                 if self.path[self.path_start] in self.unvisited:
