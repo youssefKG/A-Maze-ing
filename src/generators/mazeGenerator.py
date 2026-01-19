@@ -19,6 +19,7 @@ class MazeGenerator:
         self.cells_grid = []
 
     def init_grid_cells(self):
+        self.cells_grid = []
         for i in range(self.vertical_cells):
             row = []
             for j in range(self.horizontal_cells):
@@ -28,16 +29,15 @@ class MazeGenerator:
         while i < self.vertical_cells:
             j = 0
             while j < self.horizontal_cells:
-                self.cells_img.draw_cell(self.cells_grid[i][j])
+                self.cells_img.draw_cell(self.cells_grid[i][j], Colors.GRAY)
                 j += 1
             i += 1
         if self.vertical_cells > 5 and self.horizontal_cells > 7:
             self.draw_42()
 
-    def draw_42(self):
+    def draw_42(self, color=Colors.YELLOW):
         y = int(((self.vertical_cells) / 2) - 2)
         x = int(((self.horizontal_cells) / 2) - 3)
-        color = Colors.RED
         # draw 4
         for i in range(y, y + 3):
             self.cells_grid[i][x].is_visited = True
@@ -79,6 +79,7 @@ class MazeGenerator:
 
     def generate(self, algo_name):
         algo = AlgoFactory(self.mlx, self.mlx_ptr, self.win_ptr).create(algo_name)
+        self.init_grid_cells()
         self.init_grid_cells()
         algo.set_cells_img(self.cells_img).set_cells_grid(
             self.cells_grid

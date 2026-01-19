@@ -2,6 +2,7 @@ from generators.maze_generator_algo import MazeGeneratorAlgo
 from mlx.mlx.mlx import Mlx
 from random import choice
 from time import sleep
+from renderer.colors import Colors
 
 class WilsonMazeGenerator(MazeGeneratorAlgo):
     def __init__(
@@ -85,20 +86,20 @@ class WilsonMazeGenerator(MazeGeneratorAlgo):
             try:
                 loop_index = self.path.index(self.next)
                 for cell in self.path[loop_index + 1:]:
-                    self.cells_img.clear_cell(cell, 0xFF000000)
+                    self.cells_img.clear_cell(cell, Colors.WHITE)
                     self.cells_img.draw_cell(cell, 0xFF000000)
                 self.path = self.path[:loop_index + 1]
             except:
                 self.path.append(self.next)
             self.current_cell = self.next
-            self.cells_img.clear_cell(self.current_cell)
+            self.cells_img.clear_cell(self.current_cell, Colors.WHITE)
             self.cells_img.draw_cell(self.current_cell)
             self.put_cells_img_to_window()
             sleep(0.021)
         elif self.path_start < len(self.path) - 1:
                 self.remove_wall(self.path[self.path_start], self.path[self.path_start + 1])
-                self.cells_img.clear_cell(self.path[self.path_start])
-                self.cells_img.clear_cell(self.path[self.path_start + 1])
+                self.cells_img.clear_cell(self.path[self.path_start], Colors.WHITE)
+                self.cells_img.clear_cell(self.path[self.path_start + 1], Colors.WHITE)
                 self.cells_img.draw_cell(self.path[self.path_start])
                 self.cells_img.draw_cell(self.path[self.path_start + 1])
                 self.put_cells_img_to_window()

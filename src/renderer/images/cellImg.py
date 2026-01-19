@@ -1,6 +1,7 @@
 from mlx.mlx import Mlx
 from maze.cell import Cell
 from renderer.images.image import Image
+from renderer.colors import Colors
 
 class CellsImage(Image):
     def __init__(self, mlx: Mlx, mlx_ptr, vertical_cells, horizontal_cells):
@@ -19,7 +20,7 @@ class CellsImage(Image):
         cell_height = int(self.height / self.vertical_cells)
         return int(cell_height - cell_height / 4)
 
-    def draw_cell(self, cell: Cell, backgroundColor=None):
+    def draw_cell(self, cell: Cell,  backgroundColor=None):
         # draw north wall
         if backgroundColor is not None:
             for y in range(self.cellHeight):
@@ -33,7 +34,7 @@ class CellsImage(Image):
                 for y in range(self.cellBorder):
                     x_axis = x + (self.cellWidth * cell.x)
                     y_axis = (cell.y * self.cellHeight) + y
-                    self.put_pixel(x_axis, y_axis, 0xFFFFFFFF)
+                    self.put_pixel(x_axis, y_axis, Colors.RED)
 
         # draw south wall
         if cell.south:
@@ -41,7 +42,7 @@ class CellsImage(Image):
                 for y in range(self.cellBorder):
                     x_axis = x + (self.cellWidth * cell.x)
                     y_axis = (cell.y * self.cellHeight) + y + self.cellHeight
-                    self.put_pixel(x_axis, y_axis, 0xFFFFFFFF)
+                    self.put_pixel(x_axis, y_axis, Colors.RED)
 
         # draw west wall
         if cell.west:
@@ -49,14 +50,14 @@ class CellsImage(Image):
                 for x in range(self.cellBorder):
                     x_axis = x + (self.cellWidth * cell.x)
                     y_axis = (cell.y * self.cellHeight) + y
-                    self.put_pixel(x_axis, y_axis, 0xFFFFFFFF)
+                    self.put_pixel(x_axis, y_axis, Colors.RED)
         # draw east wall
         if cell.east:
             for y in range(self.cellHeight + self.cellBorder):
                 for x in range(self.cellBorder):
                     x_axis = x + (self.cellWidth * cell.x) + self.cellWidth
                     y_axis = (cell.y * self.cellHeight) + y
-                    self.put_pixel(x_axis, y_axis, 0xFFFFFFFF)
+                    self.put_pixel(x_axis, y_axis, Colors.RED)
 
     def clear_cell(self, cell: Cell, color=0x98340EAB):
         for y in range(self.cellHeight):

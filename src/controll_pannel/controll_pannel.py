@@ -24,28 +24,27 @@ class ControllPannel(Image):
         for row in range(int(self.screen_width * 0.2)):
             for col in range(y + 30, y + 32):
                 self.put_pixel(row, col, 0xFFFFF000)
-        line_height = 40
+        line_height = 20
         title = "A_MAZE_ING"
-        dfs_description = "(Press A) to generate the maze using Depth-First Search (DFS)"
-        wilson_description = "(Press B) to generate the maze using Wilson algorithm"
-        regenerate_maze_description = "(Press R) to regenerate maze"
-        change_color_description = "(Press C) to change color"
+        descriptions = [
+                "(Press A) to generate the maze using Depth-First Search (DFS)",
+                "(Press B) to generate the maze using Wilson algorithm",
+                "(Press R) to regenerate maze", "(Press C) to change color",
+                "(Press S) to toggle solution path visibility"]
         self.mlx.mlx_clear_window(self.mlx_ptr, self.win_ptr)
         self.mlx.mlx_clear_window(self.mlx_ptr, self.win_ptr)
         self.mlx.mlx_clear_window(self.mlx_ptr, self.win_ptr)
         self.mlx.mlx_put_image_to_window(self.mlx_ptr, self.win_ptr, self.ptr, start, 0)
         self.mlx.mlx_string_put(self.mlx_ptr, self.win_ptr, x, y, Colors.WHITE, title)
-        self.mlx.mlx_string_put(self.mlx_ptr, self.win_ptr, 20 + start, 20 * 4 + y, Colors.WHITE, dfs_description)
-        self.mlx.mlx_string_put(self.mlx_ptr, self.win_ptr, 20 + start, 20 * 6 + y, Colors.WHITE, wilson_description)
-        self.mlx.mlx_string_put(self.mlx_ptr, self.win_ptr, 20 + start, 20 * 8 + y, Colors.WHITE, regenerate_maze_description)
-        self.mlx.mlx_string_put(self.mlx_ptr, self.win_ptr, 20 + start, 20 * 10 + y, Colors.WHITE, change_color_description)
-
-
+        for i in range(len(descriptions)):
+            self.mlx.mlx_string_put(self.mlx_ptr, self.win_ptr, 10 + start,
+                                    line_height * (i + 2) + y, Colors.WHITE,
+                                    descriptions[i])
     def onPress(self, keynum:int, _):
-        print(keynum)
         if keynum == 65307:
             self.mlx.mlx_loop_exit(self.mlx_ptr)
-        if keynum == 97:
+        if keynum == 113:
             self.maze_generator.generate("dfs")
         if keynum == 98:
+            self.maze_generator.init_grid_cells()
             self.maze_generator.generate("wilson")
