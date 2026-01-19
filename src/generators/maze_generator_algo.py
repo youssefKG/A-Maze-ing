@@ -1,4 +1,5 @@
 from abc import ABC
+from renderer.images.image import Image
 
 class MazeGeneratorAlgo(ABC):
     def __init__(
@@ -15,7 +16,9 @@ class MazeGeneratorAlgo(ABC):
         pass
 
     def put_cells_img_to_window(self):
-        self.mlx.mlx_put_image_to_window(self.mlx_ptr, self.win_ptr, self.cells_img.ptr, 0, 0)
+        x = int((self.screen_width * 0.8) / 2 - self.cells_img.width / 2)
+        y = int(self.screen_height / 2 - self.cells_img.height / 2)
+        self.mlx.mlx_put_image_to_window(self.mlx_ptr, self.win_ptr, self.cells_img.ptr, x, y)
 
     def set_horizontal_cells(self, horizontal_cells):
         self.horizontal_cells = horizontal_cells
@@ -24,7 +27,7 @@ class MazeGeneratorAlgo(ABC):
     def set_vertical_cells(self, vertical_cells):
         self.vertical_cells = vertical_cells
         return self
-    
+
     def set_screen_dimentions(self, width, height):
         self.screen_width = width
         self.screen_height = height
@@ -38,6 +41,5 @@ class MazeGeneratorAlgo(ABC):
         self.cells_grid = cells_grid
         return self
 
-    def set_speed(self, speed): 
+    def set_speed(self, speed):
         self.speed = speed
-

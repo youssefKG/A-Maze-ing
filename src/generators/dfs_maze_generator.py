@@ -3,6 +3,7 @@ from renderer.images.cellImg import CellsImage
 from random import choice
 from time import sleep
 from generators.maze_generator_algo import MazeGeneratorAlgo
+from renderer.colors import Colors
 
 
 class DfsMazeGenerator(MazeGeneratorAlgo):
@@ -74,30 +75,30 @@ class DfsMazeGenerator(MazeGeneratorAlgo):
             return
         if not len(self.stack):
             self.is_finished = True
-            self.cells_img.clear_cell(self.current_cell)
+            self.cells_img.clear_cell(self.current_cell, Colors.GRAY)
             self.cells_img.draw_cell(self.current_cell)
             self.put_cells_img_to_window()
-            self.cells_img.clear_cell(self.current_cell)
+            self.cells_img.clear_cell(self.current_cell, Colors.GRAY)
             self.cells_img.draw_cell(self.current_cell)
             self.put_cells_img_to_window()
             return
-        self.cells_img.clear_cell(self.current_cell)
+        self.cells_img.clear_cell(self.current_cell, Colors.GRAY)
         self.cells_img.draw_cell(self.current_cell)
         self.current_cell = self.stack[-1]
-        self.cells_img.clear_cell(self.current_cell)
+        self.cells_img.clear_cell(self.current_cell, Colors.GRAY)
         self.cells_img.draw_cell(self.current_cell)
         self.put_cells_img_to_window()
         self.next_cell = self.check_neighbors()
         if self.next_cell:
             self.remove_wall()
-            self.cells_img.clear_cell(self.current_cell)
+            self.cells_img.clear_cell(self.current_cell, Colors.GRAY)
             self.cells_img.draw_cell(self.current_cell)
-            self.cells_img.draw_cell(self.next_cell, 0x895DF000)
+            self.cells_img.draw_cell(self.next_cell, Colors.YELLOW)
             self.next_cell.is_visited = True
             self.stack.append(self.next_cell)
         else:
             self.current = self.stack.pop()
-            self.cells_img.clear_cell(self.current_cell)
-            self.cells_img.draw_cell(self.current_cell, 0x895DF000)
+            self.cells_img.clear_cell(self.current_cell, Colors.GRAY)
+            self.cells_img.draw_cell(self.current_cell, Colors.YELLOW)
         self.put_cells_img_to_window()
         sleep(0.052)

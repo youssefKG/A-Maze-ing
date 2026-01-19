@@ -12,11 +12,11 @@ class CellsImage(Image):
         self.cellBorder = int(self.cellHeight * 0.15)
 
     def set_cell_width(self):
-        cell_width = int(Image.width / self.horizontal_cells)
+        cell_width = int(self.width / self.horizontal_cells)
         return int(cell_width - cell_width / 4)
 
     def set_cell_height(self):
-        cell_height = int(Image.height / self.vertical_cells)
+        cell_height = int(self.height / self.vertical_cells)
         return int(cell_height - cell_height / 4)
 
     def draw_cell(self, cell: Cell, backgroundColor=None):

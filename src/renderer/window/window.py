@@ -1,7 +1,7 @@
 from generators.mazeGenerator import MazeGenerator
 from mlx.mlx.mlx import Mlx
 from maze.cell import * 
-
+from controll_pannel.controll_pannel import ControllPannel
 
 class Window:
     def __init__(self, mlx: Mlx, mlx_ptr, screen_params) -> None: 
@@ -9,9 +9,9 @@ class Window:
         self.width, self.height, self.title = screen_params
         self.mlx_ptr = mlx_ptr
         self.ptr = self.mlx.mlx_new_window(self.mlx_ptr, self.width, self.height, self.title)
-        self.maze_generator = MazeGenerator(self.mlx, self.mlx_ptr, self.ptr, (self.width, self.height))
         self.mlx.mlx_key_hook(self.ptr, self.mykey, [1, 2])
-        self.maze_generator.generate("wilson")
+        self.controll_pannel = ControllPannel(self.mlx, self.mlx_ptr, self.ptr, (self.width, self.height))
+        self.controll_pannel.draw_pannel_controll()
 
     def mykey(self, keynum, _):
         if keynum == 65307:
