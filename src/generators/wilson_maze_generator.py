@@ -1,29 +1,21 @@
+from my_mlx.my_mlx import MyMlx
 from generators.maze_generator_algo import MazeGeneratorAlgo
-from mlx.mlx.mlx import Mlx
 from random import choice
 from time import sleep
 from renderer.colors import Colors
 
 class WilsonMazeGenerator(MazeGeneratorAlgo):
-    def __init__(
-        self,
-        mlx: Mlx,
-        mlx_ptr: int,
-        win_ptr,
-    ):
-        super().__init__(mlx, mlx_ptr, win_ptr)
+    def __init__(self):
         self.unvisited = set()
         self.visited = set()
         self.next = None
         self.path_start = 0
         self.path = []
+        self.frames = 0
 
 
     def generate(self):
-        for cell_row in self.cells_grid:
-            for cell in cell_row:
-                if not cell.is_42_cell:
-                    self.unvisited.add(cell)
+        self._init_unvisited()
         target_cell = choice(list(self.unvisited))
         self.current_cell = choice(list(self.unvisited))
         self.cells_img.clear_cell(target_cell, Colors.WHITE)
@@ -31,7 +23,13 @@ class WilsonMazeGenerator(MazeGeneratorAlgo):
         self.put_cells_img_to_window()
         self.visited.add(target_cell)
         self.unvisited.remove(target_cell)
-        self.mlx.mlx_loop_hook(self.mlx_ptr, self.generate_wilson_animations, None)
+        MyMlx.loop_hook(self.generate_wilson_animations, None)
+
+    def _init_unvisited(self):
+        for cell_row in self.cells_grid:
+            for cell in cell_row:
+                if not cell.is_42_cell:
+                    self.unvisited.add(cell)
 
     def generate_wilson_animations(self, _):
         if self.frames % 12 != 0:

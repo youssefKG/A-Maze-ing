@@ -4,9 +4,7 @@ from renderer.renderer import Renderer
 
 class Amazeing:
     def __init__(self) -> None:
-        self.mlx = Mlx()
-        self.mlx_ptr = self.mlx.mlx_init()
-        self.renderer = Renderer(self.mlx, self.mlx_ptr)
+        self.renderer = Renderer()
 
 def main():
     amazeing = Amazeing()

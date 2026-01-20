@@ -1,21 +1,10 @@
-from mlx.mlx.mlx import Mlx
+from my_mlx.my_mlx import MyMlx
 from time import sleep
 from generators.maze_generator_algo import MazeGeneratorAlgo
 from renderer.colors import Colors
 
-
 class DfsMazeGenerator(MazeGeneratorAlgo):
-    def __init__(
-        self,
-        mlx: Mlx,
-        mlx_ptr: int,
-        win_ptr,
-    ):
-        super().__init__(
-            mlx,
-            mlx_ptr,
-            win_ptr,
-        )
+    def __init__(self):
         self.next_cell = None
         self.stack = []
         self.frames = 0
@@ -25,7 +14,7 @@ class DfsMazeGenerator(MazeGeneratorAlgo):
         self.current_cell = self.cells_grid[0][0]
         self.current_cell.is_visited = True
         self.stack.append(self.current_cell)
-        self.mlx.mlx_loop_hook(self.mlx_ptr, self.generate_DFS_animation, None)
+        MyMlx.loop_hook(self.generate_DFS_animation, None)
 
     def generate_DFS_animation(self, _):
         if self.is_finished:

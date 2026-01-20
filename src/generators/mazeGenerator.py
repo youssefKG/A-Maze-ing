@@ -3,18 +3,15 @@ from mlx.mlx.mlx import Mlx
 from renderer.images.cellImg import CellsImage
 from generators.algo_factory import AlgoFactory
 from renderer.colors import Colors
+from my_mlx.my_mlx import MyMlx
 
 
 class MazeGenerator:
-    def __init__(self, mlx: Mlx, mlx_ptr: int, win_ptr, screen_dimentions) -> None:
-        self.mlx = mlx
-        self.mlx_ptr = mlx_ptr
-        self.win_ptr = win_ptr
+    def __init__(self) -> None:
         self.vertical_cells = 16
         self.horizontal_cells = 16
-        self.screen_width, self.screen_height = screen_dimentions
-        self.cells_img = CellsImage(
-            self.mlx, self.mlx_ptr, self.vertical_cells, self.horizontal_cells)
+
+        self.cells_img = CellsImage(self.vertical_cells, self.horizontal_cells)
 
     def init_grid_cells(self):
         self.cells_grid = []
@@ -76,13 +73,10 @@ class MazeGenerator:
             self.cells_img.draw_cell(self.cells_grid[y + 4][i], color)
 
     def generate(self, algo_name):
-        algo = AlgoFactory(self.mlx, self.mlx_ptr,
-                           self.win_ptr).create(algo_name)
+        algo = AlgoFactory().create(algo_name)
         self.init_grid_cells()
         algo.set_cells_img(self.cells_img).set_cells_grid(
             self.cells_grid
-        ).set_screen_dimentions(
-            self.screen_width, self.screen_height
         ).set_vertical_cells(
             self.vertical_cells
         ).set_horizontal_cells(

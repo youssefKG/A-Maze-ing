@@ -1,12 +1,11 @@
 from mlx.mlx.mlx import Mlx
-from renderer.window.window import Window
+from my_mlx.my_mlx import MyMlx
+from controll_pannel.controll_pannel import ControllPannel
 
 class Renderer:
-    def __init__(self, mlx: Mlx, mlx_ptr):
-        self.mlx = mlx
-        self.mlx_ptr = mlx_ptr
-        _ ,self.width, self.height = self.mlx.mlx_get_screen_size(self.mlx_ptr)
-        self.win = Window(self.mlx, self.mlx_ptr, (self.width, self.height, "HELLO WORLD"))
+    def __init__(self):
+        self.controll_pannel = ControllPannel()
         
     def render(self):
-        self.mlx.mlx_loop(self.mlx_ptr)
+        MyMlx.loop()
+        self.controll_pannel.draw()

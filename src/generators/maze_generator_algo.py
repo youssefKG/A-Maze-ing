@@ -1,17 +1,10 @@
 from abc import ABC
+from my_mlx.my_mlx import MyMlx
 from renderer.images.image import Image
 from random import choice
 
 class MazeGeneratorAlgo(ABC):
-    def __init__(
-        self,
-        mlx,
-        mlx_ptr,
-        win_ptr,
-    ):
-        self.mlx = mlx
-        self.mlx_ptr = mlx_ptr
-        self.win_ptr = win_ptr
+    def __init__(self):
         self.current_cell = None
         self.frames = 0
         self.is_finished = False
@@ -20,9 +13,9 @@ class MazeGeneratorAlgo(ABC):
         pass
 
     def put_cells_img_to_window(self):
-        x = int((self.screen_width * 0.8) / 2 - self.cells_img.width / 2)
-        y = int(self.screen_height / 2 - self.cells_img.height / 2)
-        self.mlx.mlx_put_image_to_window(self.mlx_ptr, self.win_ptr, self.cells_img.ptr, x, 80)
+        x = int((MyMlx.screen_width * 0.8) / 2 - self.cells_img.width / 2)
+        y = int(MyMlx.screen_height / 2 - self.cells_img.height / 2)
+        MyMlx.put_image_to_window(self.cells_img.ptr, x, y)
 
     def set_horizontal_cells(self, horizontal_cells):
         self.horizontal_cells = horizontal_cells
@@ -30,11 +23,6 @@ class MazeGeneratorAlgo(ABC):
 
     def set_vertical_cells(self, vertical_cells):
         self.vertical_cells = vertical_cells
-        return self
-
-    def set_screen_dimentions(self, width, height):
-        self.screen_width = width
-        self.screen_height = height
         return self
 
     def set_cells_img(self, cells_img):
@@ -47,6 +35,7 @@ class MazeGeneratorAlgo(ABC):
 
     def set_speed(self, speed):
         self.speed = speed
+        return self
 
     def remove_wall(self, current_cell, next_cell):
         if next_cell:

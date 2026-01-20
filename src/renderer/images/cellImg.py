@@ -18,8 +18,8 @@ class Border:
         cls._color = cls._colors[cls._current_color_index]
 
 class CellsImage(Image):
-    def __init__(self, mlx: Mlx, mlx_ptr, vertical_cells, horizontal_cells):
-        super().__init__(mlx, mlx_ptr)
+    def __init__(self, vertical_cells, horizontal_cells):
+        super().__init__()
         self.vertical_cells = vertical_cells
         self.horizontal_cells = horizontal_cells
         self.cellWidth = self.set_cell_width()
