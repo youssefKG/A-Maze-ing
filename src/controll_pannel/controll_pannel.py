@@ -1,3 +1,4 @@
+from renderer.images.cellImg import Border
 from renderer.images.image import Image
 from renderer.colors import Colors
 from generators.mazeGenerator import MazeGenerator
@@ -7,9 +8,10 @@ class ControllPannel(Image):
         self.screen_width, self.screen_height = screen_dimension
         super().__init__(mlx, mlx_ptr, int(self.screen_width * 0.2), self.screen_height)
         self.win_ptr = win_ptr
-        self.maze_generator = MazeGenerator(self.mlx, self.mlx_ptr, self.win_ptr, (self.screen_width, self.screen_height))
+        self.maze_generator = MazeGenerator(self.mlx, self.mlx_ptr,
+                                            self.win_ptr, (self.screen_width,
+                                                           self.screen_height))
         self.mlx.mlx_key_hook(self.win_ptr, self.onPress, None)
-
 
     def draw_pannel_controll(self):
         print(self.height, self.width)
@@ -41,6 +43,7 @@ class ControllPannel(Image):
                                     line_height * (i + 2) + y, Colors.WHITE,
                                     descriptions[i])
     def onPress(self, keynum:int, _):
+        print(keynum)
         if keynum == 65307:
             self.mlx.mlx_loop_exit(self.mlx_ptr)
         if keynum == 113:
@@ -49,3 +52,6 @@ class ControllPannel(Image):
         if keynum == 98:
             self.maze_generator.init_grid_cells()
             self.maze_generator.generate("wilson")
+        if keynum == 99:
+            Border.change_color()
+            self.maze_generator.redraw_maze()

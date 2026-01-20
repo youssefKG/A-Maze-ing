@@ -14,9 +14,7 @@ class MazeGenerator:
         self.horizontal_cells = 16
         self.screen_width, self.screen_height = screen_dimentions
         self.cells_img = CellsImage(
-            self.mlx, self.mlx_ptr, self.vertical_cells, self.horizontal_cells
-        )
-        self.cells_grid = []
+            self.mlx, self.mlx_ptr, self.vertical_cells, self.horizontal_cells)
 
     def init_grid_cells(self):
         self.cells_grid = []
@@ -78,8 +76,8 @@ class MazeGenerator:
             self.cells_img.draw_cell(self.cells_grid[y + 4][i], color)
 
     def generate(self, algo_name):
-        algo = AlgoFactory(self.mlx, self.mlx_ptr, self.win_ptr).create(algo_name)
-        self.init_grid_cells()
+        algo = AlgoFactory(self.mlx, self.mlx_ptr,
+                           self.win_ptr).create(algo_name)
         self.init_grid_cells()
         algo.set_cells_img(self.cells_img).set_cells_grid(
             self.cells_grid
@@ -90,3 +88,4 @@ class MazeGenerator:
         ).set_horizontal_cells(
             self.horizontal_cells
         ).generate()
+        return algo

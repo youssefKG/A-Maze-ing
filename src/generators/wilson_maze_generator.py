@@ -14,36 +14,10 @@ class WilsonMazeGenerator(MazeGeneratorAlgo):
         super().__init__(mlx, mlx_ptr, win_ptr)
         self.unvisited = set()
         self.visited = set()
-        self.current_cell = None
-        self.is_finished = False
-        self.frames = 0 
         self.next = None
         self.path_start = 0
         self.path = []
 
-    def check_neighbors(self):
-        if self.current_cell:
-            x = self.current_cell.x
-            y = self.current_cell.y
-            neighbors = []
-            if y - 1 >= 0:
-                north = self.cells_grid[y - 1][x]
-                if not north.is_42_cell:
-                    neighbors.append(north)
-            if y + 1 < self.vertical_cells:
-                south = self.cells_grid[y + 1][x]
-                if not south.is_42_cell:
-                    neighbors.append(south)
-            if x + 1 < self.horizontal_cells:
-                east = self.cells_grid[y][x + 1]
-                if not east.is_42_cell:
-                    neighbors.append(east)
-            if x - 1 >= 0:
-                west = self.cells_grid[y][x - 1]
-                if not west.is_42_cell:
-                    neighbors.append(west)
-            if len(neighbors) != 0:
-                return choice(neighbors)
 
     def generate(self):
         for cell_row in self.cells_grid:
@@ -59,26 +33,9 @@ class WilsonMazeGenerator(MazeGeneratorAlgo):
         self.unvisited.remove(target_cell)
         self.mlx.mlx_loop_hook(self.mlx_ptr, self.generate_wilson_animations, None)
 
-    def remove_wall(self, current_cell, next_cell):
-        x = current_cell.x - next_cell.x
-        y = current_cell.y - next_cell.y
-        if y == 1:
-            current_cell.north = False
-            next_cell.south = False
-        if y == -1:
-            current_cell.south = False
-            next_cell.north = False
-        if x == 1:
-            current_cell.west = False
-            next_cell.east = False
-        if x == -1:
-            current_cell.east = False
-            next_cell.west = False
-                 
     def generate_wilson_animations(self, _):
         if self.frames % 12 != 0:
             return 
-        print("wilson")
         if len(self.unvisited) == 0:
             return 
         if self.current_cell not in self.visited:

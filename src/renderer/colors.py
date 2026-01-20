@@ -8,3 +8,4 @@ class Colors:
     GRAY = create_color(32, 32, 32)
     BLUE = create_color(51, 51, 51)
     RED = create_color(255, 51, 51)
+    GREEN = create_color(0, 255, 128)
