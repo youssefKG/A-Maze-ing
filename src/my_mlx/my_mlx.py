@@ -8,7 +8,7 @@ class MyMlx:
 
     @classmethod
     def put_string(cls, text: str, x: int, y: int, color: str) -> None:
-        cls.mlx.mlx_string_put(cls.mlx_ptr, cls.win_ptr, x, y, text, color)
+        cls.mlx.mlx_string_put(cls.mlx_ptr, cls.win_ptr, x, y, color, text)
 
     @classmethod
     def put_image_to_window(cls, img_ptr, x: int, y: int):

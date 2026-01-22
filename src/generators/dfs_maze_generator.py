@@ -5,12 +5,11 @@ from renderer.colors import Colors
 
 class DfsMazeGenerator(MazeGeneratorAlgo):
     def __init__(self):
-        self.next_cell = None
+        super().__init__()
         self.stack = []
-        self.frames = 0
-        self.is_finished = False
 
     def generate(self):
+        super().generate()
         self.current_cell = self.cells_grid[0][0]
         self.current_cell.is_visited = True
         self.stack.append(self.current_cell)
