@@ -13,10 +13,9 @@ class WilsonMazeGenerator(MazeGeneratorAlgo):
         self.path_start = 0
         self.path = []
         self.frames = 0
-        self.is_finished = False
 
 
-    def generate(self):
+    def generate(self) -> None:
         super().generate()
         self._init_unvisited()
         target_cell = choice(list(self.unvisited))
@@ -27,21 +26,21 @@ class WilsonMazeGenerator(MazeGeneratorAlgo):
         self.unvisited.remove(target_cell)
         MyMlx.loop_hook(self.generate_wilson_animations, None)
 
-    def _init_unvisited(self):
+    def _init_unvisited(self) -> None:
         for cell_row in self.cells_grid:
             for cell in cell_row:
                 if not cell.is_42_cell:
                     self.unvisited.add(cell)
 
-    def generate_wilson_animations(self, _):
+    def generate_wilson_animations(self, _) -> None:
         self.frames += 1
         if self.frames % 1 != 0:
             return 
-        if self.is_finished:
+        if not self.is_running:
             return
         if len(self.unvisited) == 0:
             self.redraw_maze()
-            self.is_finished = True
+            self.is_running = False
             return 
         if self.current_cell not in self.visited:
             self.path.append(self.current_cell)

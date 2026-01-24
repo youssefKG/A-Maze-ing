@@ -8,18 +8,18 @@ class DfsMazeGenerator(MazeGeneratorAlgo):
         super().__init__()
         self.stack = []
 
-    def generate(self):
+    def generate(self) -> None:
         super().generate()
         self.current_cell = self.cells_grid[0][0]
         self.current_cell.is_visited = True
         self.stack.append(self.current_cell)
         MyMlx.loop_hook(self.generate_DFS_animation, None)
 
-    def generate_DFS_animation(self, _):
-        if self.is_finished:
+    def generate_DFS_animation(self, _) -> None:
+        if not self.is_running:
             return
         if not len(self.stack):
-            self.is_finished = True
+            self.is_running = False
             self.cells_img.clear_cell(self.current_cell, Colors.GRAY)
             self.cells_img.draw_cell(self.current_cell)
             self.put_cells_img_to_window()

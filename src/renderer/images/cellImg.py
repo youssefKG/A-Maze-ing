@@ -4,8 +4,7 @@ from renderer.images.image import Image
 from renderer.colors import Colors
 
 class Border:
-    _colors = [Colors.RED, Colors.BLUE, Colors.YELLOW, Colors.GRAY,
-                Colors.GREEN]
+    _colors = [Colors.RED, Colors.BLUE, Colors.GREEN, Colors.PURPLE, Colors.ORANGE]
     _current_color_index = 0
     color = _colors[_current_color_index]
 
@@ -15,7 +14,7 @@ class Border:
             cls._current_color_index += 1
         else:
             cls._current_color_index = 0
-        cls._color = cls._colors[cls._current_color_index]
+        cls.color = cls._colors[cls._current_color_index]
 
 class CellsImage(Image):
     def __init__(self, vertical_cells, horizontal_cells):

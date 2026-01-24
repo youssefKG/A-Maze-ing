@@ -1,9 +1,8 @@
 from abc import ABC
 from my_mlx.my_mlx import MyMlx
-from renderer.images.image import Image
-from random import choice
 from maze.cell import Cell
 from renderer.colors import Colors
+from random import choice, seed, shuffle
 
 class MazeGeneratorAlgo(ABC):
     def __init__(self):
@@ -11,9 +10,11 @@ class MazeGeneratorAlgo(ABC):
         self.frames = 0
         self.is_finished = False
         self.cells_grid = []
-        self_is_algo_running = False
+        self.is_running = False
+        seed(10)
 
     def generate(self) -> None:
+        self.is_running = True
         for i in range(self.vertical_cells):
             row = []
             for j in range(self.horizontal_cells):
@@ -28,33 +29,34 @@ class MazeGeneratorAlgo(ABC):
             i += 1
         if self.vertical_cells > 5 and self.horizontal_cells > 7:
             self.draw_42()
+        self.put_cells_img_to_window()
 
     def put_cells_img_to_window(self) -> None:
         x = int((MyMlx.screen_width * 0.8) / 2 - self.cells_img.width / 2)
         y = int(MyMlx.screen_height / 2 - self.cells_img.height / 2)
-        MyMlx.put_image_to_window(self.cells_img.ptr, x, y)
+        MyMlx.put_image_to_window(self.cells_img.ptr, x, 0)
 
-    def set_horizontal_cells(self, horizontal_cells) -> None:
+    def set_horizontal_cells(self, horizontal_cells):
         self.horizontal_cells = horizontal_cells
         return self
 
-    def set_vertical_cells(self, vertical_cells) -> None:
+    def set_vertical_cells(self, vertical_cells):
         self.vertical_cells = vertical_cells
         return self
 
-    def set_cells_img(self, cells_img) -> None:
+    def set_cells_img(self, cells_img):
         self.cells_img = cells_img
         return self
 
-    def set_cells_grid(self, cells_grid) -> None:
+    def set_cells_grid(self, cells_grid):
         self.cells_grid = cells_grid
         return self
 
-    def set_speed(self, speed) -> None:
+    def set_speed(self, speed):
         self.speed = speed
         return self
 
-    def remove_wall(self, current_cell, next_cell) -> None:
+    def remove_wall(self, current_cell, next_cell):
         if next_cell:
             x = current_cell.x - next_cell.x
             y = current_cell.y - next_cell.y
@@ -71,7 +73,7 @@ class MazeGeneratorAlgo(ABC):
                 current_cell.east = False
                 next_cell.west = False
 
-    def check_neighbors(self) -> None:
+    def check_neighbors(self):
         if self.current_cell:
             x = self.current_cell.x
             y = self.current_cell.y
@@ -93,6 +95,7 @@ class MazeGeneratorAlgo(ABC):
                 if not west.is_visited:
                     neighbors.append(west)
             if len(neighbors) != 0:
+                shuffle(neighbors)
                 return choice(neighbors)
             return None
 
@@ -143,3 +146,9 @@ class MazeGeneratorAlgo(ABC):
             self.cells_grid[y + 4][i].is_visited = True
             self.cells_grid[y + 4][i].is_42_cell = True
             self.cells_img.draw_cell(self.cells_grid[y + 4][i], color)
+             
+    def run(self):
+        self.is_running = True
+
+    def stop(self):
+        self.is_running = False

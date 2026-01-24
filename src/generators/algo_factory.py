@@ -9,18 +9,14 @@ class AlgoFactory:
     cells_img = CellsImage(vertical_cells, horizontal_cells)
     
     @classmethod
-    def create(cls, name: str):
-        print("hello")
-        algo_generator = None
+    def create(cls, name: str | None=None) -> MazeGeneratorAlgo:
+        algo_generator = MazeGeneratorAlgo()
         if name == "wilson":
             algo_generator = WilsonMazeGenerator()
         elif name == "dfs":
-            print("dfs")
             algo_generator = DfsMazeGenerator()
-        if algo_generator is not None:
-            return (
-                algo_generator.set_cells_img(cls.cells_img)
-                .set_vertical_cells(cls.vertical_cells)
-                .set_horizontal_cells(cls.horizontal_cells)
-            )
-        return algo_generator
+        return (
+            algo_generator.set_cells_img(cls.cells_img)
+            .set_vertical_cells(cls.vertical_cells)
+            .set_horizontal_cells(cls.horizontal_cells)
+        )

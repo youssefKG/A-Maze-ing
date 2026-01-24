@@ -7,7 +7,7 @@ class MyMlx:
     win_ptr = mlx.mlx_new_window(mlx_ptr, screen_width, screen_height, "A-Maze-ing")
 
     @classmethod
-    def put_string(cls, text: str, x: int, y: int, color: str) -> None:
+    def put_string(cls, text: str, x: int, y: int, color: int) -> None:
         cls.mlx.mlx_string_put(cls.mlx_ptr, cls.win_ptr, x, y, color, text)
 
     @classmethod
