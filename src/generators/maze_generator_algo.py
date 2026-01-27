@@ -11,7 +11,7 @@ class MazeGeneratorAlgo(ABC):
         self.is_finished = False
         self.cells_grid = []
         self.is_running = False
-        seed(10)
+        seed(30)
 
     def generate(self) -> None:
         self.is_running = True
@@ -34,7 +34,7 @@ class MazeGeneratorAlgo(ABC):
     def put_cells_img_to_window(self) -> None:
         x = int((MyMlx.screen_width * 0.8) / 2 - self.cells_img.width / 2)
         y = int(MyMlx.screen_height / 2 - self.cells_img.height / 2)
-        MyMlx.put_image_to_window(self.cells_img.ptr, x, 0)
+        MyMlx.put_image_to_window(self.cells_img.ptr, x, y)
 
     def set_horizontal_cells(self, horizontal_cells):
         self.horizontal_cells = horizontal_cells

@@ -4,12 +4,14 @@ from renderer.colors import Colors
 from generators.algo_factory import AlgoFactory
 from my_mlx.my_mlx import MyMlx
 from renderer.images.cellImg import Border
+from solver.bfs_solver import BfsSolver
 
 class ControllPannel(Image):
     def __init__(self) -> None:
         super().__init__(int(MyMlx.screen_width * 0.2), MyMlx.screen_height)
         MyMlx.key_hook(self.on_press, None)
         self.algo = AlgoFactory.create()
+        self.solver = None
 
     def draw(self) -> None:
         x_start = int(MyMlx.screen_width * 0.8)
@@ -19,6 +21,7 @@ class ControllPannel(Image):
         self.algo.generate()
 
     def on_press(self, keynum: int, _) -> None:
+        print(keynum)
         if keynum == 65307:
             MyMlx.loop_exit()
         if keynum == 113:
@@ -29,6 +32,11 @@ class ControllPannel(Image):
             self.algo.generate()
         if keynum == 99:
             self.change_color()
+        if keynum == 115:
+            if self.solver is None:
+                self.solver = AlgoFactory.create_solver("bfs")
+                self.solver.find_path()
+                print("toogle solution")
 
     def draw_descriptions(self, y: int, x_start: int) -> None:
         line_height = 20
@@ -40,12 +48,8 @@ class ControllPannel(Image):
             "(Press C) to change color",
             "(Press S) to toggle solution path visibility",
         ]
-        MyMlx.clear_window()
-        MyMlx.clear_window()
-        MyMlx.clear_window()
-        MyMlx.clear_window()
-        MyMlx.clear_window()
-        MyMlx.clear_window()
+        for _ in range(4):
+            MyMlx.clear_window()
         for row in range(int(MyMlx.screen_width * 0.2)):
             for col in range(y + 30, y + 32):
                 self.put_pixel(row, col, 0xFFFFF000)
