@@ -56,7 +56,12 @@ class ControllPannel(Image):
         MyMlx.put_image_to_window(self.ptr, x_start, 0)
         MyMlx.put_string(title, 10 + x_start, y, Colors.WHITE)
         for i in range(len(descriptions)):
-            MyMlx.put_string(descriptions[i], 10 + x_start, line_height * (i + 2) + y, Colors.WHITE)
+            MyMlx.put_string(
+                    descriptions[i],
+                    10 + x_start,
+                    line_height * (i + 2) + y,
+                    Colors.WHITE
+                    )
 
     def draw_background_color(self) -> None:
         for y in range(MyMlx.screen_height):

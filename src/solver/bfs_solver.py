@@ -4,8 +4,12 @@ from collections import deque
 from solver.solver import Solver
 
 class BfsSolver(Solver):
+    def __init__(self):
+        super().__init__()
+        self.path = {}
 
     def get_neighboors(self):
+        print(self.entry_cell)
         self.neighboors = []
         x = self.current_cell.x
         y = self.current_cell.y
@@ -45,6 +49,14 @@ class BfsSolver(Solver):
             if self.current_cell == self.exit_cell:
                 break
             get_neighboors()
+        self.print_solution()
 
+    def print_solution(self):
+      next_cell = self.exit_cell
+      print(next_cell.x, next_cell.y)
+      """
+      while next_cell is not self.entry_cell:
+          print(self.path[next_cell].x, self.path[next_cell].y)
+          next_cell = path[next_cell]
+      """
 
-    def print_solution:
