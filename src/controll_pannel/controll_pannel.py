@@ -24,8 +24,9 @@ class ControllPannel(Image):
         if keynum == 65307:
             MyMlx.loop_exit()
         if keynum == 113:
-            self.alog_parser = FActory.create("dfs")
+            self.algo = AlgoFactory.create("dfs")
             self.algo.generate()
+            print("dfs")
         if keynum == 98:
             self.algo = AlgoFactory.create("wilson")
             self.algo.generate()

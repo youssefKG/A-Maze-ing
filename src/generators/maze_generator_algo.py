@@ -103,7 +103,8 @@ class MazeGeneratorAlgo(ABC):
                 west = self.cells_grid[y][x - 1]
                 if not west.is_visited:
                     neighbors.append(west)
-            if not len(neighbors):
+            if len(neighbors) != 0:
+                shuffle(neighbors)
                 return choice(neighbors)
             return None
 

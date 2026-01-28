@@ -18,7 +18,7 @@ class DfsMazeGenerator(MazeGeneratorAlgo):
     def generate_DFS_animation(self, _) -> None:
         if not self.is_running:
             return
-        if not len(self.stack):
+        if len(self.stack) != 0:
             self.is_running = False
             self.cells_img.clear_cell(self.current_cell, Colors.GRAY)
             self.cells_img.draw_cell(self.current_cell)

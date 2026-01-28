@@ -27,9 +27,9 @@ while True:
     // Add the extended nodes in the frontier
     for all nodes from new_nodes do
     if node not in visited_vertex and node not in frontier then
+    add node at the end of the queue
 """
 
-add node at the end of the queue
 
 class BfsSolver(Solver):
     def __init__(self):
