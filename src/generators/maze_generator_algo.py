@@ -11,15 +11,10 @@ class MazeGeneratorAlgo(ABC):
         self.is_finished = False
         self.cells_grid = []
         self.is_running = False
-        seed(30)
+        seed(3)
 
     def generate(self) -> None:
         self.is_running = True
-        for i in range(self.vertical_cells):
-            row = []
-            for j in range(self.horizontal_cells):
-                row.append(Cell(j, i))
-            self.cells_grid.append(row)
         i = 0
         while i < self.vertical_cells:
             j = 0
@@ -48,8 +43,22 @@ class MazeGeneratorAlgo(ABC):
         self.cells_img = cells_img
         return self
 
-    def set_cells_grid(self, cells_grid):
-        self.cells_grid = cells_grid
+    def set_cells_grid(self, horizontal_cells: int, vertical_cells: int) -> None:
+        for y in range(vertical_cells):
+            row = []
+            for x in range(vertical_cells):
+                row.append(Cell(x, y))
+            self.cells_grid.append(row)
+        return self
+
+    def set_entry_cell(self, entry_cell: tuple):
+        (x, y) = entry_cell
+        self.entry_cell = self.cells_grid[y][x]
+        return self
+
+    def set_exit_cell(self, exit_cell: tuple):
+        (x, y)  = exit_cell
+        self.exit_cell = self.cells_grid[y][x]
         return self
 
     def set_speed(self, speed):
@@ -94,8 +103,7 @@ class MazeGeneratorAlgo(ABC):
                 west = self.cells_grid[y][x - 1]
                 if not west.is_visited:
                     neighbors.append(west)
-            if len(neighbors) != 0:
-                shuffle(neighbors)
+            if not len(neighbors):
                 return choice(neighbors)
             return None
 
@@ -108,7 +116,7 @@ class MazeGeneratorAlgo(ABC):
     def draw_42(self, color=Colors.YELLOW) -> None:
         y = int(((self.vertical_cells) / 2) - 2)
         x = int(((self.horizontal_cells) / 2) - 3)
-        # draw 4
+        # drw 4
         for i in range(y, y + 3):
             self.cells_grid[i][x].is_visited = True
             self.cells_grid[i][x].is_42_cell = True

@@ -21,11 +21,10 @@ class ControllPannel(Image):
         self.algo.generate()
 
     def on_press(self, keynum: int, _) -> None:
-        print(keynum)
         if keynum == 65307:
             MyMlx.loop_exit()
         if keynum == 113:
-            self.algo = AlgoFactory.create("dfs")
+            self.alog_parser = FActory.create("dfs")
             self.algo.generate()
         if keynum == 98:
             self.algo = AlgoFactory.create("wilson")
@@ -34,7 +33,7 @@ class ControllPannel(Image):
             self.change_color()
         if keynum == 115:
             if self.solver is None:
-                self.solver = AlgoFactory.create_solver("bfs")
+                self.solver = AlgoFactory.create_solver("bfs", self.algo.cells_grid)
                 self.solver.find_path()
                 print("toogle solution")
 

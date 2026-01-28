@@ -3,9 +3,39 @@ from my_mlx.my_mlx import MyMlx
 from collections import deque
 from solver.solver import Solver
 
+"""
+
+procedure BFS_Algorithm(graph, initial_vertex):
+create a queue called frontier
+create a list called visited_vertex
+add the initial vertex in the frontier
+while True:
+    if frontier is empty then
+    print("No Solution Found")
+    break
+
+    selected_node = remove the first node of the frontier
+    add the selected_node to the visited_vertex list
+
+    // Check if the selected_node is the solution
+    if selected_node is the solution then
+    print(selected_node)
+    break
+
+    // Extend the node
+    new_nodes = extend the selected_node
+    // Add the extended nodes in the frontier
+    for all nodes from new_nodes do
+    if node not in visited_vertex and node not in frontier then
+"""
+
+add node at the end of the queue
+
 class BfsSolver(Solver):
     def __init__(self):
         super().__init__()
+        self.visited = []
+        self.bfs_queue = []
         self.path = {}
 
     def get_neighboors(self):
@@ -43,6 +73,7 @@ class BfsSolver(Solver):
     def find_path(self):
         self.bfs_queue = [self.entry_cell]
         self.visited = [self.entry_cell]
+        self.current_cell = self.entry_cell
         self.path_bfs = []
         while not len(self.bfs_queue):
             self.current_cell = self.bfs_queue.pop(0)
@@ -54,9 +85,6 @@ class BfsSolver(Solver):
     def print_solution(self):
       next_cell = self.exit_cell
       print(next_cell.x, next_cell.y)
-      """
       while next_cell is not self.entry_cell:
           print(self.path[next_cell].x, self.path[next_cell].y)
           next_cell = path[next_cell]
-      """
-

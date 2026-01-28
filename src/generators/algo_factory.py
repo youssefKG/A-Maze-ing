@@ -4,14 +4,14 @@ from generators.wilson_maze_generator import WilsonMazeGenerator
 from maze.cell import Cell
 from renderer.images.cellImg import CellsImage
 from solver.bfs_solver import BfsSolver
+from solver.solver import Solver
 
 class AlgoFactory:
     vertical_cells = 20
     horizontal_cells = 20
-    entry_cell = 12
-    exit_cell = 42
+    entry_cell = (19, 5)
+    exit_cell = (19, 10)
     cells_img = CellsImage(vertical_cells, horizontal_cells)
-    cells_grid = 
     
     @classmethod
     def create(cls, name: str | None=None) -> MazeGeneratorAlgo:
@@ -20,38 +20,25 @@ class AlgoFactory:
             algo_generator = WilsonMazeGenerator()
         elif name == "dfs":
             algo_generator = DfsMazeGenerator()
-        elif name == "dfs":
-            algo_generator = DfsMazeGenerator()
         return (
             algo_generator.set_cells_img(cls.cells_img)
             .set_vertical_cells(cls.vertical_cells)
             .set_horizontal_cells(cls.horizontal_cells)
-            .set_cells_grid([
-                    Cell(row, col) for row in range(get_horizontal_cells())]
-                    for col in range(get_vertical_cells())
-                ])
+            .set_cells_grid(cls.horizontal_cells, cls.vertical_cells)
+            .set_exit_cell(cls.exit_cell)
+            .set_entry_cell(cls.entry_cell)
             )
 
     @classmethod
-    def create_solver(cls, name: str) -> None:
+    def create_solver(cls, name: str, cells_grid: list[list[Cell]]) -> Solver:
         if name == "bfs":
             return (
                     BfsSolver()
-                    .set_cells_img(cls.cells_img)
                     .set_vertical_cells(cls.vertical_cells)
-                    .set_entry_cell(cls.cells_grid[cls.entry_cell])
-                    .set_exit_cell(cls.cells_gird[cls.exit_cell])
-                    .set_cells_grid([
-                            Cell(row, col) for row in range(cls.vertical_cells)]
-                            for col in range(get_vertical_cells(cls.horizontal_cells))
-                        ])
+                    .set_horizontal_cells(cls.horizontal_cells)
+                    .set_cells_grid(cells_grid)
+                    .set_cells_img(cls.cells_img)
+                    .set_entry_cell(cls.entry_cell)
+                    .set_exit_cell(cls.exit_cell)
                     )
-    @classemthod
-    def get_horizontal_cells(cls):
-        return cls.horizontal_cells
     
-    @classemthod
-    def get_vertical_cells(cls):
-        return cls.vertical_cells
-
-

@@ -21,14 +21,21 @@ class Solver(ABC):
         self.cells_grid = cells_grid
         return self
 
-    def set_entry_cell(self, entry_cell: int):
-        self.entry_cell = entry_cell
-        return self
-
-    def set_exit_cell(self, exit_cell: int):
-        self.exit_cell = exit_cell
-        return self
-
     def find_path(self):
         print("hello")
         pass
+
+    def set_cells_grid(self, cells_grid: list[list[Cell]]) -> None:
+        self.cells_grid = cells_grid
+        return self
+
+    def set_entry_cell(self, entry_cell: tuple):
+        (x, y) = entry_cell
+        self.entry_cell = self.cells_grid[y][x]
+        return self
+
+    def set_exit_cell(self, exit_cell: tuple):
+        (x, y) = exit_cell
+        self.exit_cell = self.cells_grid[y][x]
+        print(self.exit_cell.x, self.exit_cell.y)
+        return self

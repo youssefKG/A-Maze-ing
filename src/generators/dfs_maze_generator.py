@@ -46,4 +46,3 @@ class DfsMazeGenerator(MazeGeneratorAlgo):
             self.cells_img.clear_cell(self.current_cell, Colors.GRAY)
             self.cells_img.draw_cell(self.current_cell, Colors.YELLOW)
         self.put_cells_img_to_window()
-        sleep(0.052)
