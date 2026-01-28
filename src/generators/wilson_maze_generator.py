@@ -15,7 +15,6 @@ class WilsonMazeGenerator(MazeGeneratorAlgo):
         self.path = []
         self.frames = 0
 
-
     def generate(self) -> None:
         super().generate()
         self._init_unvisited()

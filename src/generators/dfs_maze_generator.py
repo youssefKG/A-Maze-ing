@@ -32,7 +32,6 @@ class DfsMazeGenerator(MazeGeneratorAlgo):
         self.put_cells_img_to_window()
         self.next_cell = self.check_neighbors()
         if self.next_cell:
-            print("remove the wall between the current and next")
             self.remove_wall(self.current_cell, self.next_cell)
             self.cells_img.clear_cell(self.current_cell, Colors.GRAY)
             self.cells_img.draw_cell(self.current_cell)
