@@ -18,11 +18,8 @@ class DfsMazeGenerator(MazeGeneratorAlgo):
     def generate_DFS_animation(self, _) -> None:
         if not self.is_running:
             return
-        if len(self.stack) != 0:
+        if not len(self.stack):
             self.is_running = False
-            self.cells_img.clear_cell(self.current_cell, Colors.GRAY)
-            self.cells_img.draw_cell(self.current_cell)
-            self.put_cells_img_to_window()
             self.cells_img.clear_cell(self.current_cell, Colors.GRAY)
             self.cells_img.draw_cell(self.current_cell)
             self.put_cells_img_to_window()
@@ -35,6 +32,7 @@ class DfsMazeGenerator(MazeGeneratorAlgo):
         self.put_cells_img_to_window()
         self.next_cell = self.check_neighbors()
         if self.next_cell:
+            print("remove the wall between the current and next")
             self.remove_wall(self.current_cell, self.next_cell)
             self.cells_img.clear_cell(self.current_cell, Colors.GRAY)
             self.cells_img.draw_cell(self.current_cell)
