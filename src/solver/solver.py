@@ -18,15 +18,10 @@ class Solver(ABC):
         self.cells_img = cells_img
         return self
 
-    def set_cells_grid(self, cells_grid: list[list[Cell]]):
-        self.cells_grid = cells_grid
-        return self
-
     def find_path(self):
         print("hello")
-        pass
 
-    def set_cells_grid(self, cells_grid: list[list[Cell]]) -> None:
+    def set_cells_grid(self, cells_grid: list[list[Cell]]):
         self.cells_grid = cells_grid
         return self
 
@@ -44,4 +39,4 @@ class Solver(ABC):
     def put_cells_img_to_window(self) -> None:
         x = int((MyMlx.screen_width * 0.8) / 2 - self.cells_img.width / 2)
         y = int(MyMlx.screen_height / 2 - self.cells_img.height / 2)
-        MyMlx.put_image_to_window(self.cells_img.ptr, x, y)
+        MyMlx.put_image_to_window(self.cells_img.ptr, x, 60)

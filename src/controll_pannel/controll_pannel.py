@@ -32,7 +32,6 @@ class ControllPannel(Image):
         if keynum == 99:
             self.change_color()
         if keynum == 115:
-            print("toogle solution")
             self.solver = AlgoFactory.create_solver("bfs", self.algo.cells_grid)
             self.solver.find_path()
 
