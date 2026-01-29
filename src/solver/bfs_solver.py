@@ -37,6 +37,8 @@ class BfsSolver(Solver):
         self.visited = []
         self.bfs_queue = deque()
         self.path = {}
+        self.is_solution_found = False
+        self.next_cell = self.exit
 
     def get_neighboors(self):
         neighboors = []
@@ -62,7 +64,7 @@ class BfsSolver(Solver):
             neighboor = self.cells_grid[y + 1][x]
             if not self.current_cell.south:
                 neighboors.append(neighboor)
-
+        #return neighboors
         for neighboor in neighboors:
             if neighboor not in self.visited and neighboor not in self.bfs_queue:
                 self.bfs_queue.append(neighboor)
@@ -84,11 +86,43 @@ class BfsSolver(Solver):
     def generate(self):
         self.current_cell = self.entry_cell
         self.bfs_queue.appendleft(self.entry_cell)
+        MyMlx.loop_hook(self.generate_solution_path_with_animation, None)
 
 
+    def generate_solution_path_with_animation(self, _):
+        self.frames += 1
+        if self.frames % 10 != 0:
+            return
+        if self.is_finished:
+            return
+        if self.is_running:
+            self.is_running = True
+        if len(self.bfs_queue) and not self.is_solution_found
+            self.current_cell = self.bfs_queue.popleft()
+            if self.current_cell is self.exit_cell:
+                self.is_solution_found = True
+            neighboors = self.get_neighboors()
+            self.draw_neighboors(neighboors)
 
-    def generate_solution_path_with_animatioe(self, _):
-        pass
+        if self.is_solution_found:
+            self.cells_img.clear_cell(self.next_cell, Colors.BLUE)
+            self.cells_img.draw_cell(self.next_cell)
+            if self.next_cell is not self.entry_cell:
+                next_cell = self.path[next_cell]
+                self.put_cells_img_to_window()
+            else:
+                self.is_finished = True
+            self.put_cells_img_to_window()
+
+    def draw_neighboors(self, neighboors: list[Cell]):
+        for neighboor in neighboors:
+            if neighboor not in self.visited and neighboor not in self.bfs_queue:
+                self.bfs_queue.append(neighboor)
+                self.visited.append(neighboor)
+                self.path[neighboor] = self.current_cell
+                self.cells_img.clear_cell(neighboor, Colors.BLUE)
+                self.cells_img.draw_cell(neighboors)
+                self.put_cells_img_to_window()
 
 
     def print_solution(self):

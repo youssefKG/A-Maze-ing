@@ -4,6 +4,9 @@ from my_mlx.my_mlx import MyMlx
 
 class Solver(ABC):
     def __init__(self):
+        self.is_finished = False
+        self.frames = 0
+        self.is_running = False
         pass
 
     def set_horizontal_cells(self, horizontal_cells):
