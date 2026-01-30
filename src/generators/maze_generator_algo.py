@@ -2,7 +2,7 @@ from abc import ABC
 from my_mlx.my_mlx import MyMlx
 from maze.cell import Cell
 from renderer.colors import Colors
-from random import choice, seed, shuffle
+from random import choice, seed
 
 class MazeGeneratorAlgo(ABC):
     def __init__(self):
@@ -11,7 +11,7 @@ class MazeGeneratorAlgo(ABC):
         self.is_finished = False
         self.cells_grid = []
         self.is_running = False
-        seed(13)
+        seed(12)
 
     def generate(self) -> None:
         self.is_running = True
@@ -43,10 +43,11 @@ class MazeGeneratorAlgo(ABC):
         self.cells_img = cells_img
         return self
 
-    def set_cells_grid(self, horizontal_cells: int, vertical_cells: int):
-        for y in range(vertical_cells):
+    def set_cells_grid(self, cells_grid: list[list[Cell]]):
+        self.cells_grid = []
+        for y in range(self.vertical_cells):
             row = []
-            for x in range(horizontal_cells):
+            for x in range(self.horizontal_cells):
                 row.append(Cell(x, y))
             self.cells_grid.append(row)
         return self
@@ -104,7 +105,6 @@ class MazeGeneratorAlgo(ABC):
                 if not west.is_visited:
                     neighbors.append(west)
             if len(neighbors) != 0:
-                shuffle(neighbors)
                 return choice(neighbors)
             return None
 

@@ -72,7 +72,6 @@ class BfsSolver(Solver):
         self.next_cell = self.exit_cell
         MyMlx.loop_hook(self.generate_solution_path_with_animation, None)
 
-
     def generate_solution_path_with_animation(self, _):
         self.frames += 1
         if self.frames % 1 != 0:
@@ -117,6 +116,6 @@ class BfsSolver(Solver):
         for row_cells in self.cells_grid:
             for cell in row_cells:
                 if not cell.is_42_cell:
+                    self.cells_img.clear_cell(cell, Colors.GRAY)
                     self.cells_img.draw_cell(cell, Colors.GRAY)
-                    self.cells_img.draw_cell(cell)
         self.put_cells_img_to_window()

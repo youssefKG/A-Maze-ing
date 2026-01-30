@@ -8,7 +8,7 @@ class Solver(ABC):
         self.frames = 0
         self.is_running = False
 
-    def set_horizontal_cells(self, horizontal_cells):
+    def set_horizontal_cells(self, horizontal_cells: int):
         self.horizontal_cells = horizontal_cells
         return self
 
@@ -21,10 +21,14 @@ class Solver(ABC):
         return self
 
     def find_path(self):
-        print("hello")
+        pass
 
     def set_cells_grid(self, cells_grid: list[list[Cell]]):
         self.cells_grid = cells_grid
+        print(len(self.cells_grid))
+        for row_cell in cells_grid:
+            for cell in row_cell:
+                print("cell_grid", cell.north, cell.south, cell.east, cell.west, cell.x, cell.y)
         return self
 
     def set_entry_cell(self, entry_cell: tuple):

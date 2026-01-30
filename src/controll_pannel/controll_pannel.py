@@ -17,7 +17,7 @@ class ControllPannel(Image):
         y = int(MyMlx.screen_height / 2)
         self.draw_background_color()
         self.draw_descriptions(y, x_start)
-        self.algo.generate()
+        # self.algo.generate()
 
     def on_press(self, keynum: int, _) -> None:
         if keynum == 65307:
@@ -31,8 +31,9 @@ class ControllPannel(Image):
         if keynum == 99:
             self.change_color()
         if keynum == 115:
-            self.solver = AlgoFactory.create_solver("bfs")
-            self.solver.generate()
+            if not self.algo.is_running:
+                self.solver = AlgoFactory.create_solver("bfs")
+                self.solver.generate()
 
     def draw_descriptions(self, y: int, x_start: int) -> None:
         line_height = 20

@@ -36,8 +36,8 @@ class CellsImage(Image):
     def draw_cell(self, cell: Cell,  backgroundColor=None):
         # draw north wall
         if backgroundColor is not None:
-            for y in range(self.cellBorder ,self.cellHeight):
-                for x in range(self.cellBorder, self.cellWidth ):
+            for y in range(self.cellHeight):
+                for x in range(self.cellWidth ):
                     x_axis = cell.x * self.cellWidth + x
                     y_axis = cell.y * self.cellHeight + y
                     self.put_pixel(x_axis, y_axis, backgroundColor)
@@ -81,7 +81,6 @@ class CellsImage(Image):
 
     def set_border(self, color):
         self.border_color = color
-
     def set_cell_img(self, cells_img: list[Cell]):
         self.cell_img = cells_img
         return self
