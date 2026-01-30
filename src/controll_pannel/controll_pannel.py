@@ -4,7 +4,6 @@ from renderer.colors import Colors
 from generators.algo_factory import AlgoFactory
 from my_mlx.my_mlx import MyMlx
 from renderer.images.cellImg import Border
-from solver.bfs_solver import BfsSolver
 
 class ControllPannel(Image):
     def __init__(self) -> None:
@@ -33,7 +32,7 @@ class ControllPannel(Image):
             self.change_color()
         if keynum == 115:
             self.solver = AlgoFactory.create_solver("bfs", self.algo.cells_grid)
-            self.solver.find_path()
+            self.solver.generate()
 
     def draw_descriptions(self, y: int, x_start: int) -> None:
         line_height = 20

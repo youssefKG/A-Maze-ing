@@ -7,7 +7,6 @@ class Solver(ABC):
         self.is_finished = False
         self.frames = 0
         self.is_running = False
-        pass
 
     def set_horizontal_cells(self, horizontal_cells):
         self.horizontal_cells = horizontal_cells
@@ -36,8 +35,10 @@ class Solver(ABC):
     def set_exit_cell(self, exit_cell: tuple):
         (x, y) = exit_cell
         self.exit_cell = self.cells_grid[y][x]
-        print(self.exit_cell.x, self.exit_cell.y)
         return self
+
+    def generate(self):
+        pass
 
     def put_cells_img_to_window(self) -> None:
         x = int((MyMlx.screen_width * 0.8) / 2 - self.cells_img.width / 2)
