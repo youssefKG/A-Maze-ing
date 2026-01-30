@@ -46,30 +46,30 @@ class BfsSolver(Solver):
         y = self.current_cell.y
         # west
         if x > 0:
-            neighboor = self.cells_grid[y][x - 1]
+            neighboor = self.maze_state.cells_grid[y][x - 1]
             if not self.current_cell.west:
                 neighboors.append(neighboor)
         # east
-        if x + 1 < self.horizontal_cells:
-            neighboor = self.cells_grid[y][x + 1]
+        if x + 1 < self.maze_state.horizontal_cells:
+            neighboor = self.maze_state.cells_grid[y][x + 1]
             if not self.current_cell.east:
                 neighboors.append(neighboor)
         # north
         if y > 0:
-            neighboor = self.cells_grid[y - 1][x]
+            neighboor = self.maze_state.cells_grid[y - 1][x]
             if not self.current_cell.north:
                 neighboors.append(neighboor)
         # south
-        if y + 1 < self.vertical_cells:
-            neighboor = self.cells_grid[y + 1][x]
+        if y + 1 < self.maze_state.vertical_cells:
+            neighboor = self.maze_state.cells_grid[y + 1][x]
             if not self.current_cell.south:
                 neighboors.append(neighboor)
         return neighboors
 
     def generate(self):
-        self.current_cell = self.entry_cell
-        self.bfs_queue.appendleft(self.entry_cell)
-        self.next_cell = self.exit_cell
+        self.current_cell = self.maze_state.entry_cell
+        self.bfs_queue.appendleft(self.maze_state.entry_cell)
+        self.next_cell = self.maze_state.exit_cell
         MyMlx.loop_hook(self.generate_solution_path_with_animation, None)
 
     def generate_solution_path_with_animation(self, _):
@@ -82,22 +82,23 @@ class BfsSolver(Solver):
             self.is_running = True
         if len(self.bfs_queue) and not self.is_solution_found:
             self.current_cell = self.bfs_queue.popleft()
-            if self.current_cell is self.exit_cell:
+            if self.current_cell is self.maze_state.exit_cell:
                 self.is_solution_found = True
-                self.redraw_maze()
+                print(self.current_cell.x, self.current_cell.y)
+                # self.redraw_maze()
             else:
                 neighboors = self.get_neighboors()
                 self.draw_neighboors(neighboors)
 
-        elif self.is_solution_found and self.next_cell is not self.entry_cell:
-            # self.cells_img.clear_cell(self.next_cell, Colors.BLUE)
+        elif self.is_solution_found and self.next_cell is not self.maze_state.entry_cell:
+            self.cells_img.clear_cell(self.next_cell, Colors.BLUE)
             self.cells_img.draw_cell(self.next_cell, Colors.BLUE)
             self.next_cell = self.path[self.next_cell]
             self.put_cells_img_to_window()
 
-        elif self.is_solution_found and self.next_cell is self.entry_cell:
-            self.cells_img.draw_cell(self.entry_cell, Colors.WHITE)
-            self.cells_img.draw_cell(self.exit_cell, Colors.ORANGE)
+        elif self.is_solution_found and self.next_cell is self.maze_state.entry_cell:
+            self.cells_img.draw_cell(self.maze_state.entry_cell, Colors.WHITE)
+            self.cells_img.draw_cell(self.maze_state.exit_cell, Colors.ORANGE)
             self.is_finished = True
             self.put_cells_img_to_window()
 
@@ -113,7 +114,7 @@ class BfsSolver(Solver):
                 self.put_cells_img_to_window()
 
     def redraw_maze(self) -> None:
-        for row_cells in self.cells_grid:
+        for row_cells in self.maze_state.cells_grid:
             for cell in row_cells:
                 if not cell.is_42_cell:
                     self.cells_img.clear_cell(cell, Colors.GRAY)

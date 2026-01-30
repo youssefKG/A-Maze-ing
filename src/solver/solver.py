@@ -1,5 +1,6 @@
 from abc import ABC
 from maze.cell import Cell
+from maze.maze_state import MazeState
 from my_mlx.my_mlx import MyMlx
 
 class Solver(ABC):
@@ -7,6 +8,7 @@ class Solver(ABC):
         self.is_finished = False
         self.frames = 0
         self.is_running = False
+        self.maze_state = MazeState()
 
     def set_horizontal_cells(self, horizontal_cells: int):
         self.horizontal_cells = horizontal_cells
@@ -20,26 +22,6 @@ class Solver(ABC):
         self.cells_img = cells_img
         return self
 
-    def find_path(self):
-        pass
-
-    def set_cells_grid(self, cells_grid: list[list[Cell]]):
-        self.cells_grid = cells_grid
-        print(len(self.cells_grid))
-        for row_cell in cells_grid:
-            for cell in row_cell:
-                print("cell_grid", cell.north, cell.south, cell.east, cell.west, cell.x, cell.y)
-        return self
-
-    def set_entry_cell(self, entry_cell: tuple):
-        (x, y) = entry_cell
-        self.entry_cell = self.cells_grid[y][x]
-        return self
-
-    def set_exit_cell(self, exit_cell: tuple):
-        (x, y) = exit_cell
-        self.exit_cell = self.cells_grid[y][x]
-        return self
 
     def generate(self):
         pass

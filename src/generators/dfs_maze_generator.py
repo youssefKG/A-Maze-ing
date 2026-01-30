@@ -1,4 +1,3 @@
-from generators.algo_factory import AlgoFactory
 from my_mlx.my_mlx import MyMlx
 from generators.maze_generator_algo import MazeGeneratorAlgo
 from renderer.colors import Colors
@@ -10,7 +9,7 @@ class DfsMazeGenerator(MazeGeneratorAlgo):
 
     def generate(self) -> None:
         super().generate()
-        self.current_cell = AlgoFactory.cells_grid[0][0]
+        self.current_cell = self.maze_state.cells_grid[0][0]
         self.current_cell.is_visited = True
         self.stack.append(self.current_cell)
         MyMlx.loop_hook(self.generate_DFS_animation, None)

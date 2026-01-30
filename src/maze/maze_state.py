@@ -25,7 +25,7 @@ class MazeState:
             self.cells_grid.append(row)
         return self
 
-    def entry_cell(self, entry_cell: tuple):
+    def set_entry_cell(self, entry_cell: tuple):
         (x, y) = entry_cell
         self.entry_cell = self.cells_grid[y][x]
         return self

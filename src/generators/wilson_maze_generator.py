@@ -3,7 +3,6 @@ from generators.maze_generator_algo import MazeGeneratorAlgo
 from random import choice
 from time import sleep
 from renderer.colors import Colors
-from random import seed
 
 class WilsonMazeGenerator(MazeGeneratorAlgo):
     def __init__(self):
@@ -27,7 +26,7 @@ class WilsonMazeGenerator(MazeGeneratorAlgo):
         MyMlx.loop_hook(self.generate_wilson_animations, None)
 
     def _init_unvisited(self) -> None:
-        for cell_row in self.cells_grid:
+        for cell_row in self.maze_state.cells_grid:
             for cell in cell_row:
                 if not cell.is_42_cell:
                     self.unvisited.append(cell)
