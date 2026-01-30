@@ -31,7 +31,7 @@ class ControllPannel(Image):
         if keynum == 99:
             self.change_color()
         if keynum == 115:
-            self.solver = AlgoFactory.create_solver("bfs", self.algo.cells_grid)
+            self.solver = AlgoFactory.create_solver("bfs")
             self.solver.generate()
 
     def draw_descriptions(self, y: int, x_start: int) -> None:

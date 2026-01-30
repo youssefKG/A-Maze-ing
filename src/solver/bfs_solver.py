@@ -91,7 +91,7 @@ class BfsSolver(Solver):
                 self.draw_neighboors(neighboors)
 
         elif self.is_solution_found and self.next_cell is not self.entry_cell:
-            #self.cells_img.clear_cell(self.next_cell, Colors.BLUE)
+            # self.cells_img.clear_cell(self.next_cell, Colors.BLUE)
             self.cells_img.draw_cell(self.next_cell, Colors.BLUE)
             self.next_cell = self.path[self.next_cell]
             self.put_cells_img_to_window()

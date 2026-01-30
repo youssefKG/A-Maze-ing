@@ -79,9 +79,9 @@ class CellsImage(Image):
                 x_axis = cell.x * self.cellWidth + x
                 self.put_pixel(x_axis, y_axis, color)
 
-
-    def draw_north_border(self):
-
-
     def set_border(self, color):
         self.border_color = color
+
+    def set_cell_img(self, cells_img: list[Cell]):
+        self.cell_img = cells_img
+        return self
