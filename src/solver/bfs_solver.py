@@ -64,25 +64,7 @@ class BfsSolver(Solver):
             neighboor = self.cells_grid[y + 1][x]
             if not self.current_cell.south:
                 neighboors.append(neighboor)
-        #return neighboors
-        # for neighboor in neighboors:
-        #     if neighboor not in self.visited and neighboor not in self.bfs_queue:
-        #         self.bfs_queue.append(neighboor)
-        #         self.visited.append(neighboor)
-        #         self.path[neighboor] = self.current_cell
         return neighboors
-
-    def find_path(self):
-        self.current_cell = self.entry_cell
-        self.bfs_queue.appendleft(self.entry_cell)
-        while len(self.bfs_queue):
-            self.current_cell = self.bfs_queue.popleft()
-            if self.current_cell is self.exit_cell:
-                print("solution", self.current_cell.x, self.current_cell.y)
-                break
-            self.get_neighboors()
-        self.print_solution()
-
 
     def generate(self):
         self.current_cell = self.entry_cell
@@ -109,9 +91,8 @@ class BfsSolver(Solver):
                 self.draw_neighboors(neighboors)
 
         elif self.is_solution_found and self.next_cell is not self.entry_cell:
-            print("hello wolrd")
-            self.cells_img.clear_cell(self.next_cell, Colors.BLUE)
-            self.cells_img.draw_cell(self.next_cell)
+            #self.cells_img.clear_cell(self.next_cell, Colors.BLUE)
+            self.cells_img.draw_cell(self.next_cell, Colors.BLUE)
             self.next_cell = self.path[self.next_cell]
             self.put_cells_img_to_window()
 
@@ -138,17 +119,4 @@ class BfsSolver(Solver):
                 if not cell.is_42_cell:
                     self.cells_img.draw_cell(cell, Colors.GRAY)
                     self.cells_img.draw_cell(cell)
-        self.put_cells_img_to_window()
-
-    def print_solution(self):
-        self.next_cell = self.exit_cell
-        while self.next_cell is not self.entry_cell:
-            self.cells_img.clear_cell(self.next_cell, Colors.BLUE)
-            self.cells_img.draw_cell(self.next_cell)
-            print(self.next_cell.x, self.next_cell.y)
-            self.next_cell = self.path[self.next_cell]
-        self.cells_img.clear_cell(self.entry_cell, Colors.WHITE)
-        self.cells_img.draw_cell(self.entry_cell)
-        self.cells_img.clear_cell(self.exit_cell, Colors.ORANGE)
-        self.cells_img.draw_cell(self.exit_cell)
         self.put_cells_img_to_window()
