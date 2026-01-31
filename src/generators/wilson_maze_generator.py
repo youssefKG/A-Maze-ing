@@ -3,6 +3,7 @@ from generators.maze_generator_algo import MazeGeneratorAlgo
 from random import choice
 from time import sleep
 from renderer.colors import Colors
+from renderer.themes import Theme
 
 class WilsonMazeGenerator(MazeGeneratorAlgo):
     def __init__(self):
@@ -47,18 +48,18 @@ class WilsonMazeGenerator(MazeGeneratorAlgo):
             try:
                 loop_index = self.path.index(self.next)
                 for cell in self.path[loop_index + 1:]:
-                    self.cells_img.draw_cell(cell, Colors.GRAY)
+                    self.cells_img.draw_cell(cell, Theme.background)
                 self.path = self.path[:loop_index + 1]
             except:
                 self.path.append(self.next)
             self.current_cell = self.next
-            self.cells_img.draw_cell(self.current_cell, Colors.ORANGE)
+            self.cells_img.draw_cell(self.current_cell, Theme.tracker)
             self.put_cells_img_to_window()
             sleep(0.021)
         elif self.path_start < len(self.path) - 1:
                 self.remove_wall(self.path[self.path_start], self.path[self.path_start + 1])
-                self.cells_img.draw_cell(self.path[self.path_start], Colors.GRAY)
-                self.cells_img.draw_cell(self.path[self.path_start + 1], Colors.GRAY)
+                self.cells_img.draw_cell(self.path[self.path_start], Theme.background)
+                self.cells_img.draw_cell(self.path[self.path_start + 1], Theme.background)
                 self.put_cells_img_to_window()
                 self.visited.append(self.path[self.path_start])
                 if self.path[self.path_start] in self.unvisited:
@@ -66,7 +67,7 @@ class WilsonMazeGenerator(MazeGeneratorAlgo):
                 self.path_start += 1
         else:
             for cell in self.path:
-                self.cells_img.draw_cell(cell, Colors.GRAY)
+                self.cells_img.draw_cell(cell, Theme.background)
             self.put_cells_img_to_window()
             self.current_cell = choice(list(self.unvisited))
             self.path_start = 0

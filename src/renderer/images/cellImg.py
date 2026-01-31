@@ -3,6 +3,7 @@ from maze.maze_state import MazeState
 from maze.cell import Cell
 from renderer.images.image import Image
 from renderer.colors import Colors
+from renderer.themes import Theme
 
 class Border:
     _colors = [Colors.RED, Colors.BLUE, Colors.GREEN, Colors.PINK, Colors.YELLOW, Colors.WHITE]
@@ -19,24 +20,26 @@ class Border:
 
 class CellsImage(Image):
     def __init__(self, vertical_cells, horizontal_cells):
-        super().__init__()
+        super().__init__(1200, 1200)
         self.vertical_cells = vertical_cells
         self.horizontal_cells = horizontal_cells
         self.cellWidth = self.set_cell_width()
         self.cellHeight = self.set_cell_height()
         self.cellBorder = int(self.cellHeight * 0.15)
         self.maze_state = MazeState()
+        self.draw_background()
 
     def set_cell_width(self):
         cell_width = int(self.width / self.horizontal_cells)
-        return int(cell_width - cell_width / 4)
+        return cell_width - 4
 
     def set_cell_height(self):
         cell_height = int(self.height / self.vertical_cells)
-        return int(cell_height - cell_height / 4)
+        return cell_height - 4
 
     def draw_cell(self, cell: Cell,  backgroundColor=None):
         # draw north wall
+        border_color = Theme.border
         if backgroundColor is not None:
             for y in range(self.cellBorder, self.cellHeight):
                 for x in range(self.cellBorder, self.cellWidth ):
@@ -49,7 +52,7 @@ class CellsImage(Image):
                 for y in range(self.cellBorder):
                     x_axis = x + (self.cellWidth * cell.x)
                     y_axis = (cell.y * self.cellHeight) + y
-                    self.put_pixel(x_axis, y_axis, Border.color)
+                    self.put_pixel(x_axis, y_axis, border_color)
 
         # draw south wall
         if cell.south:
@@ -57,7 +60,7 @@ class CellsImage(Image):
                 for y in range(self.cellBorder):
                     x_axis = x + (self.cellWidth * cell.x)
                     y_axis = (cell.y * self.cellHeight) + y + self.cellHeight
-                    self.put_pixel(x_axis, y_axis, Border.color)
+                    self.put_pixel(x_axis, y_axis, border_color)
 
         # draw west wall
         if cell.west:
@@ -65,14 +68,14 @@ class CellsImage(Image):
                 for x in range(self.cellBorder):
                     x_axis = x + (self.cellWidth * cell.x)
                     y_axis = (cell.y * self.cellHeight) + y
-                    self.put_pixel(x_axis, y_axis, Border.color)
+                    self.put_pixel(x_axis, y_axis, border_color)
         # draw east wall
         if cell.east:
             for y in range(self.cellHeight + self.cellBorder):
                 for x in range(self.cellBorder):
                     x_axis = x + (self.cellWidth * cell.x) + self.cellWidth
                     y_axis = (cell.y * self.cellHeight) + y
-                    self.put_pixel(x_axis, y_axis, Border.color)
+                    self.put_pixel(x_axis, y_axis, border_color)
 
     def clear_cell(self, cell: Cell, color=0x98340EAB):
         for y in range(self.cellHeight):
@@ -121,6 +124,11 @@ class CellsImage(Image):
             for y in range(start_y, end_y):
                 for x in range(start_x, end_x):
                     self.put_pixel(x, y, color)
+
+    def draw_background(self):
+        for y in range(self.height - (self.vertical_cells * 4)):
+            for x in range(self.width - (self.horizontal_cells * 4)):
+                self.put_pixel(x, y, Theme.background)
 
     def set_border(self, color):
         self.border_color = color

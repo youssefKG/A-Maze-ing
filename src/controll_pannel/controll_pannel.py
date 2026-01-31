@@ -4,6 +4,7 @@ from renderer.colors import Colors
 from generators.algo_factory import AlgoFactory
 from my_mlx.my_mlx import MyMlx
 from renderer.images.cellImg import Border
+from renderer.themes import Theme
 
 class ControllPannel(Image):
     def __init__(self) -> None:
@@ -31,9 +32,9 @@ class ControllPannel(Image):
         if keynum == 99:
             self.change_color()
         if keynum == 115:
-            if not self.algo.is_running:
-                self.solver = AlgoFactory.create_solver("bfs")
-                self.solver.generate()
+            #if not self.algo.is_running:
+            self.solver = AlgoFactory.create_solver("bfs")
+            self.solver.generate()
 
     def draw_descriptions(self, y: int, x_start: int) -> None:
         line_height = 20
@@ -68,6 +69,6 @@ class ControllPannel(Image):
     def change_color(self):
         if self.algo is not None:
             self.algo.stop()
-            Border.change_color()
+            Theme.change()
             self.algo.redraw_maze()
             self.algo.run()
