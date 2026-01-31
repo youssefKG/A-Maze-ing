@@ -1,11 +1,11 @@
+from maze import cell
 from maze.maze_state import MazeState
-from mlx.mlx import Mlx
 from maze.cell import Cell
 from renderer.images.image import Image
 from renderer.colors import Colors
 
 class Border:
-    _colors = [Colors.RED, Colors.BLUE, Colors.GREEN, Colors.PURPLE, Colors.ORANGE]
+    _colors = [Colors.RED, Colors.BLUE, Colors.GREEN, Colors.PINK, Colors.YELLOW, Colors.WHITE]
     _current_color_index = 0
     color = _colors[_current_color_index]
 
@@ -81,27 +81,46 @@ class CellsImage(Image):
                 x_axis = cell.x * self.cellWidth + x
                 self.put_pixel(x_axis, y_axis, color)
 
-    def draw_north_wall(self, cell: Cell, color):
-        x = cell.x
-        y = cell.y
-        start = x * self.cellWidth
-        end  = (x + 1) * self.cellWidth 
-        if not cell.north:
-            # west cell
-            if x - 1 >= 0:
-                west_cell_north_wall = self.maze_state.cells_grid[y][x - 1].west
-                if west_cell_north_wall:
-                    start += self.cellBorder
-            if x + 1 < self.maze_state.vertical_cells:
-                east_cell_north_wall = self.maze_state.cells_grid[y][x + 1].east
-                if east_cell_north_wall:
-                    end -= self.cellBorder
-        else:
-            color = Colors.GRAY
-        for y in range(self.cellBorder):
-            for x in range(start, end):
-                self.put_pixel(x, y, color)
+    def draw_wall_between_two_cell(self, cell_one: Cell, cell_two: Cell, color: int) -> None:
+        x_axis  = cell_one.x - cell_two.x
+        y_axis = cell_one.y - cell_two.y
 
+
+        if x_axis == 1: # west wall
+            start_x = self.cellWidth * cell_one.x
+            end_x = start_x + self.cellWidth - self.cellBorder
+            start_y = (self.cellHeight) * cell_two.y + self.cellBorder
+            end_y  = start_y + self.cellHeight - self.cellBorder
+            for y in range(start_y,  end_y):
+                for x in range(start_x, end_x):
+                    self.put_pixel(x, y, color)
+
+        if x_axis == -1: # east wall
+            start_x = self.cellWidth * cell_two.x
+            end_x = start_x + self.cellWidth - self.cellBorder
+            start_y = (self.cellHeight) * cell_two.y + self.cellBorder
+            end_y  = start_y + self.cellHeight - self.cellBorder
+            for y in range(start_y,  end_y):
+                for x in range(start_x, end_x):
+                    self.put_pixel(x, y, color)
+
+        if y_axis == 1: # draw noth wall
+            start_x = self.cellWidth * cell_one.x + self.cellBorder
+            end_x = start_x + self.cellWidth - self.cellBorder
+            start_y = self.cellHeight * cell_one.y
+            end_y = start_y + self.cellBorder
+            for y in range(start_y, end_y):
+                for x in range(start_x, end_x):
+                    self.put_pixel(x, y, color)
+
+        if y_axis == -1: # draw noth wall
+            start_x = self.cellWidth * cell_two.x + self.cellBorder
+            end_x = start_x + self.cellWidth - self.cellBorder
+            start_y = self.cellHeight * cell_two.y
+            end_y = start_y + self.cellBorder
+            for y in range(start_y, end_y):
+                for x in range(start_x, end_x):
+                    self.put_pixel(x, y, color)
 
     def set_border(self, color):
         self.border_color = color

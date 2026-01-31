@@ -20,7 +20,7 @@ class WilsonMazeGenerator(MazeGeneratorAlgo):
         target_cell = choice(list(self.unvisited))
         self.visited.append(target_cell)
         self.unvisited.remove(target_cell)
-        self.cells_img.draw_cell(target_cell, Colors.WHITE)
+        self.cells_img.draw_cell(target_cell, Colors.ORANGE)
         self.put_cells_img_to_window()
         self.current_cell = choice(list(self.unvisited))
         MyMlx.loop_hook(self.generate_wilson_animations, None)
@@ -52,7 +52,7 @@ class WilsonMazeGenerator(MazeGeneratorAlgo):
             except:
                 self.path.append(self.next)
             self.current_cell = self.next
-            self.cells_img.draw_cell(self.current_cell, Colors.WHITE)
+            self.cells_img.draw_cell(self.current_cell, Colors.ORANGE)
             self.put_cells_img_to_window()
             sleep(0.021)
         elif self.path_start < len(self.path) - 1:

@@ -23,7 +23,7 @@ class MazeGeneratorAlgo(ABC):
                 j += 1
             i += 1
         if self.maze_state.vertical_cells > 5 and self.maze_state.horizontal_cells > 7:
-            self.draw_42()
+            self.draw_42(Colors.WHITE)
         self.put_cells_img_to_window()
 
     def put_cells_img_to_window(self) -> None:
@@ -57,6 +57,11 @@ class MazeGeneratorAlgo(ABC):
             if x == -1:
                 current_cell.east = False
                 next_cell.west = False
+        self.cells_img.draw_wall_between_two_cell(
+                current_cell,
+                next_cell,
+                Colors.GRAY
+                )
 
     def check_neighbors(self):
         if self.current_cell:

@@ -1,3 +1,4 @@
+from maze import maze_state
 from maze.cell import Cell
 from collections import deque
 from solver.solver import Solver
@@ -49,21 +50,40 @@ class BfsSolver(Solver):
             neighboor = self.maze_state.cells_grid[y][x - 1]
             if not self.current_cell.west:
                 neighboors.append(neighboor)
+                self.cells_img.draw_wall_between_two_cell(
+                        self.current_cell,
+                        neighboor,
+                        Colors.BLUE
+                        )
         # east
         if x + 1 < self.maze_state.horizontal_cells:
             neighboor = self.maze_state.cells_grid[y][x + 1]
             if not self.current_cell.east:
                 neighboors.append(neighboor)
+                self.cells_img.draw_wall_between_two_cell(
+                        self.current_cell,
+                        neighboor,
+                        Colors.BLUE
+                        )
         # north
         if y > 0:
             neighboor = self.maze_state.cells_grid[y - 1][x]
             if not self.current_cell.north:
                 neighboors.append(neighboor)
+                self.cells_img.draw_wall_between_two_cell(
+                        self.current_cell,
+                        neighboor,
+                        Colors.BLUE
+                        )
         # south
         if y + 1 < self.maze_state.vertical_cells:
             neighboor = self.maze_state.cells_grid[y + 1][x]
             if not self.current_cell.south:
                 neighboors.append(neighboor)
+                self.cells_img.draw_wall_between_two_cell(
+                        self.current_cell,
+                        neighboor, Colors.BLUE
+                        )
         return neighboors
 
     def generate(self):
@@ -85,14 +105,18 @@ class BfsSolver(Solver):
             if self.current_cell is self.maze_state.exit_cell:
                 self.is_solution_found = True
                 print(self.current_cell.x, self.current_cell.y)
-                # self.redraw_maze()
+                self.redraw_maze()
             else:
                 neighboors = self.get_neighboors()
                 self.draw_neighboors(neighboors)
 
         elif self.is_solution_found and self.next_cell is not self.maze_state.entry_cell:
-            self.cells_img.clear_cell(self.next_cell, Colors.BLUE)
-            self.cells_img.draw_cell(self.next_cell, Colors.BLUE)
+            self.cells_img.draw_cell(self.next_cell, Colors.PURPLE)
+            self.cells_img.draw_wall_between_two_cell(
+                    self.next_cell,
+                    self.path[self.next_cell],
+                    Colors.PURPLE
+                    )
             self.next_cell = self.path[self.next_cell]
             self.put_cells_img_to_window()
 
@@ -109,14 +133,18 @@ class BfsSolver(Solver):
                 self.bfs_queue.append(neighboor)
                 self.visited.append(neighboor)
                 self.path[neighboor] = self.current_cell
-                self.cells_img.clear_cell(neighboor, Colors.YELLOW)
-                self.cells_img.draw_cell(neighboor)
+                self.cells_img.draw_cell(neighboor, Colors.BLUE)
                 self.put_cells_img_to_window()
 
     def redraw_maze(self) -> None:
+        for cell in self.visited:
+            self.cells_img.draw_wall_between_two_cell(
+                    cell,
+                    self.path[cell],
+                    Colors.GRAY
+                    )   
         for row_cells in self.maze_state.cells_grid:
             for cell in row_cells:
                 if not cell.is_42_cell:
-                    self.cells_img.clear_cell(cell, Colors.GRAY)
                     self.cells_img.draw_cell(cell, Colors.GRAY)
         self.put_cells_img_to_window()

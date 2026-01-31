@@ -8,6 +8,7 @@ class Colors:
     GRAY = create_color(32, 32, 32)
     BLUE = create_color(51, 51, 255)
     RED = create_color(255, 51, 51)
-    PURPLE = create_color(255, 0, 127)
+    PINK = create_color(255, 0, 127)
     GREEN = create_color(0, 255, 128)
     ORANGE = create_color(255, 165, 0)
+    PURPLE = create_color(204, 0, 204)

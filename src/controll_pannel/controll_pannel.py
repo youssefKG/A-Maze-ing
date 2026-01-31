@@ -17,7 +17,7 @@ class ControllPannel(Image):
         y = int(MyMlx.screen_height / 2)
         self.draw_background_color()
         self.draw_descriptions(y, x_start)
-        # self.algo.generate()
+        self.algo.generate()
 
     def on_press(self, keynum: int, _) -> None:
         if keynum == 65307:

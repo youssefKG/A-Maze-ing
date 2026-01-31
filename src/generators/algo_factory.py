@@ -7,10 +7,10 @@ from solver.bfs_solver import BfsSolver
 from solver.solver import Solver
 
 class AlgoFactory:
-    vertical_cells = 15
-    horizontal_cells = 15
-    entry_cell = (2, 13)
-    exit_cell = (5, 3)
+    vertical_cells = 25
+    horizontal_cells = 25
+    entry_cell = (0, 0)
+    exit_cell = (24, 24)
     cells_img = CellsImage(vertical_cells, horizontal_cells)
     
     @classmethod
