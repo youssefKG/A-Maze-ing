@@ -1,3 +1,4 @@
+from maze.maze_state import MazeState
 from mlx.mlx import Mlx
 from maze.cell import Cell
 from renderer.images.image import Image
@@ -24,6 +25,7 @@ class CellsImage(Image):
         self.cellWidth = self.set_cell_width()
         self.cellHeight = self.set_cell_height()
         self.cellBorder = int(self.cellHeight * 0.15)
+        self.maze_state = MazeState()
 
     def set_cell_width(self):
         cell_width = int(self.width / self.horizontal_cells)
@@ -36,8 +38,8 @@ class CellsImage(Image):
     def draw_cell(self, cell: Cell,  backgroundColor=None):
         # draw north wall
         if backgroundColor is not None:
-            for y in range(self.cellHeight):
-                for x in range(self.cellWidth ):
+            for y in range(self.cellBorder, self.cellHeight):
+                for x in range(self.cellBorder, self.cellWidth ):
                     x_axis = cell.x * self.cellWidth + x
                     y_axis = cell.y * self.cellHeight + y
                     self.put_pixel(x_axis, y_axis, backgroundColor)
@@ -78,6 +80,28 @@ class CellsImage(Image):
                 y_axis = cell.y * self.cellHeight + y
                 x_axis = cell.x * self.cellWidth + x
                 self.put_pixel(x_axis, y_axis, color)
+
+    def draw_north_wall(self, cell: Cell, color):
+        x = cell.x
+        y = cell.y
+        start = x * self.cellWidth
+        end  = (x + 1) * self.cellWidth 
+        if not cell.north:
+            # west cell
+            if x - 1 >= 0:
+                west_cell_north_wall = self.maze_state.cells_grid[y][x - 1].west
+                if west_cell_north_wall:
+                    start += self.cellBorder
+            if x + 1 < self.maze_state.vertical_cells:
+                east_cell_north_wall = self.maze_state.cells_grid[y][x + 1].east
+                if east_cell_north_wall:
+                    end -= self.cellBorder
+        else:
+            color = Colors.GRAY
+        for y in range(self.cellBorder):
+            for x in range(start, end):
+                self.put_pixel(x, y, color)
+
 
     def set_border(self, color):
         self.border_color = color
