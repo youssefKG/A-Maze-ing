@@ -36,11 +36,14 @@ class WilsonMazeGenerator(MazeGeneratorAlgo):
         self.frames += 1
         if self.frames % 1 != 0:
             return 
+        if self.is_finished:
+            return 
         if not self.is_running:
             return
         if len(self.unvisited) == 0:
             self.redraw_maze()
             self.is_running = False
+            self.is_finished = True
             return 
         if self.current_cell not in self.visited:
             self.path.append(self.current_cell)

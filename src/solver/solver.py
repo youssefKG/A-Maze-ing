@@ -26,6 +26,15 @@ class Solver(ABC):
     def generate(self):
         pass
 
+    def  draw_path(self):
+        pass
+
+    def hide_path(self):
+        pass
+
+    def toggle_path(self):
+        pass
+
     def put_cells_img_to_window(self) -> None:
         x = int((MyMlx.screen_width * 0.8) / 2 - self.cells_img.width / 2)
         y = int(MyMlx.screen_height / 2 - self.cells_img.height / 2)

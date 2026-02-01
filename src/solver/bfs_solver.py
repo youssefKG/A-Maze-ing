@@ -41,6 +41,8 @@ class BfsSolver(Solver):
         self.bfs_queue = deque()
         self.path = {}
         self.is_solution_found = False
+        self.is_running = False
+        self.is_path_shown = False
 
     def get_neighboors(self) -> list[Cell]:
         neighboors = []
@@ -92,16 +94,21 @@ class BfsSolver(Solver):
         self.current_cell = self.maze_state.entry_cell
         self.bfs_queue.appendleft(self.maze_state.entry_cell)
         self.next_cell = self.maze_state.exit_cell
+        self.is_running = True
         MyMlx.loop_hook(self.generate_solution_path_with_animation, None)
 
     def generate_solution_path_with_animation(self, _):
         self.frames += 1
+
         if self.frames % 1 != 0:
             return
+
         if self.is_finished:
             return
-        if self.is_running:
-            self.is_running = True
+
+        if not self.is_running:
+            return 
+
         if len(self.bfs_queue) and not self.is_solution_found:
             self.current_cell = self.bfs_queue.popleft()
             if self.current_cell is self.maze_state.exit_cell:
@@ -126,8 +133,9 @@ class BfsSolver(Solver):
             self.cells_img.draw_cell(self.maze_state.entry_cell, Theme.entry_cell)
             self.cells_img.draw_cell(self.maze_state.exit_cell, Theme.exit_cell)
             self.is_finished = True
+            self.is_running = False
+            self.is_path_shown = True
             self.put_cells_img_to_window()
-
 
     def draw_neighboors(self, neighboors: list[Cell]):
         for neighboor in neighboors:
@@ -152,5 +160,37 @@ class BfsSolver(Solver):
         self.put_cells_img_to_window()
     
 
-    def toggle_solution(self):
+    def toggle_path(self):
+        if not self.is_path_shown:
+            if not self.is_finished:
+                return 
+            self.draw_path()
+            self.is_path_shown = True
+        else:
+            if not self.is_finished:
+                return 
+            self.hide_path()
+            self.is_path_shown = False
 
+    def hide_path(self) -> None:
+        cell = self.maze_state.exit_cell
+        while cell is not self.maze_state.entry_cell:
+            self.cells_img.draw_cell(cell, Theme.background)
+            self.cells_img.draw_wall_between_two_cell(cell, self.path[cell], Theme.background)
+            cell = self.path[cell]
+        self.cells_img.draw_cell(self.maze_state.entry_cell, Theme.background)
+        self.cells_img.draw_cell(self.maze_state.exit_cell, Theme.background)
+        self.is_path_shown = True
+        self.put_cells_img_to_window()
+            
+
+    def draw_path(self) -> None:
+        cell = self.maze_state.exit_cell
+        while cell is not self.maze_state.entry_cell:
+            self.cells_img.draw_cell(cell, Theme.path)
+            self.cells_img.draw_wall_between_two_cell(cell, self.path[cell], Theme.path)
+            cell = self.path[cell]
+        self.cells_img.draw_cell(self.maze_state.entry_cell, Theme.entry_cell)
+        self.cells_img.draw_cell(self.maze_state.exit_cell, Theme.exit_cell)
+        self.is_path_shown = True
+        self.put_cells_img_to_window()

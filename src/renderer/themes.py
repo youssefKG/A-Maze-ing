@@ -36,6 +36,7 @@ class Theme:
     neighboor = themes[__current_index]["neighboor"]
     entry_cell = themes[__current_index]["entry_cell"]
     exit_cell = themes[__current_index]["entry_cell"]
+    cell_42 = themes[__current_index]["cell_42"]
 
     @classmethod
     def change(cls):

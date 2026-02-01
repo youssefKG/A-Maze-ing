@@ -1,9 +1,9 @@
-from maze import cell
 from maze.maze_state import MazeState
 from maze.cell import Cell
 from renderer.images.image import Image
 from renderer.colors import Colors
 from renderer.themes import Theme
+from my_mlx.my_mlx import MyMlx
 
 class Border:
     _colors = [Colors.RED, Colors.BLUE, Colors.GREEN, Colors.PINK, Colors.YELLOW, Colors.WHITE]
@@ -20,7 +20,7 @@ class Border:
 
 class CellsImage(Image):
     def __init__(self, vertical_cells, horizontal_cells):
-        super().__init__(1200, 1200)
+        super().__init__(500, 500)
         self.vertical_cells = vertical_cells
         self.horizontal_cells = horizontal_cells
         self.cellWidth = self.set_cell_width()
