@@ -4,6 +4,28 @@ from renderer.colors import Colors
 class Theme:
     themes = [
         {
+            "border": Colors.MAGENTA,
+            "background": Colors.BLACK,
+            "cell_background": Colors.BLACK,
+            "cell_42": Colors.YELLOW,
+            "tracker": Colors.CYAN,
+            "path": Colors.CYAN,
+            "entry_cell": Colors.GREEN,
+            "exit_cell": Colors.RED,
+            "neighboor": Colors.ORANGE,
+        },
+        {
+            "border": Colors.WHITE,
+            "background": Colors.BLACK,
+            "cell_background": Colors.DARK_BLUE,
+            "cell_42": Colors.WHITE,
+            "tracker": Colors.CYAN,
+            "path": Colors.GREEN,
+            "entry_cell": Colors.BLUE,
+            "exit_cell": Colors.RED,
+            "neighboor": Colors.PURPLE,
+        },
+        {
             "border": Colors.WHITE,
             "background": Colors.BLACK,
             "cell_background": Colors.DARK_GRAY,
@@ -39,29 +61,7 @@ class Theme:
             "neighboor": Colors.PURPLE,
         },
 
-        {
-            "border": Colors.MAGENTA,
-            "background": Colors.BLACK,
-            "cell_background": Colors.BLACK,
-            "cell_42": Colors.YELLOW,
-            "tracker": Colors.CYAN,
-            "path": Colors.YELLOW,
-            "entry_cell": Colors.GREEN,
-            "exit_cell": Colors.RED,
-            "neighboor": Colors.ORANGE,
-        },
 
-        {
-            "border": Colors.WHITE,
-            "background": Colors.BLACK,
-            "cell_background": Colors.DARK_BLUE,
-            "cell_42": Colors.WHITE,
-            "tracker": Colors.CYAN,
-            "path": Colors.GREEN,
-            "entry_cell": Colors.BLUE,
-            "exit_cell": Colors.RED,
-            "neighboor": Colors.PURPLE,
-        },
     ]
 
     __current_index = 0

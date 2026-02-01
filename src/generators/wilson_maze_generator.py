@@ -19,6 +19,7 @@ class WilsonMazeGenerator(MazeGeneratorAlgo):
         super().generate()
         self._init_unvisited()
         target_cell = choice(list(self.unvisited))
+        self.is_running = True
         self.visited.append(target_cell)
         self.unvisited.remove(target_cell)
         self.cells_img.draw_cell(target_cell, Colors.ORANGE)
@@ -42,8 +43,8 @@ class WilsonMazeGenerator(MazeGeneratorAlgo):
             return
         if len(self.unvisited) == 0:
             self.redraw_maze()
-            self.is_running = False
             self.is_finished = True
+            self.is_running = False
             return 
         if self.current_cell not in self.visited:
             self.path.append(self.current_cell)

@@ -54,7 +54,8 @@ class ControllPannel(Image):
             if not self.solver.is_running:
                 Theme.change()
                 self.algo.redraw_maze()
-                self.solver.draw_path()
+                if self.solver.is_path_shown:
+                    self.solver.draw_path()
 
     def draw_descriptions(self, y: int, x_start: int) -> None:
         line_height = 20
@@ -80,4 +81,3 @@ class ControllPannel(Image):
                     line_height * (i + 2) + y,
                     Colors.WHITE
                     )
-

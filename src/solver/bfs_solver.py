@@ -42,7 +42,6 @@ class BfsSolver(Solver):
         self.path = {}
         self.is_solution_found = False
         self.is_running = False
-        self.is_path_shown = False
 
     def get_neighboors(self) -> list[Cell]:
         neighboors = []
@@ -113,7 +112,6 @@ class BfsSolver(Solver):
             self.current_cell = self.bfs_queue.popleft()
             if self.current_cell is self.maze_state.exit_cell:
                 self.is_solution_found = True
-                print(self.current_cell.x, self.current_cell.y)
                 self.redraw_maze()
             else:
                 neighboors = self.get_neighboors()

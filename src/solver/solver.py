@@ -9,6 +9,7 @@ class Solver(ABC):
         self.frames = 0
         self.is_running = False
         self.maze_state = MazeState()
+        self.is_path_shown = False
 
     def set_horizontal_cells(self, horizontal_cells: int):
         self.horizontal_cells = horizontal_cells

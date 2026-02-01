@@ -20,12 +20,12 @@ class Border:
 
 class CellsImage(Image):
     def __init__(self, vertical_cells, horizontal_cells):
-        super().__init__(800, 800)
+        super().__init__(1400, 1400)
         self.vertical_cells = vertical_cells
         self.horizontal_cells = horizontal_cells
         self.cellWidth = self.set_cell_width()
         self.cellHeight = self.set_cell_height()
-        self.cellBorder = int(self.cellHeight * 0.15)
+        self.cellBorder = int(self.cellHeight * 0.20)
         self.maze_state = MazeState()
         self.draw_background()
 
