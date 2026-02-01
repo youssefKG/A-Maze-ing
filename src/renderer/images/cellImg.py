@@ -20,7 +20,7 @@ class Border:
 
 class CellsImage(Image):
     def __init__(self, vertical_cells, horizontal_cells):
-        super().__init__(500, 500)
+        super().__init__(800, 800)
         self.vertical_cells = vertical_cells
         self.horizontal_cells = horizontal_cells
         self.cellWidth = self.set_cell_width()
