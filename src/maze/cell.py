@@ -5,9 +5,9 @@ class Cell:
         self.south = south
         self.east = east
         self.west = west
-        self.is_visited = False
         self.x = x
         self.y = y
+        self.is_visited = False
         self.is_42_cell = False
 
     def remove_wall(self, wall: str, value: bool) -> None:

@@ -15,13 +15,16 @@ class MazeGeneratorAlgo(ABC):
         seed(22)
 
     def generate(self) -> None:
-        self.cells_img.draw_background()
+        # self.cells_img.draw_background()
         self.is_running = True
         i = 0
         while i < self.maze_state.vertical_cells:
             j = 0
             while j < self.maze_state.horizontal_cells:
-                self.cells_img.draw_cell(self.maze_state.cells_grid[i][j], Theme.background)
+                self.cells_img.draw_cell(
+                        self.maze_state.cells_grid[i][j],
+                        Theme.background
+                        )
                 j += 1
             i += 1
         if self.maze_state.vertical_cells > 5 and self.maze_state.horizontal_cells > 7:
@@ -146,4 +149,4 @@ class MazeGeneratorAlgo(ABC):
         self.is_running = True
 
     def stop(self):
-        self.is_running = False
+        self.isw_running = False

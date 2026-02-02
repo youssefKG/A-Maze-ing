@@ -18,24 +18,36 @@ class Border:
             cls._current_color_index = 0
         cls.color = cls._colors[cls._current_color_index]
 
+
+def image_dimension(vertical_cells: int, horizontal_cells: int):
+    print(MyMlx.screen_width, MyMlx.screen_height)
+    max_cell = int(max(vertical_cells, horizontal_cells))
+    min_screnn = int(min(MyMlx.screen_width, MyMlx.screen_height))
+    cell_dim = int(min_screnn / max_cell)
+
+    return (cell_dim * horizontal_cells - 4, cell_dim * vertical_cells - 4) 
+
+
 class CellsImage(Image):
     def __init__(self, vertical_cells, horizontal_cells):
-        super().__init__(1400, 1400)
+        width, height = image_dimension(vertical_cells, horizontal_cells)
+        super().__init__(width, height)
+        print(width, height)
         self.vertical_cells = vertical_cells
         self.horizontal_cells = horizontal_cells
         self.cellWidth = self.set_cell_width()
         self.cellHeight = self.set_cell_height()
-        self.cellBorder = int(self.cellHeight * 0.20)
+        self.cellBorder = int(self.cellHeight * 0.45)
         self.maze_state = MazeState()
-        self.draw_background()
+        # self.draw_background()
 
     def set_cell_width(self):
         cell_width = int(self.width / self.horizontal_cells)
-        return cell_width - 4
+        return cell_width
 
     def set_cell_height(self):
         cell_height = int(self.height / self.vertical_cells)
-        return cell_height - 4
+        return cell_height
 
     def draw_cell(self, cell: Cell,  backgroundColor=None):
         # draw north wall
@@ -132,6 +144,8 @@ class CellsImage(Image):
 
     def set_border(self, color):
         self.border_color = color
+        return self
+
     def set_cell_img(self, cells_img: list[Cell]):
         self.cell_img = cells_img
         return self

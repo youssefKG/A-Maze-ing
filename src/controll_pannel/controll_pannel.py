@@ -1,11 +1,8 @@
-from renderer.images.cellImg import Border
 from renderer.images.image import Image
 from renderer.colors import Colors
 from generators.algo_factory import AlgoFactory
 from my_mlx.my_mlx import MyMlx
-from renderer.images.cellImg import Border
 from renderer.themes import Theme
-from solver import solver
 from solver.solver import Solver
 
 class ControllPannel(Image):
