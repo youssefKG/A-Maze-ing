@@ -1,0 +1,14 @@
+from my_mlx.my_mlx import MyMlx
+import os
+
+class BackgroundImg:
+    def __init__(self, filename: str) -> None:
+        self.ptr, self.width, self.height = MyMlx.xpm_file_to_image(os.path.abspath(".") + "/assets/" + filename)
+        if not self.ptr:
+            print(self.ptr)
+
+
+    def put_image_to_window(self):
+        if self.ptr is not None:
+            print(self.ptr, self.width, self.height)
+            MyMlx.put_image_to_window(self.ptr, 0, 0)

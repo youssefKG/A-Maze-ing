@@ -4,20 +4,24 @@ from generators.algo_factory import AlgoFactory
 from my_mlx.my_mlx import MyMlx
 from renderer.themes import Theme
 from solver.solver import Solver
+from renderer.images.background.background_img import BackgroundImg
 
 class ControllPannel(Image):
     def __init__(self) -> None:
-        super().__init__(int(MyMlx.screen_width * 0.2), MyMlx.screen_height)
-        MyMlx.key_hook(self.on_press, None)
+        super().__init__(int(MyMlx.screen_width * 0.4), MyMlx.screen_height)
         self.algo = AlgoFactory.create()
         self.solver = Solver()
+        start_image = BackgroundImg("amazing_start.xpm")
+        #start_image.put_image_to_window()
+        MyMlx.key_hook(self.on_press, None)
 
     def draw(self) -> None:
-        x_start = int(MyMlx.screen_width * 0.8)
-        y = int(MyMlx.screen_height / 2)
-        self.draw_background_color()
-        self.draw_descriptions(y, x_start)
+        pass
+        """
+
+        self.draw_descriptions()
         self.algo.generate()
+        """
 
     def on_press(self, keynum: int, _) -> None:
         if keynum == 65307:
@@ -32,11 +36,13 @@ class ControllPannel(Image):
             self.change_color()
         elif keynum == 115:
             if self.algo.is_finished:
+                if self.solver.is_finished:
+                    self.solver.hide_path()
                 self.algo.redraw_maze()
                 self.solver = AlgoFactory.create_solver("bfs")
                 self.solver.generate()
         elif keynum == 104: # toogle path on press H
-            if self.algo.is_finished and self.solver.is_finished:
+            if self.algo.is_finished and self.solver.is_finished and not self.algo.is_running:
                 self.algo.redraw_maze()
                 self.solver.toggle_path()
 
@@ -50,11 +56,14 @@ class ControllPannel(Image):
             # if  solution algo running you cannot change theme
             if not self.solver.is_running:
                 Theme.change()
+                self.draw_descriptions()
                 self.algo.redraw_maze()
                 if self.solver.is_path_shown:
                     self.solver.draw_path()
 
-    def draw_descriptions(self, y: int, x_start: int) -> None:
+    def draw_descriptions(self) -> None:
+        x_start = int(MyMlx.screen_width * 0.7)
+        y = int(MyMlx.screen_height / 2)
         line_height = 20
         title = "A-Maze-ing"
         descriptions = [
@@ -66,15 +75,16 @@ class ControllPannel(Image):
         ]
         for _ in range(4):
             MyMlx.clear_window()
-        for row in range(int(MyMlx.screen_width * 0.2)):
+        Theme.background_img.put_image_to_window()
+        for row in range(int(MyMlx.screen_width * 0.3)):
             for col in range(y + 30, y + 32):
-                self.put_pixel(row, col, 0xFFFFF000)
+                self.put_pixel(row, col, Theme.border)
         MyMlx.put_image_to_window(self.ptr, x_start, 0)
         MyMlx.put_string(title, 10 + x_start, y, Colors.WHITE)
         for i in range(len(descriptions)):
             MyMlx.put_string(
                     descriptions[i],
-                    10 + x_start,
+                    x_start,
                     line_height * (i + 2) + y,
                     Colors.WHITE
                     )

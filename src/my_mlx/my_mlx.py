@@ -4,6 +4,8 @@ class MyMlx:
     mlx = Mlx()
     mlx_ptr = mlx.mlx_init()
     _, screen_width, screen_height = mlx.mlx_get_screen_size(mlx_ptr)
+    screen_width = int(screen_width * 0.7)
+    screen_height = int(screen_height * 0.8)
     win_ptr = mlx.mlx_new_window(mlx_ptr, screen_width, screen_height, "A-Maze-ing")
 
     @classmethod
@@ -42,3 +44,11 @@ class MyMlx:
     @classmethod
     def key_hook(cls, callback, data):
         cls.mlx.mlx_key_hook(cls.win_ptr, callback, data)
+
+    @classmethod
+    def xpm_file_to_image(cls, filename):
+        return cls.mlx.mlx_xpm_file_to_image(cls.mlx_ptr, filename)
+
+    @classmethod
+    def png_file_to_image(cls, filename):
+        return cls.mlx.mlx_png_file_to_image(cls.mlx_ptr, filename)

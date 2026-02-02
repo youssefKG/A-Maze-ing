@@ -15,7 +15,6 @@ class MazeGeneratorAlgo(ABC):
         seed(22)
 
     def generate(self) -> None:
-        # self.cells_img.draw_background()
         self.is_running = True
         i = 0
         while i < self.maze_state.vertical_cells:
@@ -92,7 +91,7 @@ class MazeGeneratorAlgo(ABC):
             return None
 
     def redraw_maze(self) -> None:
-        self.cells_img.draw_background()
+        #self.cells_img.draw_background()
         for row_cells in self.maze_state.cells_grid:
             for cell in row_cells:
                 if cell.is_42_cell:

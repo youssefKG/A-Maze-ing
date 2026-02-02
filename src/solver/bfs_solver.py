@@ -145,20 +145,23 @@ class BfsSolver(Solver):
                 self.put_cells_img_to_window()
 
     def redraw_maze(self) -> None:
+        for row_cells in self.maze_state.cells_grid:
+            for cell in row_cells:
+                if not cell.is_42_cell:
+                    self.cells_img.draw_cell(cell, Theme.background)
+                else:
+                    self.cells_img.draw_cell(cell, Theme.cell_42)
+
         for cell in self.visited:
             self.cells_img.draw_wall_between_two_cell(
                     cell,
                     self.path[cell],
                     Theme.background
                     )   
-        for row_cells in self.maze_state.cells_grid:
-            for cell in row_cells:
-                if not cell.is_42_cell:
-                    self.cells_img.draw_cell(cell, Theme.background)
         self.put_cells_img_to_window()
     
 
-    def toggle_path(self):
+    def toggle_path(self) -> None:
         if not self.is_path_shown:
             if not self.is_finished:
                 return 

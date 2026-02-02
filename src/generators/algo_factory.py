@@ -7,9 +7,9 @@ from solver.bfs_solver import BfsSolver
 from solver.solver import Solver
 
 class AlgoFactory:
-    horizontal_cells = 200
-    vertical_cells = 100
-    entry_cell = (199, 99)
+    horizontal_cells = 2
+    vertical_cells = 2
+    entry_cell = (0, 1)
     exit_cell = (0, 0)
     cells_img = CellsImage(vertical_cells, horizontal_cells)
     

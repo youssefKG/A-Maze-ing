@@ -1,4 +1,15 @@
-from maze.maze_state import MazeState
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    cellImg.py                                         :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: ytaoussi <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2026/02/02 19:17:40 by ytaoussi          #+#    #+#              #
+#    Updated: 2026/02/02 20:45:01 by ytaoussi         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 from maze.cell import Cell
 from renderer.images.image import Image
 from renderer.colors import Colors
@@ -20,34 +31,29 @@ class Border:
 
 
 def image_dimension(vertical_cells: int, horizontal_cells: int):
-    print(MyMlx.screen_width, MyMlx.screen_height)
     max_cell = int(max(vertical_cells, horizontal_cells))
-    min_screnn = int(min(MyMlx.screen_width, MyMlx.screen_height))
-    cell_dim = int(min_screnn / max_cell)
-
-    return (cell_dim * horizontal_cells - 4, cell_dim * vertical_cells - 4) 
+    min_screen = int(min(MyMlx.screen_width * 0.6, MyMlx.screen_height * 0.8))
+    cell_dim = int(min_screen / max_cell)
+    return ((cell_dim * horizontal_cells) - 4, (cell_dim * vertical_cells) - 4) 
 
 
 class CellsImage(Image):
     def __init__(self, vertical_cells, horizontal_cells):
         width, height = image_dimension(vertical_cells, horizontal_cells)
         super().__init__(width, height)
-        print(width, height)
         self.vertical_cells = vertical_cells
         self.horizontal_cells = horizontal_cells
         self.cellWidth = self.set_cell_width()
         self.cellHeight = self.set_cell_height()
-        self.cellBorder = int(self.cellHeight * 0.45)
-        self.maze_state = MazeState()
-        # self.draw_background()
+        self.cellBorder = int(self.cellHeight * 0.15)
 
     def set_cell_width(self):
         cell_width = int(self.width / self.horizontal_cells)
-        return cell_width
+        return int(cell_width * 0.85)
 
     def set_cell_height(self):
         cell_height = int(self.height / self.vertical_cells)
-        return cell_height
+        return int(cell_height * 0.85)
 
     def draw_cell(self, cell: Cell,  backgroundColor=None):
         # draw north wall
