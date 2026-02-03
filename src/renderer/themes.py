@@ -14,7 +14,7 @@ class Theme:
             "entry_cell": Colors.GREEN,
             "exit_cell": Colors.RED,
             "neighboor": Colors.ORANGE,
-            "background_img": BackgroundImg("background.xpm")
+            "background_img": BackgroundImg("background.xpm", "xpm")
         },
         {
             "border": Colors.GREEN,
@@ -26,7 +26,7 @@ class Theme:
             "entry_cell": Colors.BLUE,
             "exit_cell": Colors.RED,
             "neighboor": Colors.PURPLE,
-            "background_img": BackgroundImg("green_background.xpm")
+            "background_img": BackgroundImg("green_background.xpm", "xpm")
         },
         {
             "border": Colors.ORANGE,
@@ -38,7 +38,7 @@ class Theme:
             "entry_cell": Colors.ORANGE,
             "exit_cell": Colors.RED,
             "neighboor": Colors.CYAN,
-            "background_img": BackgroundImg("orange_background.xpm")
+            "background_img": BackgroundImg("orange_background.xpm", "xpm")
         },
 
         {
@@ -51,7 +51,7 @@ class Theme:
             "entry_cell": Colors.GREEN,
             "exit_cell": Colors.ORANGE,
             "neighboor": Colors.CYAN,
-            "background_img": BackgroundImg("background.xpm")
+            "background_img": BackgroundImg("background.xpm", "xpm")
         },
     ]
 

@@ -11,30 +11,29 @@ class ControllPannel(Image):
         super().__init__(int(MyMlx.screen_width * 0.4), MyMlx.screen_height)
         self.algo = AlgoFactory.create()
         self.solver = Solver()
-        start_image = BackgroundImg("amazing_start.xpm")
-        #start_image.put_image_to_window()
+        start_image = BackgroundImg("karim.png", "png")
+        start_image.put_image_to_window()
         MyMlx.key_hook(self.on_press, None)
 
     def draw(self) -> None:
         pass
         """
 
-        self.draw_descriptions()
-        self.algo.generate()
         """
 
     def on_press(self, keynum: int, _) -> None:
-        if keynum == 65307:
+        print(keynum)
+        if keynum == 65307: # esc key
             MyMlx.loop_exit()
-        elif keynum == 113:
+        elif keynum == 113: # q key
             self.algo = AlgoFactory.create("dfs")
             self.algo.generate()
-        elif keynum == 98:
+        elif keynum == 98: # B key
             self.algo = AlgoFactory.create("wilson")
             self.algo.generate()
-        elif keynum == 99:
+        elif keynum == 99: # C key
             self.change_color()
-        elif keynum == 115:
+        elif keynum == 115: # s key
             if self.algo.is_finished:
                 if self.solver.is_finished:
                     self.solver.hide_path()
@@ -45,6 +44,10 @@ class ControllPannel(Image):
             if self.algo.is_finished and self.solver.is_finished and not self.algo.is_running:
                 self.algo.redraw_maze()
                 self.solver.toggle_path()
+        elif keynum == 65293: # enter key
+            self.draw_descriptions()
+            self.algo.generate()
+
 
     def draw_background_color(self) -> None:
         for y in range(MyMlx.screen_height):
