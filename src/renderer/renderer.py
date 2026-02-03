@@ -1,4 +1,3 @@
-from mlx.mlx.mlx import Mlx
 from my_mlx.my_mlx import MyMlx
 from controll_pannel.controll_pannel import ControllPannel
 

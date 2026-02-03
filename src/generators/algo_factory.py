@@ -6,23 +6,24 @@ from renderer.images.cellImg import CellsImage
 from solver.bfs_solver import BfsSolver
 from solver.solver import Solver
 
+
 class AlgoFactory:
     horizontal_cells = 20
     vertical_cells = 20
     entry_cell = (19, 19)
     exit_cell = (0, 0)
     cells_img = CellsImage(vertical_cells, horizontal_cells)
-    
+
     @classmethod
-    def create(cls, name: str | None=None) -> MazeGeneratorAlgo:
+    def create(cls, name: str | None = None) -> MazeGeneratorAlgo:
         maze_state = MazeState()
-        (maze_state
-         .set_vertical_cells(cls.vertical_cells)
-         .set_horizontal_cells(cls.horizontal_cells)
-         .set_cells_grid()
-         .set_entry_cell(cls.entry_cell).
-         set_exit_cell(cls.exit_cell)
-         )
+        (
+            maze_state.set_vertical_cells(cls.vertical_cells)
+            .set_horizontal_cells(cls.horizontal_cells)
+            .set_cells_grid()
+            .set_entry_cell(cls.entry_cell)
+            .set_exit_cell(cls.exit_cell)
+        )
         algo_generator = MazeGeneratorAlgo()
         if name == "wilson":
             algo_generator = WilsonMazeGenerator()

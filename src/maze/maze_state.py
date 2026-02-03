@@ -34,4 +34,3 @@ class MazeState:
         (x, y) = exit_cell
         self.exit_cell = self.cells_grid[y][x]
         return self
-

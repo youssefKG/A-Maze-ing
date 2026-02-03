@@ -36,6 +36,9 @@ class Solver(ABC):
     def toggle_path(self):
         pass
 
+    def redraw_maze(self) -> None:
+        pass
+
     def put_cells_img_to_window(self) -> None:
         x = int(MyMlx.screen_width / 2 - self.cells_img.width / 2)
         y = int(MyMlx.screen_height / 2 - self.cells_img.height / 2)

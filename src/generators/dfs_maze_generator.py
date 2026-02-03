@@ -1,10 +1,10 @@
 from generators.maze_generator_algo import MazeGeneratorAlgo
 from my_mlx.my_mlx import MyMlx
-from renderer.colors import Colors
 from renderer.themes import Theme
 
+
 class DfsMazeGenerator(MazeGeneratorAlgo):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.stack = []
 
@@ -15,9 +15,9 @@ class DfsMazeGenerator(MazeGeneratorAlgo):
         self.stack.append(self.current_cell)
         MyMlx.loop_hook(self.generate_DFS_animation, None)
 
-    def generate_DFS_animation(self, _) -> None:
+    def generate_DFS_animation(self, _: object) -> None:
         if self.is_finished:
-            return 
+            return
         if not self.is_running:
             return
         if not len(self.stack):
@@ -41,4 +41,3 @@ class DfsMazeGenerator(MazeGeneratorAlgo):
             self.current = self.stack.pop()
             self.cells_img.draw_cell(self.current_cell, Theme.tracker)
         self.put_cells_img_to_window()
-

@@ -50,7 +50,7 @@ class Theme:
             "path": Colors.LIGHT_GRAY,
             "entry_cell": Colors.GREEN,
             "exit_cell": Colors.ORANGE,
-            "neighboor": Colors.CYAN,
+            "neighboor": Colors.WHITE,
             "background_img": BackgroundImg("background.xpm", "xpm")
         },
     ]
@@ -83,4 +83,3 @@ class Theme:
         cls.exit_cell = t["exit_cell"]
         cls.cell_42 = t["cell_42"]
         cls.background_img = t["background_img"]
-

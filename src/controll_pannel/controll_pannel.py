@@ -10,6 +10,7 @@ class ControllPannel(Image):
     def __init__(self) -> None:
         super().__init__(int(MyMlx.screen_width * 0.4), MyMlx.screen_height)
         self.algo = AlgoFactory.create()
+        self.is_started = False
         self.solver = Solver()
         start_image = BackgroundImg("karim.png", "png")
         start_image.put_image_to_window()
@@ -17,35 +18,48 @@ class ControllPannel(Image):
 
     def draw(self) -> None:
         pass
-        """
 
-        """
+    def on_press(self, keynum: int, _: object) -> None:
 
-    def on_press(self, keynum: int, _) -> None:
-        print(keynum)
+        self.run_dfs(keynum)
+
+        self.run_wilson(keynum)
+
+        self.run_bfs(keynum)
+
+        self.toggle_path(keynum)
+
+        self.start_maze(keynum)
+
+        if keynum == 99: # C key
+            self.change_color()
         if keynum == 65307: # esc key
             MyMlx.loop_exit()
-        elif keynum == 113: # q key
-            self.algo = AlgoFactory.create("dfs")
-            self.algo.generate()
-        elif keynum == 98: # B key
+
+
+    def run_bfs(self, keynum: int):
+        if keynum == 115:
+            if self.algo.is_finished:
+                self.solver.redraw_maze()
+                self.solver = AlgoFactory.create_solver("bfs")
+                self.solver.hide_path()
+                self.solver.generate()
+
+    def run_wilson(self, keynum):
+        if keynum == 98: # B key
             self.algo = AlgoFactory.create("wilson")
             self.algo.generate()
-        elif keynum == 99: # C key
-            self.change_color()
-        elif keynum == 115: # s key
-            if self.algo.is_finished:
-                if self.solver.is_finished:
-                    self.solver.hide_path()
-                self.algo.redraw_maze()
-                self.solver = AlgoFactory.create_solver("bfs")
-                self.solver.generate()
-        elif keynum == 104: # toogle path on press H
-            if self.algo.is_finished and self.solver.is_finished and not self.algo.is_running:
-                self.algo.redraw_maze()
-                self.solver.toggle_path()
-        elif keynum == 65293: # enter key
-            self.draw_descriptions()
+
+    def start_maze(self, keynum: int):
+        if keynum == 65293: # enter key
+            if not self.is_started:
+                self.draw_descriptions()
+                self.is_started = True
+                self.algo.generate()
+
+    def run_dfs(self, keynum: int): 
+        if keynum == 113: # q key
+            self.algo = AlgoFactory.create("dfs")
             self.algo.generate()
 
 
@@ -53,6 +67,13 @@ class ControllPannel(Image):
         for y in range(MyMlx.screen_height):
             for x in range(self.width - 4):
                 self.put_pixel(x, y, Colors.GRAY)
+
+    def toggle_path(self, keynum: int):
+        if keynum == 104: # toogle path on press H
+            if self.algo.is_finished and self.solver.is_finished and not self.algo.is_running:
+                self.algo.redraw_maze()
+                self.solver.toggle_path()
+
 
     def change_color(self):
         if self.algo is not None:

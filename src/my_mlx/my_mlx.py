@@ -1,4 +1,4 @@
-from mlx.mlx.mlx import Mlx
+from mlx.mlx import Mlx
 
 class MyMlx:
     mlx = Mlx()
@@ -6,7 +6,6 @@ class MyMlx:
     _, screen_width, screen_height = mlx.mlx_get_screen_size(mlx_ptr)
     screen_width = int(screen_width * 0.7)
     screen_height = int(screen_height * 0.8)
-    print(screen_width, screen_height)
     win_ptr = mlx.mlx_new_window(mlx_ptr, screen_width, screen_height, "A-Maze-ing")
 
     @classmethod

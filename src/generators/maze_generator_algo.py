@@ -1,9 +1,9 @@
 from abc import ABC
 from my_mlx.my_mlx import MyMlx
-from renderer.colors import Colors
 from random import choice, seed
 from maze.maze_state import MazeState
 from renderer.themes import Theme
+
 
 class MazeGeneratorAlgo(ABC):
     def __init__(self):
@@ -16,18 +16,19 @@ class MazeGeneratorAlgo(ABC):
 
     def generate(self) -> None:
         self.is_running = True
+        vertical_cells = self.maze_state.vertical_cells
+        horizontal_cells = self.maze_state.horizontal_cells
         i = 0
         while i < self.maze_state.vertical_cells:
             j = 0
-            while j < self.maze_state.horizontal_cells:
+            while j < horizontal_cells:
                 self.cells_img.draw_cell(
-                        self.maze_state.cells_grid[i][j],
-                        Theme.background
-                        )
+                    self.maze_state.cells_grid[i][j], Theme.background
+                )
                 j += 1
             i += 1
-        if self.maze_state.vertical_cells > 5 and self.maze_state.horizontal_cells > 7:
-            self.draw_42(Colors.WHITE)
+        if vertical_cells > 5 and horizontal_cells > 7:
+            self.draw_42()
         self.put_cells_img_to_window()
 
     def put_cells_img_to_window(self) -> None:
@@ -60,10 +61,8 @@ class MazeGeneratorAlgo(ABC):
                 current_cell.east = False
                 next_cell.west = False
         self.cells_img.draw_wall_between_two_cell(
-                current_cell,
-                next_cell,
-                Theme.background
-                )
+            current_cell, next_cell, Theme.background
+        )
 
     def check_neighbors(self):
         if self.current_cell:
@@ -91,7 +90,7 @@ class MazeGeneratorAlgo(ABC):
             return None
 
     def redraw_maze(self) -> None:
-        #self.cells_img.draw_background()
+        # self.cells_img.draw_background()
         for row_cells in self.maze_state.cells_grid:
             for cell in row_cells:
                 if cell.is_42_cell:
@@ -101,49 +100,38 @@ class MazeGeneratorAlgo(ABC):
 
         self.put_cells_img_to_window()
 
-    def draw_42(self, color=Colors.YELLOW) -> None:
+    def draw_42(self) -> None:
         y = int(((self.maze_state.vertical_cells) / 2) - 2)
         x = int(((self.maze_state.horizontal_cells) / 2) - 3)
+        cells_grid = self.maze_state.cells_grid
+
         # drw 4
         for i in range(y, y + 3):
-            self.maze_state.cells_grid[i][x].is_visited = True
-            self.maze_state.cells_grid[i][x].is_42_cell = True
-            self.cells_img.draw_cell(self.maze_state.cells_grid[i][x], color)
+            self.draw_cell_42(cells_grid[i][x])
         for i in range(x + 1, x + 3):
-            self.maze_state.cells_grid[y + 2][i].is_visited = True
-            self.maze_state.cells_grid[y + 2][i].is_42_cell = True
-            self.cells_img.draw_cell(self.maze_state.cells_grid[y + 2][i], color)
+            self.draw_cell_42(cells_grid[y + 2][i])
         for i in range(y + 3, y + 5):
-            self.maze_state.cells_grid[i][x + 2].is_visited = True
-            self.maze_state.cells_grid[i][x + 2].is_42_cell = True
-            self.cells_img.draw_cell(self.maze_state.cells_grid[i][x + 2], color)
+            self.draw_cell_42(cells_grid[i][x + 2])
 
         # Draw 2
         for i in range(x + 4, x + 7):
-            self.maze_state.cells_grid[y][i].is_visited = True
-            self.maze_state.cells_grid[y][i].is_42_cell = True
-            self.cells_img.draw_cell(self.maze_state.cells_grid[y][i], color)
+            self.draw_cell_42(cells_grid[y][i])
         for i in range(y + 1, y + 3):
-            self.maze_state.cells_grid[i][x + 6].is_visited = True
-            self.maze_state.cells_grid[i][x + 6].is_42_cell = True
-            self.cells_img.draw_cell(self.maze_state.cells_grid[i][x + 6], color)
+            self.draw_cell_42(cells_grid[i][x + 6])
         for i in range(x + 4, x + 7):
-            self.maze_state.cells_grid[y + 2][i].is_visited = True
-            self.maze_state.cells_grid[y + 2][i].is_42_cell = True
-            self.cells_img.draw_cell(self.maze_state.cells_grid[y + 2][i], color)
+            self.draw_cell_42(cells_grid[y + 2][i])
         for i in range(y + 3, y + 5):
-            self.maze_state.cells_grid[i][x + 4].is_visited = True
-            self.maze_state.cells_grid[i][x + 4].is_42_cell = True
-            self.cells_img.draw_cell(self.maze_state.cells_grid[i][x + 4], color)
+            self.draw_cell_42(cells_grid[i][x + 4])
         for i in range(y + 3, y + 5):
-            self.maze_state.cells_grid[i][x + 4].is_visited = True
-            self.maze_state.cells_grid[i][x + 4].is_42_cell = True
-            self.cells_img.draw_cell(self.maze_state.cells_grid[i][x + 4], color)
+            self.draw_cell_42(cells_grid[i][x + 4])
         for i in range(x + 4, x + 7):
-            self.maze_state.cells_grid[y + 4][i].is_visited = True
-            self.maze_state.cells_grid[y + 4][i].is_42_cell = True
-            self.cells_img.draw_cell(self.maze_state.cells_grid[y + 4][i], color)
-             
+            self.draw_cell_42(cells_grid[y + 4][i])
+
+    def draw_cell_42(self, cell):
+        cell.is_visited = True
+        cell.is_42_cell = True
+        self.cells_img.draw_cell(cell, Theme.cell_42)
+
     def run(self):
         self.is_running = True
 
