@@ -84,24 +84,25 @@ class ControllPannel(Image):
     def draw_descriptions(self) -> None:
         x_start = int(MyMlx.screen_width * 0.7)
         y = int(MyMlx.screen_height / 2)
-        line_height = 20
-        title = "A-Maze-ing"
-        descriptions = [
-            "(Press A) to generate the maze using Depth-First Search (DFS)",
-            "(Press B) to generate the maze using Wilson algorithm",
-            "(Press C) to change color",
-            "(Press H) to toggle solution path visibility",
-            "(Press S) to run Breadth-First Search (BFS) solver",
-        ]
-        for _ in range(6):
-            MyMlx.clear_window()
+        # line_height = 20
+        # title = "A-Maze-ing"
+        # descriptions = [
+        #     "(Press A) to generate the maze using Depth-First Search (DFS)",
+        #     "(Press B) to generate the maze using Wilson algorithm",
+        #     "(Press C) to change color",
+        #     "(Press H) to toggle solution path visibility",
+        #     "(Press S) to run Breadth-First Search (BFS) solver",
+        # ]
+        # for _ in range(6):
+        #     MyMlx.clear_window()
+        MyMlx.clear_window()
         Theme.background_img.put_image_to_window()
         for row in range(int(MyMlx.screen_width * 0.3)):
             for col in range(y + 30, y + 32):
                 self.put_pixel(row, col, Theme.border)
         MyMlx.put_image_to_window(self.ptr, x_start, 0)
-        MyMlx.put_string(title, 10 + x_start, y, Colors.WHITE)
-        for i in range(len(descriptions)):
-            MyMlx.put_string(
-                descriptions[i], x_start, line_height * (i + 2) + y, Colors.WHITE
-            )
+        # MyMlx.put_string(title, 10 + x_start, y, Colors.WHITE)
+        # for i in range(len(descriptions)):
+        #     MyMlx.put_string(
+        #         descriptions[i], x_start, line_height * (i + 2) + y, Colors.WHITE
+        #     )

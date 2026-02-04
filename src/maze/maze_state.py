@@ -4,12 +4,13 @@ from maze.cell import Cell
 
 class MazeState:
     _instance = None
+
     def __new__(cls) -> Self:
         if cls._instance is None:
             cls._instance = super().__new__(cls)
         return cls._instance
 
-    def set_vertical_cells(self, vertical_cells: int) -> Self :
+    def set_vertical_cells(self, vertical_cells: int) -> Self:
         self.vertical_cells = vertical_cells
         return self
 
@@ -27,11 +28,11 @@ class MazeState:
         return self
 
     def set_entry_cell(self, entry_cell: tuple[int, int]) -> Self:
-        (x, y) = entry_cell
+        x, y = entry_cell
         self.entry_cell = self.cells_grid[y][x]
         return self
 
     def set_exit_cell(self, exit_cell: tuple[int, int]) -> Self:
-        (x, y) = exit_cell
+        x, y = exit_cell
         self.exit_cell = self.cells_grid[y][x]
         return self

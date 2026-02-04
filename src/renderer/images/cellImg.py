@@ -7,7 +7,7 @@ from my_mlx.my_mlx import MyMlx
 
 def image_dimension(vertical_cells: int, horizontal_cells: int):
     max_cell = int(max(vertical_cells, horizontal_cells))
-    min_screen = int(min(MyMlx.screen_width * 0.7, MyMlx.screen_height))
+    min_screen = int(min(MyMlx.screen_width * 0.8, MyMlx.screen_height * 0.8))
     cell_dim = int(min_screen / max_cell)
     return ((cell_dim * horizontal_cells) - 4, (cell_dim * vertical_cells) - 4)
 
@@ -20,15 +20,24 @@ class CellsImage(Image):
         self.horizontal_cells = horizontal_cells
         self.cellWidth = self.set_cell_width()
         self.cellHeight = self.set_cell_height()
-        self.cellBorder = int(self.cellHeight * 0.20)
+        self.cellBorder = int((self.width / self.vertical_cells) * 0.20)
 
     def set_cell_width(self) -> int:
         cell_width = int(self.width / self.horizontal_cells)
-        return int(cell_width * 0.80)
+        print(cell_width)
+        return int(cell_width * 0.8)
 
     def set_cell_height(self) -> int:
         cell_height = int(self.height / self.vertical_cells)
-        return int(cell_height * 0.80)
+        return int(cell_height * 0.8)
+
+    def set_border(self, color: int) -> Self:
+        self.border_color = color
+        return self
+
+    def set_cell_img(self, cells_img: list[Cell]) -> Self:
+        self.cell_img = cells_img
+        return self
 
     def draw_cell(self, cell: Cell, backgroundColor: int | None = None) -> None:
         # draw north wall
@@ -111,11 +120,3 @@ class CellsImage(Image):
             for y in range(start_y, end_y):
                 for x in range(start_x, end_x):
                     self.put_pixel(x, y, color)
-
-    def set_border(self, color: int) -> Self:
-        self.border_color = color
-        return self
-
-    def set_cell_img(self, cells_img: list[Cell]) -> Self:
-        self.cell_img = cells_img
-        return self
