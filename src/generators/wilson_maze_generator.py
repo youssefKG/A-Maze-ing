@@ -52,31 +52,20 @@ class WilsonMazeGenerator(MazeGeneratorAlgo):
             self.next = self.check_neighbors()
             try:
                 loop_index = self.path.index(self.next)
-                for cell in self.path[loop_index + 1:]:
+                for cell in self.path[loop_index + 1 :]:
                     self.cells_img.draw_cell(cell, Theme.background)
                 self.path = self.path[: loop_index + 1]
             except ValueError:
                 self.path.append(self.next)
-            self.current_cell = self.next
-            self.cells_img.draw_cell(
-                    self.current_cell,
-                    Theme.tracker
-                    )
+            if self.next:
+                self.current_cell = self.next
+                self.cells_img.draw_cell(self.current_cell, Theme.tracker)
             self.put_cells_img_to_window()
             sleep(0.021)
         elif self.path_start < len(self.path) - 1:
-            self.remove_wall(
-                    self.path[self.path_start],
-                    self.path[self.path_start + 1]
-                    )
-            self.cells_img.draw_cell(
-                    self.path[self.path_start],
-                    Theme.background
-                    )
-            self.cells_img.draw_cell(
-                    self.path[self.path_start + 1],
-                    Theme.background
-                    )
+            self.remove_wall(self.path[self.path_start], self.path[self.path_start + 1])
+            self.cells_img.draw_cell(self.path[self.path_start], Theme.background)
+            self.cells_img.draw_cell(self.path[self.path_start + 1], Theme.background)
             self.put_cells_img_to_window()
             self.visited.append(self.path[self.path_start])
             if self.path[self.path_start] in self.unvisited:

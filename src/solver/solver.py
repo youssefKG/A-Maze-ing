@@ -1,33 +1,35 @@
 from abc import ABC
-from maze.cell import Cell
+from typing import Self
 from maze.maze_state import MazeState
 from my_mlx.my_mlx import MyMlx
+from maze.cell import Cell
+from renderer.images.cellImg import CellsImage
+
 
 class Solver(ABC):
-    def __init__(self):
-        self.is_finished = False
-        self.frames = 0
-        self.is_running = False
+    def __init__(self) -> None:
+        self.is_finished: bool = False
+        self.frames: int = 0
+        self.is_running: bool = False
         self.maze_state = MazeState()
-        self.is_path_shown = False
+        self.is_path_shown: bool = False
 
-    def set_horizontal_cells(self, horizontal_cells: int):
+    def set_horizontal_cells(self, horizontal_cells: int) -> Self:
         self.horizontal_cells = horizontal_cells
         return self
 
-    def set_vertical_cells(self, vertical_cells):
+    def set_vertical_cells(self, vertical_cells: int) -> Self:
         self.vertical_cells = vertical_cells
         return self
 
-    def set_cells_img(self, cells_img):
+    def set_cells_img(self, cells_img: CellsImage) -> Self:
         self.cells_img = cells_img
         return self
 
-
-    def generate(self):
+    def generate(self) -> None:
         pass
 
-    def  draw_path(self):
+    def draw_path(self) -> None:
         pass
 
     def hide_path(self):

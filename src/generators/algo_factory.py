@@ -2,16 +2,17 @@ from generators.dfs_maze_generator import DfsMazeGenerator
 from generators.maze_generator_algo import MazeGeneratorAlgo
 from generators.wilson_maze_generator import WilsonMazeGenerator
 from maze.maze_state import MazeState
+from maze.cell import Cell
 from renderer.images.cellImg import CellsImage
 from solver.bfs_solver import BfsSolver
 from solver.solver import Solver
 
 
 class AlgoFactory:
-    horizontal_cells = 20
-    vertical_cells = 20
-    entry_cell = (19, 19)
-    exit_cell = (0, 0)
+    horizontal_cells: int = 30
+    vertical_cells: int = 30
+    entry_cell: tuple[int, int] = (19, 19)
+    exit_cell: tuple[int, int] = (0, 0)
     cells_img = CellsImage(vertical_cells, horizontal_cells)
 
     @classmethod
@@ -32,7 +33,7 @@ class AlgoFactory:
         return algo_generator.set_cells_img(cls.cells_img)
 
     @classmethod
-    def create_solver(cls, name: str):
+    def create_solver(cls, name: str) -> Solver:
         solver = Solver()
         if name == "bfs":
             solver = BfsSolver()

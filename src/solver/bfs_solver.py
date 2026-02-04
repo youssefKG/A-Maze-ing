@@ -1,8 +1,7 @@
-from maze import maze_state
+from typing import Any
 from maze.cell import Cell
 from collections import deque
 from solver.solver import Solver
-from renderer.colors import Colors
 from renderer.themes import Theme
 from collections import deque
 from my_mlx.my_mlx import MyMlx
@@ -35,7 +34,7 @@ while True:
 
 
 class BfsSolver(Solver):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.visited = []
         self.bfs_queue = deque()
@@ -53,40 +52,32 @@ class BfsSolver(Solver):
             if not self.current_cell.west:
                 neighboors.append(neighboor)
                 self.cells_img.draw_wall_between_two_cell(
-                        self.current_cell,
-                        neighboor,
-                        Theme.neighboor
-                        )
+                    self.current_cell, neighboor, Theme.neighboor
+                )
         # east
         if x + 1 < self.maze_state.horizontal_cells:
             neighboor = self.maze_state.cells_grid[y][x + 1]
             if not self.current_cell.east:
                 neighboors.append(neighboor)
                 self.cells_img.draw_wall_between_two_cell(
-                        self.current_cell,
-                        neighboor,
-                        Theme.neighboor
-                        )
+                    self.current_cell, neighboor, Theme.neighboor
+                )
         # north
         if y > 0:
             neighboor = self.maze_state.cells_grid[y - 1][x]
             if not self.current_cell.north:
                 neighboors.append(neighboor)
                 self.cells_img.draw_wall_between_two_cell(
-                        self.current_cell,
-                        neighboor,
-                        Theme.neighboor
-                        )
-        # south
+                    self.current_cell, neighboor, Theme.neighboor
+                )
+            # south
         if y + 1 < self.maze_state.vertical_cells:
             neighboor = self.maze_state.cells_grid[y + 1][x]
             if not self.current_cell.south:
                 neighboors.append(neighboor)
                 self.cells_img.draw_wall_between_two_cell(
-                        self.current_cell,
-                        neighboor,
-                        Theme.neighboor
-                        )
+                    self.current_cell, neighboor, Theme.neighboor
+                )
         return neighboors
 
     def generate(self) -> None:
@@ -97,7 +88,7 @@ class BfsSolver(Solver):
             self.is_running = True
             MyMlx.loop_hook(self.generate_solution_path_with_animation, None)
 
-    def generate_solution_path_with_animation(self, _: object) -> None:
+    def generate_solution_path_with_animation(self, _: Any) -> None:
         self.frames += 1
 
         if self.frames % 1 != 0:
@@ -107,7 +98,7 @@ class BfsSolver(Solver):
             return
 
         if not self.is_running:
-            return 
+            return
 
         if len(self.bfs_queue) and not self.is_solution_found:
             self.current_cell = self.bfs_queue.popleft()
@@ -115,16 +106,15 @@ class BfsSolver(Solver):
                 self.is_solution_found = True
                 self.redraw_maze()
             else:
-                neighboors = self.get_neighboors()
-                self.draw_neighboors(neighboors)
+                self.draw_neighboors()
 
-        elif self.is_solution_found and self.next_cell is not self.maze_state.entry_cell:
+        elif (
+            self.is_solution_found and self.next_cell is not self.maze_state.entry_cell
+        ):
             self.cells_img.draw_cell(self.next_cell, Theme.path)
             self.cells_img.draw_wall_between_two_cell(
-                    self.next_cell,
-                    self.path[self.next_cell],
-                    Theme.path
-                    )
+                self.next_cell, self.path[self.next_cell], Theme.path
+            )
             self.next_cell = self.path[self.next_cell]
             self.put_cells_img_to_window()
 
@@ -136,7 +126,10 @@ class BfsSolver(Solver):
             self.is_path_shown = True
             self.put_cells_img_to_window()
 
-    def draw_neighboors(self, neighboors: list[Cell]):
+    # draw neightboors
+    def draw_neighboors(self) -> None:
+        # get neighboors
+        neighboors = self.get_neighboors()
         for neighboor in neighboors:
             if neighboor not in self.visited and neighboor not in self.bfs_queue:
                 self.bfs_queue.append(neighboor)
@@ -154,22 +147,22 @@ class BfsSolver(Solver):
                     self.cells_img.draw_cell(cell, Theme.cell_42)
 
         for cell in self.visited:
-            self.cells_img.draw_wall_between_two_cell(
-                    cell,
-                    self.path[cell],
-                    Theme.background
-                    )   
+            if cell in self.path:
+                self.cells_img.draw_wall_between_two_cell(
+                    cell, self.path[cell], Theme.background
+                )
         self.put_cells_img_to_window()
 
     def toggle_path(self) -> None:
+        # if the path is found and the algo is finished
         if not self.is_path_shown and self.is_finished:
             if not self.is_finished:
-                return 
+                return
             self.draw_path()
             self.is_path_shown = True
         else:
             if not self.is_finished:
-                return 
+                return
             self.hide_path()
             self.is_path_shown = False
 
@@ -178,20 +171,23 @@ class BfsSolver(Solver):
         if self.is_solution_found and self.is_finished:
             while cell is not self.maze_state.entry_cell:
                 self.cells_img.draw_cell(cell, Theme.background)
-                self.cells_img.draw_wall_between_two_cell(cell, self.path[cell], Theme.background)
+                self.cells_img.draw_wall_between_two_cell(
+                    cell, self.path[cell], Theme.background
+                )
                 cell = self.path[cell]
             self.cells_img.draw_cell(self.maze_state.entry_cell, Theme.background)
             self.cells_img.draw_cell(self.maze_state.exit_cell, Theme.background)
-            self.is_path_shown = True
             self.put_cells_img_to_window()
-            
+            self.is_path_shown = True
 
     def draw_path(self) -> None:
         cell = self.maze_state.exit_cell
         if self.is_solution_found and self.is_finished:
             while cell is not self.maze_state.entry_cell:
                 self.cells_img.draw_cell(cell, Theme.path)
-                self.cells_img.draw_wall_between_two_cell(cell, self.path[cell], Theme.path)
+                self.cells_img.draw_wall_between_two_cell(
+                    cell, self.path[cell], Theme.path
+                )
                 cell = self.path[cell]
             self.cells_img.draw_cell(self.maze_state.entry_cell, Theme.entry_cell)
             self.cells_img.draw_cell(self.maze_state.exit_cell, Theme.exit_cell)

@@ -1,85 +1,124 @@
+from typing import Self
 from renderer.colors import Colors
 from renderer.images.background.background_img import BackgroundImg
 
 
+class ColorScheme:
+
+    def set_border(self, border: int) -> Self:
+        self.border = border
+        return self
+
+    def set_background(self, background: int) -> Self:
+        self.background = background
+        return self
+
+    def set_cell_background(self, cell_background: int) -> Self:
+        self.cell_background = cell_background
+        return self
+
+    def set_cell_42(self, cell_42: int) -> Self:
+        self.cell_42 = cell_42
+        return self
+
+    def set_tracker(self, tracker: int) -> Self:
+        self.tracker = tracker
+        return self
+
+    def set_path(self, path: int) -> Self:
+        self.path = path
+        return self
+
+    def set_exit_cell(self, exit_cell: int) -> Self:
+        self.exit_cell = exit_cell
+        return self
+
+    def set_entry_cell(self, entry_cell: int) -> Self:
+        self.entry_cell = entry_cell
+        return self
+
+    def set_neighboor(self, neighboor: int) -> Self:
+        self.neighboor = neighboor
+        return self
+
+    def set_background_img(self, filename: str, image_type: str) -> Self:
+        self.background_img = BackgroundImg(filename, image_type)
+        return self
+
+
 class Theme:
     themes = [
-        {
-            "border": Colors.MAGENTA,
-            "background": Colors.BLACK,
-            "cell_background": Colors.BLACK,
-            "cell_42": Colors.YELLOW,
-            "tracker": Colors.CYAN,
-            "path": Colors.CYAN,
-            "entry_cell": Colors.GREEN,
-            "exit_cell": Colors.RED,
-            "neighboor": Colors.ORANGE,
-            "background_img": BackgroundImg("background.xpm", "xpm")
-        },
-        {
-            "border": Colors.GREEN,
-            "background": Colors.BLACK,
-            "cell_background": Colors.DARK_BLUE,
-            "cell_42": Colors.YELLOW,
-            "tracker": Colors.BLUE,
-            "path": Colors.YELLOW,
-            "entry_cell": Colors.BLUE,
-            "exit_cell": Colors.RED,
-            "neighboor": Colors.PURPLE,
-            "background_img": BackgroundImg("green_background.xpm", "xpm")
-        },
-        {
-            "border": Colors.ORANGE,
-            "background": Colors.BLACK,
-            "cell_background": Colors.DARK_GRAY,
-            "cell_42": Colors.RED,
-            "tracker": Colors.CYAN,
-            "path": Colors.CYAN,
-            "entry_cell": Colors.ORANGE,
-            "exit_cell": Colors.RED,
-            "neighboor": Colors.CYAN,
-            "background_img": BackgroundImg("orange_background.xpm", "xpm")
-        },
-
-        {
-            "border": Colors.GREEN,
-            "background": Colors.BLACK,
-            "cell_background": Colors.DARK_GREEN,
-            "cell_42": Colors.BLUE,
-            "tracker": Colors.BROWN,
-            "path": Colors.LIGHT_GRAY,
-            "entry_cell": Colors.GREEN,
-            "exit_cell": Colors.ORANGE,
-            "neighboor": Colors.WHITE,
-            "background_img": BackgroundImg("background.xpm", "xpm")
-        },
+        ColorScheme()
+        .set_border(Colors.MAGENTA)
+        .set_background(Colors.BLACK)
+        .set_cell_background(Colors.BLACK)
+        .set_cell_42(Colors.YELLOW)
+        .set_tracker(Colors.CYAN)
+        .set_path(Colors.CYAN)
+        .set_exit_cell(Colors.GREEN)
+        .set_entry_cell(Colors.RED)
+        .set_neighboor(Colors.ORANGE)
+        .set_background_img("background.xpm", "xpm"),
+        ColorScheme()
+        .set_border(Colors.GREEN)
+        .set_background(Colors.BLACK)
+        .set_cell_background(Colors.DARK_BLUE)
+        .set_cell_42(Colors.YELLOW)
+        .set_tracker(Colors.BLUE)
+        .set_path(Colors.YELLOW)
+        .set_exit_cell(Colors.BLUE)
+        .set_entry_cell(Colors.RED)
+        .set_neighboor(Colors.PURPLE)
+        .set_background_img("green_background.xpm", "xpm"),
+        ColorScheme()
+        .set_border(Colors.ORANGE)
+        .set_background(Colors.BLACK)
+        .set_cell_background(Colors.DARK_GRAY)
+        .set_cell_42(Colors.RED)
+        .set_tracker(Colors.CYAN)
+        .set_path(Colors.CYAN)
+        .set_exit_cell(Colors.ORANGE)
+        .set_entry_cell(Colors.RED)
+        .set_neighboor(Colors.CYAN)
+        .set_background_img("orange_background.xpm", "xpm"),
+        ColorScheme()
+        .set_border(Colors.GREEN)
+        .set_background(Colors.BLACK)
+        .set_cell_background(Colors.DARK_GREEN)
+        .set_cell_42(Colors.BLUE)
+        .set_tracker(Colors.BROWN)
+        .set_path(Colors.LIGHT_GRAY)
+        .set_exit_cell(Colors.GREEN)
+        .set_entry_cell(Colors.ORANGE)
+        .set_neighboor(Colors.WHITE)
+        .set_background_img("background_img.xpm", "xpm"),
     ]
 
     __current_index = 0
     current = themes[__current_index]
 
-    border = current["border"]
-    background = current["background"]
-    cell_background = current["cell_background"]
-    tracker = current["tracker"]
-    path = current["path"]
-    neighboor = current["neighboor"]
-    entry_cell = current["entry_cell"]
-    exit_cell = current["exit_cell"]
-    cell_42 = current["cell_42"]
-    background_img = current["background_img"]
+    border = current.border
+    background = current.background
+    cell_background = current.cell_background
+    tracker = current.tracker
+    path = current.path
+    neighboor = current.neighboor
+    entry_cell = current.entry_cell
+    exit_cell = current.exit_cell
+    cell_42 = current.cell_42
+    background_img = current.background_img
 
     @classmethod
     def change(cls):
         cls.__current_index = (cls.__current_index + 1) % len(cls.themes)
         t = cls.themes[cls.__current_index]
-        cls.border = t["border"]
-        cls.background = t["background"]
-        cls.cell_background = t["cell_background"]
-        cls.tracker = t["tracker"]
-        cls.path = t["path"]
-        cls.neighboor = t["neighboor"]
-        cls.entry_cell = t["entry_cell"]
-        cls.exit_cell = t["exit_cell"]
-        cls.cell_42 = t["cell_42"]
-        cls.background_img = t["background_img"]
+        cls.border = t.border
+        cls.background = t.background
+        cls.cell_background = t.cell_background
+        cls.tracker = t.tracker
+        cls.path = t.path
+        cls.neighboor = t.neighboor
+        cls.entry_cell = t.entry_cell
+        cls.exit_cell = t.exit_cell
+        cls.cell_42 = t.cell_42
+        cls.background_img = t.background_img

@@ -1,31 +1,19 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    cellImg.py                                         :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: ytaoussi <marvin@42.fr>                    +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2026/02/02 19:17:40 by ytaoussi          #+#    #+#              #
-#    Updated: 2026/02/03 19:20:26 by ytaoussi         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
+from typing import Self
 from maze.cell import Cell
 from renderer.images.image import Image
-from renderer.colors import Colors
 from renderer.themes import Theme
 from my_mlx.my_mlx import MyMlx
 
 
 def image_dimension(vertical_cells: int, horizontal_cells: int):
     max_cell = int(max(vertical_cells, horizontal_cells))
-    min_screen = int(min(MyMlx.screen_width, MyMlx.screen_height))
+    min_screen = int(min(MyMlx.screen_width * 0.7, MyMlx.screen_height))
     cell_dim = int(min_screen / max_cell)
     return ((cell_dim * horizontal_cells) - 4, (cell_dim * vertical_cells) - 4)
 
 
 class CellsImage(Image):
-    def __init__(self, vertical_cells, horizontal_cells):
+    def __init__(self, vertical_cells: int, horizontal_cells: int) -> None:
         width, height = image_dimension(vertical_cells, horizontal_cells)
         super().__init__(width, height)
         self.vertical_cells = vertical_cells
@@ -34,17 +22,17 @@ class CellsImage(Image):
         self.cellHeight = self.set_cell_height()
         self.cellBorder = int(self.cellHeight * 0.20)
 
-    def set_cell_width(self):
+    def set_cell_width(self) -> int:
         cell_width = int(self.width / self.horizontal_cells)
         return int(cell_width * 0.80)
 
-    def set_cell_height(self):
+    def set_cell_height(self) -> int:
         cell_height = int(self.height / self.vertical_cells)
         return int(cell_height * 0.80)
 
-    def draw_cell(self, cell: Cell, backgroundColor=None):
+    def draw_cell(self, cell: Cell, backgroundColor: int | None = None) -> None:
         # draw north wall
-        border_color = Theme.border
+        border_color: int = Theme.border
         if backgroundColor is not None:
             for y in range(self.cellBorder, self.cellHeight):
                 for x in range(self.cellBorder, self.cellWidth):
@@ -81,13 +69,6 @@ class CellsImage(Image):
                     x_axis = x + (self.cellWidth * cell.x) + self.cellWidth
                     y_axis = (cell.y * self.cellHeight) + y
                     self.put_pixel(x_axis, y_axis, border_color)
-
-    def clear_cell(self, cell: Cell, color=0x98340EAB):
-        for y in range(self.cellHeight):
-            for x in range(self.cellWidth):
-                y_axis = cell.y * self.cellHeight + y
-                x_axis = cell.x * self.cellWidth + x
-                self.put_pixel(x_axis, y_axis, color)
 
     def draw_wall_between_two_cell(
         self, cell_one: Cell, cell_two: Cell, color: int
@@ -131,15 +112,10 @@ class CellsImage(Image):
                 for x in range(start_x, end_x):
                     self.put_pixel(x, y, color)
 
-    def draw_background(self):
-        for y in range(self.height - (self.vertical_cells * 4)):
-            for x in range(self.width - (self.horizontal_cells * 4)):
-                self.put_pixel(x, y, Theme.background)
-
-    def set_border(self, color):
+    def set_border(self, color: int) -> Self:
         self.border_color = color
         return self
 
-    def set_cell_img(self, cells_img: list[Cell]):
+    def set_cell_img(self, cells_img: list[Cell]) -> Self:
         self.cell_img = cells_img
         return self

@@ -1,22 +1,18 @@
 class Cell:
-    def __init__(self, x: int, y: int, north=True, south=True, east=True,
-            west=True) -> None:
-        self.north = north
-        self.south = south
-        self.east = east
-        self.west = west
-        self.x = x
-        self.y = y
-        self.is_visited = False
-        self.is_42_cell = False
-
-    def remove_wall(self, wall: str, value: bool) -> None:
-        match wall:
-            case "north":
-                self.north = value
-            case "south":
-                self.south = value
-            case "east":
-                self.east = value
-            case "west":
-                self.west = value
+    def __init__(
+        self,
+        x: int,
+        y: int,
+        north: bool = True,
+        south: bool = True,
+        east: bool = True,
+        west: bool = True,
+    ) -> None:
+        self.north: bool = north
+        self.south: bool = south
+        self.east: bool = east
+        self.west: bool = west
+        self.x: int = x
+        self.y: int = y
+        self.is_visited: bool = False
+        self.is_42_cell: bool = False

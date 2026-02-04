@@ -1,12 +1,15 @@
 from abc import ABC
+from typing import Self
+from maze.cell import Cell
 from my_mlx.my_mlx import MyMlx
 from random import choice, seed
 from maze.maze_state import MazeState
+from renderer.images.cellImg import CellsImage
 from renderer.themes import Theme
 
 
 class MazeGeneratorAlgo(ABC):
-    def __init__(self):
+    def __init__(self) -> None:
         self.current_cell = None
         self.frames = 0
         self.is_finished = False
@@ -36,15 +39,7 @@ class MazeGeneratorAlgo(ABC):
         y = int(MyMlx.screen_height / 2 - self.cells_img.height / 2)
         MyMlx.put_image_to_window(self.cells_img.ptr, x, y)
 
-    def set_cells_img(self, cells_img):
-        self.cells_img = cells_img
-        return self
-
-    def set_speed(self, speed):
-        self.speed = speed
-        return self
-
-    def remove_wall(self, current_cell, next_cell):
+    def remove_wall(self, current_cell: Cell, next_cell: Cell) -> None:
         if next_cell:
             x = current_cell.x - next_cell.x
             y = current_cell.y - next_cell.y
@@ -64,7 +59,7 @@ class MazeGeneratorAlgo(ABC):
             current_cell, next_cell, Theme.background
         )
 
-    def check_neighbors(self):
+    def check_neighbors(self) -> Cell | None:
         if self.current_cell:
             x = self.current_cell.x
             y = self.current_cell.y
@@ -90,14 +85,12 @@ class MazeGeneratorAlgo(ABC):
             return None
 
     def redraw_maze(self) -> None:
-        # self.cells_img.draw_background()
         for row_cells in self.maze_state.cells_grid:
             for cell in row_cells:
                 if cell.is_42_cell:
                     self.cells_img.draw_cell(cell, Theme.cell_42)
                 else:
                     self.cells_img.draw_cell(cell, Theme.background)
-
         self.put_cells_img_to_window()
 
     def draw_42(self) -> None:
@@ -127,13 +120,17 @@ class MazeGeneratorAlgo(ABC):
         for i in range(x + 4, x + 7):
             self.draw_cell_42(cells_grid[y + 4][i])
 
-    def draw_cell_42(self, cell):
+    def draw_cell_42(self, cell: Cell) -> None:
         cell.is_visited = True
         cell.is_42_cell = True
         self.cells_img.draw_cell(cell, Theme.cell_42)
 
-    def run(self):
+    def run(self) -> None:
         self.is_running = True
 
-    def stop(self):
+    def stop(self) -> None:
         self.isw_running = False
+
+    def set_cells_img(self, cells_img: CellsImage) -> Self:
+        self.cells_img = cells_img
+        return self
