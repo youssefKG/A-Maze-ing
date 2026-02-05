@@ -3,6 +3,7 @@ from my_mlx.my_mlx import MyMlx
 from renderer.themes import Theme
 from solver.solver import Solver
 from renderer.images.background.background_img import BackgroundImg
+from maze.maze_state import MazeState
 
 
 class ControllPannel:
@@ -13,6 +14,7 @@ class ControllPannel:
         start_image = BackgroundImg("karim.png", "png")
         start_image.put_image_to_window()
         MyMlx.key_hook(self.on_press, None)
+        self.maze_state = MazeState()
 
     def draw(self) -> None:
         pass
@@ -40,6 +42,7 @@ class ControllPannel:
 
     def run_wilson(self, keynum: int) -> None:
         if keynum == 98:  # B key
+            self.maze_state.set_cells_grid()
             self.algo = AlgoFactory.create("wilson")
             self.algo.generate()
 
@@ -52,6 +55,7 @@ class ControllPannel:
 
     def run_dfs(self, keynum: int) -> None:
         if keynum == 113:  # q key
+            self.maze_state.set_cells_grid()
             self.algo = AlgoFactory.create("dfs")
             self.algo.generate()
 

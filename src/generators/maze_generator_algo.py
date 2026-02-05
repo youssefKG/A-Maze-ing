@@ -36,7 +36,7 @@ class MazeGeneratorAlgo(ABC):
     def put_cells_img_to_window(self) -> None:
         x = int((MyMlx.screen_width) / 2 - self.cells_img.width / 2)
         y = int(MyMlx.screen_height / 2 - self.cells_img.height / 2)
-        MyMlx.put_image_to_window(self.cells_img.ptr, x, y + 80)
+        MyMlx.put_image_to_window(self.cells_img.ptr, x, y + 20)
 
     def remove_wall(self, current_cell: Cell, next_cell: Cell) -> None:
         if next_cell:

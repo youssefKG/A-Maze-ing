@@ -1,4 +1,3 @@
-from typing import Self
 from maze.cell import Cell
 from renderer.themes import Theme
 from my_mlx.my_mlx import MyMlx
@@ -6,7 +5,7 @@ from my_mlx.my_mlx import MyMlx
 
 def image_dimension(vertical_cells: int, horizontal_cells: int):
     max_cell = int(max(vertical_cells, horizontal_cells))
-    min_screen = int(min(MyMlx.screen_width, MyMlx.screen_height))
+    min_screen = int(min(MyMlx.screen_width, MyMlx.screen_height * 0.8))
     cell_dim = int(min_screen / max_cell)
     return ((cell_dim * horizontal_cells) - 4, (cell_dim * vertical_cells) - 4)
 
@@ -30,16 +29,15 @@ class CellsImage:
             self.data[i : i + 4] = (0x0000000).to_bytes(4, "little")
         return self
 
-    def set_cell_width(self) -> Self:
+    def set_cell_width(self):
         self.cell_width = int((self.width / self.horizontal_cells) * 0.8)
         return self
 
-    def set_cell_height(self) -> Self:
+    def set_cell_height(self):
         self.cell_height = int((self.height / self.vertical_cells) * 0.8)
         return self
 
     def draw_cell(self, cell: Cell, backgroundColor: int | None = None) -> None:
-        # draw north wall
         border_color: int = Theme.border
         if backgroundColor is not None:
             for y in range(self.cell_border, self.cell_height):
@@ -48,6 +46,7 @@ class CellsImage:
                     y_axis = cell.y * self.cell_height + y
                     self.put_pixel(x_axis, y_axis, backgroundColor)
 
+        # draw north wall
         if cell.north:
             for x in range(self.cell_width + self.cell_border):
                 for y in range(self.cell_border):

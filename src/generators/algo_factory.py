@@ -8,11 +8,9 @@ from solver.solver import Solver
 
 
 class AlgoFactory:
-    maze_state = MazeState()
 
     @classmethod
     def create(cls, name: str | None = None) -> MazeGeneratorAlgo:
-        cls.maze_state.set_cells_grid()
         algo_generator = MazeGeneratorAlgo()
         if name == "wilson":
             algo_generator = WilsonMazeGenerator()
