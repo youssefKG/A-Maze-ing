@@ -7,9 +7,8 @@ from solver.solver import Solver
 from renderer.images.background.background_img import BackgroundImg
 
 
-class ControllPannel(Image):
+class ControllPannel:
     def __init__(self) -> None:
-        super().__init__(int(MyMlx.screen_width * 0.4), MyMlx.screen_height)
         self.algo = AlgoFactory.create()
         self.is_started = False
         self.solver = Solver()
@@ -22,16 +21,11 @@ class ControllPannel(Image):
 
     def on_press(self, keynum: int, _: object) -> None:
 
-        self.run_dfs(keynum)
-
-        self.run_wilson(keynum)
-
-        self.run_bfs(keynum)
-
-        self.toggle_path(keynum)
-
         self.start_maze(keynum)
-
+        self.run_dfs(keynum)
+        self.run_wilson(keynum)
+        self.run_bfs(keynum)
+        self.toggle_path(keynum)
         self.change_color(keynum)
 
         if keynum == 65307:  # esc key
@@ -53,8 +47,8 @@ class ControllPannel(Image):
     def start_maze(self, keynum: int) -> None:
         if keynum == 65293:  # enter key
             if not self.is_started:
-                self.draw_descriptions()
                 self.is_started = True
+                Theme.background_img.put_image_to_window()
                 self.algo.generate()
 
     def run_dfs(self, keynum: int) -> None:
@@ -76,33 +70,7 @@ class ControllPannel(Image):
         if keynum == 99:  # C key
             if not self.solver.is_running:
                 Theme.change()
-                self.draw_descriptions()
+                Theme.background_img.put_image_to_window()
                 self.algo.redraw_maze()
                 if self.solver.is_path_shown:
                     self.solver.draw_path()
-
-    def draw_descriptions(self) -> None:
-        x_start = int(MyMlx.screen_width * 0.7)
-        y = int(MyMlx.screen_height / 2)
-        # line_height = 20
-        # title = "A-Maze-ing"
-        # descriptions = [
-        #     "(Press A) to generate the maze using Depth-First Search (DFS)",
-        #     "(Press B) to generate the maze using Wilson algorithm",
-        #     "(Press C) to change color",
-        #     "(Press H) to toggle solution path visibility",
-        #     "(Press S) to run Breadth-First Search (BFS) solver",
-        # ]
-        # for _ in range(6):
-        #     MyMlx.clear_window()
-        MyMlx.clear_window()
-        Theme.background_img.put_image_to_window()
-        for row in range(int(MyMlx.screen_width * 0.3)):
-            for col in range(y + 30, y + 32):
-                self.put_pixel(row, col, Theme.border)
-        MyMlx.put_image_to_window(self.ptr, x_start, 0)
-        # MyMlx.put_string(title, 10 + x_start, y, Colors.WHITE)
-        # for i in range(len(descriptions)):
-        #     MyMlx.put_string(
-        #         descriptions[i], x_start, line_height * (i + 2) + y, Colors.WHITE
-        #     )

@@ -136,7 +136,8 @@ class BfsSolver(Solver):
                 self.visited.append(neighboor)
                 self.path[neighboor] = self.current_cell
                 self.cells_img.draw_cell(neighboor, Theme.neighboor)
-                self.put_cells_img_to_window()
+                print(neighboor.x, neighboor.y)
+            self.put_cells_img_to_window()
 
     def redraw_maze(self) -> None:
         for row_cells in self.maze_state.cells_grid:

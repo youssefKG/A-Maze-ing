@@ -10,23 +10,21 @@ from sys import argv
 
 
 class AlgoFactory:
-    horizontal_cells: int = 30
-    vertical_cells: int = 30
-    entry_cell: tuple[int, int] = (0, 19)
-    exit_cell: tuple[int, int] = (0, 99)
+    horizontal_cells: int = 40
+    vertical_cells: int = 40 
+    entry_cell = (0, 9)
+    exit_cell  = (0, 1)
     cells_img = CellsImage(vertical_cells, horizontal_cells)
 
     @classmethod
     def create(cls, name: str | None = None) -> MazeGeneratorAlgo:
-        parser = Parser(argv[1])
-        parser.parse()
         maze_state = MazeState()
         (
-            maze_state.set_vertical_cells(100)
-            .set_horizontal_cells(100)
+            maze_state.set_vertical_cells(cls.vertical_cells)
+            .set_horizontal_cells(cls.vertical_cells)
             .set_cells_grid()
             .set_entry_cell(cls.entry_cell)
-            .set_exit_cell(cls.entry_cell)
+            .set_exit_cell(cls.exit_cell)
         )
         algo_generator = MazeGeneratorAlgo()
         if name == "wilson":

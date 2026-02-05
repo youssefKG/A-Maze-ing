@@ -1,4 +1,3 @@
-from typing import Self
 from maze.cell import Cell
 from renderer.images.image import Image
 from renderer.themes import Theme
@@ -31,11 +30,11 @@ class CellsImage(Image):
         cell_height = int(self.height / self.vertical_cells)
         return int(cell_height * 0.8)
 
-    def set_border(self, color: int) -> Self:
+    def set_border(self, color: int):
         self.border_color = color
         return self
 
-    def set_cell_img(self, cells_img: list[Cell]) -> Self:
+    def set_cell_img(self, cells_img: list[Cell]):
         self.cell_img = cells_img
         return self
 

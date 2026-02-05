@@ -1,5 +1,4 @@
 from abc import ABC
-from typing import Self
 from maze.cell import Cell
 from my_mlx.my_mlx import MyMlx
 from random import choice, seed
@@ -37,7 +36,7 @@ class MazeGeneratorAlgo(ABC):
     def put_cells_img_to_window(self) -> None:
         x = int((MyMlx.screen_width) / 2 - self.cells_img.width / 2)
         y = int(MyMlx.screen_height / 2 - self.cells_img.height / 2)
-        MyMlx.put_image_to_window(self.cells_img.ptr, x, y)
+        MyMlx.put_image_to_window(self.cells_img.ptr, x, y + 80)
 
     def remove_wall(self, current_cell: Cell, next_cell: Cell) -> None:
         if next_cell:
@@ -129,8 +128,8 @@ class MazeGeneratorAlgo(ABC):
         self.is_running = True
 
     def stop(self) -> None:
-        self.isw_running = False
+        self.is_running = False
 
-    def set_cells_img(self, cells_img: CellsImage) -> Self:
+    def set_cells_img(self, cells_img: CellsImage) :
         self.cells_img = cells_img
         return self
