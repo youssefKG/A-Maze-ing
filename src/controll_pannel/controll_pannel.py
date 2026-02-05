@@ -1,5 +1,3 @@
-from renderer.images.image import Image
-from renderer.colors import Colors
 from generators.algo_factory import AlgoFactory
 from my_mlx.my_mlx import MyMlx
 from renderer.themes import Theme
@@ -38,6 +36,7 @@ class ControllPannel:
                 self.solver = AlgoFactory.create_solver("bfs")
                 self.solver.hide_path()
                 self.solver.generate()
+                print("bfs")
 
     def run_wilson(self, keynum: int) -> None:
         if keynum == 98:  # B key

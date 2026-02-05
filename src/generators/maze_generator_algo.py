@@ -130,6 +130,28 @@ class MazeGeneratorAlgo(ABC):
     def stop(self) -> None:
         self.is_running = False
 
-    def set_cells_img(self, cells_img: CellsImage) :
+    def set_cells_img(self, cells_img: CellsImage):
         self.cells_img = cells_img
         return self
+
+    def count_cell_walls(self, cell: Cell) -> int:
+        count = 0
+        if cell.north:
+            count += 1
+        if cell.south:
+            count += 1
+        if cell.east:
+            count += 1
+        if cell.west:
+            count += 1
+        return count
+
+    def break_wall_in_imperfect(self):
+        for row in self.maze_state.cells_grid:
+            for cell in row:
+                if not cell.is_42_cell:
+                    count_walls = self.count_cell_walls(cell)
+                    if count_walls == 3:
+                        if cell.west:
+                            cell.west = False
+                            return

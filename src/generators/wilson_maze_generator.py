@@ -43,6 +43,8 @@ class WilsonMazeGenerator(MazeGeneratorAlgo):
         if not self.is_running:
             return
         if len(self.unvisited) == 0:
+            if not self.maze_state.is_perfect:
+                self.break_wall_in_imperfect()
             self.redraw_maze()
             self.is_finished = True
             self.is_running = False
