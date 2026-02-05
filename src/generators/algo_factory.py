@@ -12,8 +12,8 @@ class AlgoFactory:
 
     @classmethod
     def create(cls, name: str | None = None) -> MazeGeneratorAlgo:
-        algo_generator = MazeGeneratorAlgo()
         cls.maze_state.set_cells_grid()
+        algo_generator = MazeGeneratorAlgo()
         if name == "wilson":
             algo_generator = WilsonMazeGenerator()
         elif name == "dfs":
@@ -25,4 +25,4 @@ class AlgoFactory:
         solver = Solver()
         if name == "bfs":
             solver = BfsSolver()
-        return solver.set_cells_img(CellsImage())
+        return solver

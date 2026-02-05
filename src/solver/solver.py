@@ -11,6 +11,7 @@ class Solver(ABC):
         self.frames: int = 0
         self.is_running: bool = False
         self.maze_state = MazeState()
+        self.cells_img = CellsImage()
         self.is_path_shown: bool = False
 
     def set_horizontal_cells(self, horizontal_cells: int):
@@ -19,10 +20,6 @@ class Solver(ABC):
 
     def set_vertical_cells(self, vertical_cells: int):
         self.vertical_cells = vertical_cells
-        return self
-
-    def set_cells_img(self, cells_img: CellsImage):
-        self.cells_img = cells_img
         return self
 
     def generate(self) -> None:

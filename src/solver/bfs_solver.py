@@ -82,7 +82,9 @@ class BfsSolver(Solver):
 
     def generate(self) -> None:
         if not self.is_running:
+            print(self.cells_img.width, self.cells_img.height)
             self.current_cell = self.maze_state.entry_cell
+            self.visited.append(self.current_cell)
             self.bfs_queue.appendleft(self.maze_state.entry_cell)
             self.next_cell = self.maze_state.exit_cell
             self.is_running = True
@@ -104,26 +106,24 @@ class BfsSolver(Solver):
             self.current_cell = self.bfs_queue.popleft()
             if self.current_cell is self.maze_state.exit_cell:
                 self.is_solution_found = True
+                print("hello")
                 self.redraw_maze()
             else:
                 self.draw_neighboors()
 
-        elif (
-            self.is_solution_found and self.next_cell is not self.maze_state.entry_cell
-        ):
-            self.cells_img.draw_cell(self.next_cell, Theme.path)
-            self.cells_img.draw_wall_between_two_cell(
-                self.next_cell, self.path[self.next_cell], Theme.path
-            )
-            self.next_cell = self.path[self.next_cell]
-            self.put_cells_img_to_window()
-
-        elif self.is_solution_found and self.next_cell is self.maze_state.entry_cell:
+        if self.is_solution_found and self.next_cell is self.maze_state.entry_cell:
             self.cells_img.draw_cell(self.maze_state.entry_cell, Theme.entry_cell)
             self.cells_img.draw_cell(self.maze_state.exit_cell, Theme.exit_cell)
             self.is_finished = True
             self.is_running = False
             self.is_path_shown = True
+            self.put_cells_img_to_window()
+        if self.is_solution_found and self.next_cell is not self.maze_state.entry_cell:
+            self.cells_img.draw_cell(self.next_cell, Theme.path)
+            self.cells_img.draw_wall_between_two_cell(
+                self.next_cell, self.path[self.next_cell], Theme.path
+            )
+            self.next_cell = self.path[self.next_cell]
             self.put_cells_img_to_window()
 
     # draw neightboors
