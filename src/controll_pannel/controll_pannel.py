@@ -22,12 +22,12 @@ class ControllPannel:
     def on_press(self, keynum: int, _: object) -> None:
 
         self.start_maze(keynum)
-        self.run_dfs(keynum)
-        self.run_wilson(keynum)
-        self.run_bfs(keynum)
-        self.toggle_path(keynum)
-        self.change_color(keynum)
-
+        if self.is_started:
+            self.run_dfs(keynum)
+            self.run_wilson(keynum)
+            self.run_bfs(keynum)
+            self.toggle_path(keynum)
+            self.change_color(keynum)
         if keynum == 65307:  # esc key
             MyMlx.loop_exit()
 
@@ -71,9 +71,9 @@ class ControllPannel:
 
     def change_color(self, keynum) -> None:
         if keynum == 99:  # C key
-            if not self.solver.is_running:
-                Theme.change()
-                Theme.background_img.put_image_to_window()
-                self.algo.redraw_maze()
-                if self.solver.is_path_shown:
-                    self.solver.draw_path()
+            #if not self.solver.is_running:
+            Theme.change()
+            Theme.background_img.put_image_to_window()
+            self.algo.redraw_maze()
+            if self.solver.is_path_shown:
+                self.solver.draw_path()

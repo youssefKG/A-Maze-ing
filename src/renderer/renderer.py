@@ -12,7 +12,7 @@ class Renderer:
             .set_horizontal_cells(23)
             .set_cells_grid()
             .set_entry_cell((0, 0))
-            .set_exit_cell((2, 20))
+            .set_exit_cell((22, 22))
             .set_is_perfect(True)
         )
         self.cells_img = CellsImage()
