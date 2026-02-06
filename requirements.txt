@@ -1,0 +1,1 @@
+mazegen @ file:///home/darwin/A-Maze-Ing

@@ -8,8 +8,8 @@ class Renderer:
     def __init__(self) -> None:
         self.maze_state = MazeState()
         (
-            self.maze_state.set_vertical_cells(23)
-            .set_horizontal_cells(23)
+            self.maze_state.set_vertical_cells(33)
+            .set_horizontal_cells(38)
             .set_cells_grid()
             .set_entry_cell((0, 0))
             .set_exit_cell((22, 22))

@@ -14,7 +14,7 @@ class MazeGeneratorAlgo(ABC):
         self.is_finished = False
         self.maze_state = MazeState()
         self.is_running = False
-        seed(22)
+        seed(10)
 
     def generate(self) -> None:
         self.is_running = True

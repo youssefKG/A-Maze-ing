@@ -1,0 +1,16 @@
+
+WIDTH=100
+HEIGHT=10
+ENTRY=0,0
+EXIT=2,1
+SEED=-12
+OUTPUT_FILE=maze.txt
+PERFECT=False
+
+
+
+
+
+
+
+
