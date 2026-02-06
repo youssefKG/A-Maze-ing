@@ -40,13 +40,16 @@ class MazeState:
         self.is_perfect = is_perfect
         return self
 
+    def set_seed(self, seed_value: int):
+        self.seed = seed_value
+        return self
 
-    def get_entry_cell(self) -> list[Cell]:
+    def get_entry_cell(self) -> Cell:
         x = self.entry_cell.x
         y = self.entry_cell.y
         return self.cells_grid[y][x]
 
-    def get_exit_cell(self) -> list[Cell]: 
+    def get_exit_cell(self) -> Cell:
         x = self.exit_cell.x
         y = self.exit_cell.y
         return self.cells_grid[y][x]

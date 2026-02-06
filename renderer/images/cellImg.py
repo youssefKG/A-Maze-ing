@@ -21,12 +21,13 @@ class CellsImage:
     def set_cells(self, vertical_cells: int, horizontal_cells: int):
         self.vertical_cells = vertical_cells
         self.horizontal_cells = horizontal_cells
-        self.width, self.height = image_dimension(vertical_cells, horizontal_cells)
-        self.cell_border = int((self.width / self.vertical_cells) * 0.20)
+        self.set_image_dimension()
+        self.set_cell_width()
+        self.set_cell_height()
+        self.set_border()
         self.ptr = MyMlx.new_image(self.width + 10, self.height + 10)
         self.data, self.bpp, self.sl, self.format = MyMlx.get_data_addr(self.ptr)
-        for i in range(0, len(self.data), 4):
-            self.data[i : i + 4] = (0x0000000).to_bytes(4, "little")
+        self.clear_image()
         return self
 
     def set_cell_width(self):
@@ -35,6 +36,21 @@ class CellsImage:
 
     def set_cell_height(self):
         self.cell_height = int((self.height / self.vertical_cells) * 0.8)
+        return self
+
+    def set_border(self):
+        self.cell_border = int((self.width / self.vertical_cells) * 0.20)
+        return self
+
+    def set_image_dimension(self):
+        max_cell = int(max(self.vertical_cells, self.horizontal_cells))
+        min_screen = int(min(MyMlx.screen_width, MyMlx.screen_height * 0.8))
+        cell_dim = int(min_screen / max_cell)
+        self.width = int(cell_dim * self.vertical_cells - 4)
+        self.height = int(cell_dim * self.horizontal_cells - 4)
+        self.width, self.height = image_dimension(
+            self.vertical_cells, self.horizontal_cells
+        )
         return self
 
     def draw_cell(self, cell: Cell, backgroundColor: int | None = None) -> None:
@@ -122,3 +138,7 @@ class CellsImage:
     def put_pixel(self, x: int, y: int, color: int) -> None:
         offset = int((y * self.sl) + (x * (self.bpp / 8)))
         self.data[offset : offset + 4] = (color).to_bytes(4, "little")
+
+    def clear_image(self):
+        for i in range(0, len(self.data), 4):
+            self.data[i : i + 4] = (0x0000000).to_bytes(4, "little")

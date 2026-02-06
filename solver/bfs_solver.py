@@ -44,7 +44,6 @@ class BfsSolver(Solver):
         self.set_entry_cell()
         self.set_exit_cell()
 
-
     def get_neighboors(self) -> list[Cell]:
         neighboors = []
         x = self.current_cell.x
@@ -85,7 +84,7 @@ class BfsSolver(Solver):
 
     def generate(self) -> None:
         if not self.is_running:
-            
+
             self.current_cell = self.entry_cell
             self.bfs_queue.appendleft(self.entry_cell)
             self.next_cell = self.exit_cell
@@ -116,9 +115,7 @@ class BfsSolver(Solver):
         elif self.is_solution_found and self.next_cell is not self.entry_cell:
             self.cells_img.draw_cell(self.next_cell, Theme.path)
             self.cells_img.draw_wall_between_two_cell(
-                self.next_cell,
-                self.path[self.next_cell],
-                Theme.path
+                self.next_cell, self.path[self.next_cell], Theme.path
             )
             self.next_cell = self.path[self.next_cell]
             self.put_cells_img_to_window()

@@ -1,6 +1,7 @@
 from renderer.colors import Colors
 from renderer.images.background.background_img import BackgroundImg
 
+
 class ColorScheme:
 
     def set_border(self, border: int):

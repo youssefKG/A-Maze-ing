@@ -1,19 +1,24 @@
+from sys import argv
 from maze.maze_state import MazeState
 from my_mlx.my_mlx import MyMlx
 from controll_pannel.controll_pannel import ControllPannel
 from renderer.images.cellImg import CellsImage
+from parser.Parser import Parser
 
 
 class Renderer:
     def __init__(self) -> None:
+        parser = Parser(argv)
+        parser.parse()
         self.maze_state = MazeState()
         (
-            self.maze_state.set_vertical_cells(33)
-            .set_horizontal_cells(38)
+            self.maze_state.set_vertical_cells(parser.height)
+            .set_horizontal_cells(parser.width)
             .set_cells_grid()
-            .set_entry_cell((0, 0))
-            .set_exit_cell((22, 22))
-            .set_is_perfect(True)
+            .set_entry_cell(parser.entry)
+            .set_exit_cell(parser.exit)
+            .set_is_perfect(parser.perfect)
+            .set_seed(parser.seed)
         )
         self.cells_img = CellsImage()
         self.cells_img.set_cells(

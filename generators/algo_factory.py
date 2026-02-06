@@ -8,9 +8,12 @@ from solver.solver import Solver
 
 
 class AlgoFactory:
+    generator_name = "default"
 
     @classmethod
     def create(cls, name: str | None = None) -> MazeGeneratorAlgo:
+        if name:
+            cls.generator_name = name
         algo_generator = MazeGeneratorAlgo()
         if name == "wilson":
             algo_generator = WilsonMazeGenerator()
