@@ -3,13 +3,6 @@ from renderer.themes import Theme
 from my_mlx.my_mlx import MyMlx
 
 
-def image_dimension(vertical_cells: int, horizontal_cells: int):
-    max_cell = int(max(vertical_cells, horizontal_cells))
-    min_screen = int(min(MyMlx.screen_width, MyMlx.screen_height * 0.8))
-    cell_dim = int(min_screen / max_cell)
-    return ((cell_dim * horizontal_cells) - 4, (cell_dim * vertical_cells) - 4)
-
-
 class CellsImage:
     _instance = None
 
@@ -48,9 +41,6 @@ class CellsImage:
         cell_dim = int(min_screen / max_cell)
         self.width = int(cell_dim * self.vertical_cells - 4)
         self.height = int(cell_dim * self.horizontal_cells - 4)
-        self.width, self.height = image_dimension(
-            self.vertical_cells, self.horizontal_cells
-        )
         return self
 
     def draw_cell(self, cell: Cell, backgroundColor: int | None = None) -> None:

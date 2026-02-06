@@ -1,7 +1,6 @@
 from generators.dfs_maze_generator import DfsMazeGenerator
 from generators.maze_generator_algo import MazeGeneratorAlgo
 from generators.wilson_maze_generator import WilsonMazeGenerator
-from maze.maze_state import MazeState
 from renderer.images.cellImg import CellsImage
 from solver.bfs_solver import BfsSolver
 from solver.solver import Solver

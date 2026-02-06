@@ -1,7 +1,6 @@
 from abc import ABC
 from maze.maze_state import MazeState
 from my_mlx.my_mlx import MyMlx
-from maze.cell import Cell
 from renderer.images.cellImg import CellsImage
 
 

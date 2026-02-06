@@ -1,6 +1,5 @@
 from typing import Any
 from maze.cell import Cell
-from collections import deque
 from solver.solver import Solver
 from renderer.themes import Theme
 from collections import deque

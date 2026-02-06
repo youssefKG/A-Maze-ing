@@ -1,5 +1,3 @@
-from mlx.mlx import Mlx
-from renderer import renderer
 from renderer.renderer import Renderer
 
 
