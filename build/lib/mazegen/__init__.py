@@ -1,1 +1,0 @@
-from .MazeGenerator import MazeGenerator # noqa 401
