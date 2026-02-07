@@ -1,10 +1,13 @@
 import random
-from typing import Any, Dict, List, Union, Tuple
+from typing import Dict, List, Union, Tuple
 from mazegen.algorithms.Algo import Algo
 
 
 class WilsonAlgo(Algo):
-    def __init__(self, materials: Dict[str, Union[Tuple, int, str, bool]]) -> None:
+    def __init__(
+        self,
+        materials: Dict[str, Union[Tuple, int, str, bool]]
+    ) -> None:
         super().__init__(materials)
         self.materials["map"] = self.create_map()
         self.visited: list[tuple[int, int]] = list()
@@ -25,7 +28,7 @@ class WilsonAlgo(Algo):
                 j += 1
             i += 1
 
-    def algo_run(self) -> list[Any]:
+    def algo_run(self) -> list[tuple[int, int]] | None:
         if self.materials["is_42"]:
             self.remove_map_quarante_deux()
         target_cell = random.choice(self.unvisited)
@@ -36,18 +39,22 @@ class WilsonAlgo(Algo):
             current = random.choice(self.unvisited)
             path.append(current)
             while current not in self.visited:
-                next_cell = self.get_random_valid_neighboors(current)
+                next: tuple[int, int] | None = \
+                    self.get_rand_valid_neighboors(current)
+                if not next:
+                    return []
                 try:
-                    loop_index = path.index(next_cell)
+                    loop_index: int = path.index(next)
                     path = path[: loop_index + 1]
                 except Exception:
-                    path.append(next_cell)
-                current = next_cell
+                    path.append(next)
+                current = next
             self.remove_walls_of_path(path)
             for cell in path:
                 self.visited.append(cell)
                 if cell in self.unvisited:
                     self.unvisited.remove(cell)
+        return []
 
     def remove_walls_of_path(self, path: List[tuple]) -> None:
 
@@ -77,7 +84,10 @@ class WilsonAlgo(Algo):
                     index = self.get_index_of_position(next_x, next_y)
                     map[next_y][next_x] = self.hexa[index - 1]
 
-    def get_random_valid_neighboors(self, position: Tuple) -> Tuple[int, int] | None:
+    def get_rand_valid_neighboors(
+        self,
+        position: Tuple
+    ) -> Tuple[int, int] | None:
         x, y = position
         directions = list()
 

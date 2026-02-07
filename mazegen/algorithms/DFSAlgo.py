@@ -39,6 +39,7 @@ class DFSAlgo(Algo):
                 self.visited.append(next_cell)
             else:
                 curr_cell = stack.pop()
+        print(self.materials['perfect'])
         return []
 
     #  remove walls between two cells (cell, neighbor)

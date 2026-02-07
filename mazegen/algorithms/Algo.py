@@ -8,7 +8,7 @@ class Algo(ABC):
         self.hexa = "0123456789ABCDEF"
 
     @abstractmethod
-    def algo_run(self) -> list[Any]:
+    def algo_run(self) -> list[tuple[int, int]] | None:
         pass
 
     @abstractmethod

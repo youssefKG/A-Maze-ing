@@ -3,20 +3,33 @@ PYTHON = $(VENV)/bin/python3
 SYS_PYTHON = python3
 PIP = $(VENV)/bin/pip
 FILES = parser/Parser.py \
+		mazegen/MazeGenerator.py \
 		mazegen/algorithms/Algo.py \
 		mazegen/algorithms/BFSAlgo.py \
 		mazegen/algorithms/DFSAlgo.py \
 		mazegen/algorithms/WilsonAlgo.py \
+		controll_pannel/controll_pannel.py \
+		generators/algo_factory.py \
+		generators/dfs_maze_generator.py \
+		generators/maze_generator_algo.py \
+		generators/wilson_maze_generator.py \
+		maze/cell.py \
+		maze/maze_state.py \
+		renderer/colors.py \
+		renderer/renderer.py \
+		renderer/themes.py \
+		solver/bfs_solver.py \
+		solver/solver.py \
+		a_maze_ing.py
 
 install: $(VENV)
+	$(PIP) install flake8
+	$(PIP) install mypy
 	$(PIP) install ./mazegen-*.whl
 
 run: 
 	$(PYTHON) a_maze_ing.py config.txt
 	
-dependecies: $(VENV)
-	$(PIP) install ./mazegen-*.whl
-
 $(VENV):
 	$(SYS_PYTHON) -m $(VENV) $(VENV)
 
@@ -25,7 +38,7 @@ clean:
 	rm -rf $(VENV) dist/ *egg-info
 
 lint:
-	flake8 $(FILES) 
-	#&& mypy $(FILES) --warn-return-any --warn-unused-ignores --ignore-missing-imports --disallow-untyped-defs --check-untyped-defs	
+	$(VENV)/bin/flake8 $(FILES) 
+	$(VENV)/bin/mypy $(FILES) --warn-return-any --warn-unused-ignores --ignore-missing-imports --disallow-untyped-defs --check-untyped-defs	
 
 .PHONY: dependecies clean lint install
