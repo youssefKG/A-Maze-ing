@@ -122,6 +122,7 @@ class Parser:
             'seed': self.seed,
             "is_42": self.is_42_cells,
             'output_file': self.output_file,
+            'perfect': self.perfect,
             'hexa': "0123456789ABCEDF",
             'directions': ['north', 'east', 'south', 'west']
         }

@@ -14,6 +14,7 @@ class MazeGenerator:
         exit: Tuple[int, int],
         seed: int,
         filename: str,
+        perfect: bool
     ) -> None:
         self.width = width
         self.height = height
@@ -21,8 +22,8 @@ class MazeGenerator:
         self.exit = exit
         self.number_seed = seed
         self.output_file = filename
+        self.is_perfect = perfect
         self.map: list[list[str]] = []
-        self.algorithm = None
         self.shortest_path: str = ""
         self.is_42 = self.logo_in_map()
         self.hexa = "0123456789ABCEDF"
@@ -51,6 +52,7 @@ class MazeGenerator:
                     "entry": self.entry,
                     "exit": self.exit,
                     "is_42": self.is_42,
+                    "perfect": self.is_perfect,
                     "hexa": self.hexa,
                     "directions": ("north", "east", "south", "west"),
                 }
@@ -82,6 +84,7 @@ class MazeGenerator:
                     "entry": self.entry,
                     "exit": self.exit,
                     "is_42": self.is_42,
+                    "perfect": self.is_perfect,
                     "hexa": self.hexa,
                     "directions": ("north", "east", "south", "west"),
                 }
