@@ -96,6 +96,7 @@ Wilson's Algorithm Animation:
 Shows random walk process
 
 Highlights the "erased" walk
+theme=default            # Color theme selection
 
 Visualizes loop-erased random walks
 
@@ -177,6 +178,7 @@ random_seed=42         # Seed for reproducible mazes
 window_width=800
 window_height=600
 background_color=0x000000  # Black background
+
 Animation System
 Maze Generation Animation
 The system animates the maze generation process step-by-step:
