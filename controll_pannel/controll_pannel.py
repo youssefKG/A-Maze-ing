@@ -23,6 +23,7 @@ class ControllPannel:
             (self.maze_state.exit_cell.x, self.maze_state.exit_cell.y),
             self.maze_state.seed,
             self.maze_state.filename,
+            self.maze_state.is_perfect,
         )
 
     def draw(self) -> None:

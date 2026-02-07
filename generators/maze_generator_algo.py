@@ -29,7 +29,7 @@ class MazeGeneratorAlgo(ABC):
                 )
                 j += 1
             i += 1
-        if vertical_cells > 5 and horizontal_cells > 7:
+        if vertical_cells > 6 and horizontal_cells > 8:
             self.draw_42()
         self.put_cells_img_to_window()
 
