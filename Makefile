@@ -8,25 +8,24 @@ FILES = parser/Parser.py \
 		mazegen/algorithms/DFSAlgo.py \
 		mazegen/algorithms/WilsonAlgo.py \
 
-run: dependecies
-	$(PYTHON) a_maze_ing.py config.txt
-
-dependecies: $(VENV)/bin/activate 
-	$(PIP) install build 
-	$(PIP) install flake8
-	$(PYTHON) -m build
-	cp dist/*.whl .
+install: $(VENV)
 	$(PIP) install ./mazegen-*.whl
 
-$(VENV)/bin/activate:
+run: 
+	$(PYTHON) a_maze_ing.py config.txt
+	
+dependecies: $(VENV)
+	$(PIP) install ./mazegen-*.whl
+
+$(VENV):
 	$(SYS_PYTHON) -m $(VENV) $(VENV)
 
 clean:
 	rm -rf  __pycache__ */__pycache__ */*/__pycache__
-	rm -rf $(VENV) dist/ *.whl *egg-info 
+	rm -rf $(VENV) dist/ *egg-info
 
 lint:
 	flake8 $(FILES) 
 	#&& mypy $(FILES) --warn-return-any --warn-unused-ignores --ignore-missing-imports --disallow-untyped-defs --check-untyped-defs	
 
-.PHONY: dependecies clean lint 
+.PHONY: dependecies clean lint install
