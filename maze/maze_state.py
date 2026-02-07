@@ -53,3 +53,7 @@ class MazeState:
         x = self.exit_cell.x
         y = self.exit_cell.y
         return self.cells_grid[y][x]
+
+    def set_output_file(self, filename: str):
+        self.filename = filename
+        return self

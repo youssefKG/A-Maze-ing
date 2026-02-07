@@ -1,4 +1,5 @@
 from generators.algo_factory import AlgoFactory
+from mazegen.MazeGenerator import MazeGenerator
 from my_mlx.my_mlx import MyMlx
 from renderer.themes import Theme
 from solver.solver import Solver
@@ -15,6 +16,14 @@ class ControllPannel:
         start_image.put_image_to_window()
         MyMlx.key_hook(self.on_press, None)
         self.maze_state = MazeState()
+        self.maze_gen = MazeGenerator(
+            self.maze_state.horizontal_cells,
+            self.maze_state.vertical_cells,
+            (self.maze_state.entry_cell.x, self.maze_state.entry_cell.y),
+            (self.maze_state.exit_cell.x, self.maze_state.exit_cell.y),
+            self.maze_state.seed,
+            self.maze_state.filename,
+        )
 
     def draw(self) -> None:
         pass
@@ -43,6 +52,7 @@ class ControllPannel:
     def run_wilson(self, keynum: int) -> None:
         if keynum == 98:  # B key
             self.solver.hide_path()
+            self.maze_gen.generate("wilson")
             self.maze_state.set_cells_grid()
             self.algo = AlgoFactory.create("wilson")
             self.algo.generate()
@@ -56,6 +66,7 @@ class ControllPannel:
 
     def run_dfs(self, keynum: int) -> None:
         if keynum == 113:  # q key
+            self.maze_gen.generate("dfs")
             self.solver.hide_path()
             self.maze_state.set_cells_grid()
             self.algo = AlgoFactory.create("dfs")

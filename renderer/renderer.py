@@ -19,7 +19,17 @@ class Renderer:
             .set_exit_cell(parser.exit)
             .set_is_perfect(parser.perfect)
             .set_seed(parser.seed)
+            .set_output_file(parser.output_file)
         )
+        if not (
+            self.maze_state.vertical_cells > 5 and self.maze_state.horizontal_cells > 7
+        ):
+            print(
+                "Cannot 42 in center in maze with width ",
+                self.maze_state.vertical_cells,
+                " and height ",
+                self.maze_state.horizontal_cells,
+            )
         self.cells_img = CellsImage()
         self.cells_img.set_cells(
             self.maze_state.vertical_cells, self.maze_state.horizontal_cells

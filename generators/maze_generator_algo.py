@@ -14,7 +14,7 @@ class MazeGeneratorAlgo(ABC):
         self.is_finished = False
         self.maze_state = MazeState()
         self.is_running = False
-        seed(10)
+        seed(self.maze_state.seed)
 
     def generate(self) -> None:
         self.is_running = True
@@ -152,6 +152,16 @@ class MazeGeneratorAlgo(ABC):
                 if not cell.is_42_cell:
                     count_walls = self.count_cell_walls(cell)
                     if count_walls == 3:
-                        if cell.west:
+                        if cell.west and cell.x != 0:
                             cell.west = False
+                        elif (
+                            cell.south and cell.x != self.maze_state.vertical_cells - 1
+                        ):
+                            cell.south = False
+                        elif (
+                            cell.east and cell.x != self.maze_state.horizontal_cells - 1
+                        ):
+                            cell.east = False
+                        elif cell.north:
+                            cell.north = False
                             return
