@@ -22,7 +22,8 @@ class Renderer:
             .set_output_file(parser.output_file)
         )
         if not (
-            self.maze_state.vertical_cells > 5 and self.maze_state.horizontal_cells > 7
+            self.maze_state.vertical_cells > 5
+            and self.maze_state.horizontal_cells > 7
         ):
             print(
                 "Cannot 42 in center in maze with width ",

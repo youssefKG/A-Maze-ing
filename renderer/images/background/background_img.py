@@ -7,9 +7,13 @@ class BackgroundImg:
         self.ptr = None
         self.abs_path = os.path.abspath(".") + "/assets/" + filename
         if format_type == "xpm":
-            self.ptr, self.width, self.height = MyMlx.xpm_file_to_image(self.abs_path)
+            self.ptr, self.width, self.height = MyMlx.xpm_file_to_image(
+                self.abs_path
+            )
         elif format_type == "png":
-            self.ptr, self.width, self.height = MyMlx.png_file_to_image(self.abs_path)
+            self.ptr, self.width, self.height = MyMlx.png_file_to_image(
+                self.abs_path
+            )
 
     def put_image_to_window(self) -> None:
         if self.ptr is not None:

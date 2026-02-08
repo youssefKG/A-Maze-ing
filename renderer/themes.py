@@ -64,10 +64,10 @@ class Theme:
         .set_cell_background(Colors.DARK_BLUE)
         .set_cell_42(Colors.YELLOW)
         .set_tracker(Colors.BLUE)
-        .set_path(Colors.YELLOW)
+        .set_path(Colors.PURPLE)
         .set_exit_cell(Colors.BLUE)
         .set_entry_cell(Colors.RED)
-        .set_neighboor(Colors.PURPLE)
+        .set_neighboor(Colors.BLUE)
         .set_background_img("green_back.png", "png"),
         ColorScheme()
         .set_border(Colors.ORANGE)
@@ -76,7 +76,7 @@ class Theme:
         .set_cell_42(Colors.RED)
         .set_tracker(Colors.CYAN)
         .set_path(Colors.CYAN)
-        .set_exit_cell(Colors.ORANGE)
+        .set_exit_cell(Colors.CYAN)
         .set_entry_cell(Colors.RED)
         .set_neighboor(Colors.CYAN)
         .set_background_img("orange_back.png", "png"),
