@@ -1,5 +1,5 @@
 import random
-from typing import Dict, List, Union, Tuple
+from typing import Any, Dict, List, Union, Tuple
 from mazegen.algorithms.Algo import Algo
 
 
@@ -54,7 +54,52 @@ class WilsonAlgo(Algo):
                 self.visited.append(cell)
                 if cell in self.unvisited:
                     self.unvisited.remove(cell)
+
+        if not self.materials['perfect'] \
+            and self.materials['height'] > 1 and self.materials['width'] > 1:
+            self.remove_for_imperfect()
+
         return []
+
+    def remove_for_imperfect(self) -> None:
+        for y in range(0, self.materials['height']):
+            for x in range(0, self.materials['width']):
+                index: int = self.get_index_of_position(x, y)
+                walls: list[Any] = self.get_walls_of_index(index, x, y)
+                if index in [14, 13, 11, 7] and len(walls):
+                    wall = random.choice(walls)
+                    if wall == 'north':
+                        self.materials['map'][y][x] = self.hexa[index - 1]
+                        index_2 = self.get_index_of_position(x, y - 1)
+                        self.materials['map'][y - 1][x] = self.hexa[index_2 - 4]
+                    elif wall == 'east':
+                        self.materials['map'][y][x] = self.hexa[index - 2]
+                        index_2 = self.get_index_of_position(x + 1, y)
+                        self.materials['map'][y][x + 1] = self.hexa[index_2 - 8]
+                    elif wall == 'south':
+                        self.materials['map'][y][x] = self.hexa[index - 4]
+                        index_2 = self.get_index_of_position(x, y + 1)
+                        self.materials['map'][y + 1][x] = self.hexa[index_2 - 1]
+                    else:
+                        self.materials['map'][y][x] = self.hexa[index - 8]
+                        index_2 = self.get_index_of_position(x - 1, y)
+                        self.materials['map'][y][x - 1] = self.hexa[index_2 - 2]
+                    return
+
+    def get_walls_of_index(self, index: int, x: int, y: int) -> list[Any]:
+        walls: list[Any] = []
+
+        for i in range(4):
+            if index >> i & 1:
+                if i == 0 and y != 0:
+                    walls.append('north')
+                elif i == 1 and x != self.materials['width'] - 1:
+                    walls.append('east')
+                elif i == 2 and y != self.materials['height'] - 1:
+                    walls.append('south')
+                elif i == 3 and x != 0:
+                    walls.append('west')
+        return walls
 
     def remove_walls_of_path(self, path: List[tuple]) -> None:
 

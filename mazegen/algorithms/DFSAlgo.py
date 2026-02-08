@@ -2,6 +2,7 @@ import random
 from typing import Any, Dict, List, Tuple
 from mazegen.algorithms.Algo import Algo
 
+import sys
 
 class DFSAlgo(Algo):
     #  the constructor of class
@@ -39,61 +40,52 @@ class DFSAlgo(Algo):
                 self.visited.append(next_cell)
             else:
                 curr_cell = stack.pop()
-        if not self.materials['perfect']:
+        #  for imperfect maze
+        if not self.materials['perfect'] \
+            and self.materials['height'] > 1 and self.materials['width'] > 1:
             self.remove_for_imperfect()
-        for row in self.materials['map']:
-            print(row)
+
         return []
 
     # for imperfect maze:
     def remove_for_imperfect(self) -> None:
-        for y in range(1, self.materials['height']):
-            for x in range(1, self.materials['width']):
-                walls: list[bool, bool, bool, bool] = self.get_walls_of_cell(x, y)
-                number_of_walls = len([wall for wall in walls if wall == True])
-                if number_of_walls == 3:
-                    self.remove_between_them(walls, x, y)
+        for y in range(0, self.materials['height']):
+            for x in range(0, self.materials['width']):
+                index: int = self.get_index_of_position(x, y)
+                walls: list[Any] = self.get_walls_of_index(index, x, y)
+                if index in [14, 13, 11, 7] and len(walls):
+                    wall = random.choice(walls)
+                    if wall == 'north':
+                        self.materials['map'][y][x] = self.hexa[index - 1]
+                        index_2 = self.get_index_of_position(x, y - 1)
+                        self.materials['map'][y - 1][x] = self.hexa[index_2 - 4]
+                    elif wall == 'east':
+                        self.materials['map'][y][x] = self.hexa[index - 2]
+                        index_2 = self.get_index_of_position(x + 1, y)
+                        self.materials['map'][y][x + 1] = self.hexa[index_2 - 8]
+                    elif wall == 'south':
+                        self.materials['map'][y][x] = self.hexa[index - 4]
+                        index_2 = self.get_index_of_position(x, y + 1)
+                        self.materials['map'][y + 1][x] = self.hexa[index_2 - 1]
+                    else:
+                        self.materials['map'][y][x] = self.hexa[index - 8]
+                        index_2 = self.get_index_of_position(x - 1, y)
+                        self.materials['map'][y][x - 1] = self.hexa[index_2 - 2]
                     return
+    
+    def get_walls_of_index(self, index: int, x: int, y: int) -> list[Any]:
+        walls: list[Any] = []
 
-    def remove_between_them(self, walls: list[bool, bool, bool, bool], x: int, y: int) -> None:
-        i = 0
-        while i < 4:
-            if self.im_between_them(walls, i, x, y):
-                index = self.get_index_of_position(x, y)
-                if i == 0:
-                    index -= 1
-                elif i == 1:
-                    index -= 2
-                elif i == 2:
-                    index -= 4
-                else:
-                    index -= 8
-                print(self.hexa[index], "hexa[index]")
-                print(f"{self.materials['map'][y][x]}, {index}")
-                self.materials['map'][y][x] = self.hexa[index]
-                for row in self.materials['map']:
-                    print(row)
-
-                print("---------------------")
-                return
-            i += 1
-        
-    def im_between_them(self, walls: list[bool, bool, bool, bool], index: int, x: int, y: int) -> None:
-        if index < 3:
-            if walls[index - 1] and walls[index + 1]:
-                return True
-        else:
-            if walls[index - 1] and walls[0]:
-                return True
-        return False
-
-    def get_walls_of_cell(self, x: int, y: int) -> list[bool, bool, bool, bool]:
-        walls: list[bool, bool, bool, bool] = [False, False, False, False] 
-        index = self.get_index_of_position(x, y)
         for i in range(4):
             if index >> i & 1:
-                walls[i] = True
-            i += 1
+                if i == 0 and y != 0:
+                    walls.append('north')
+                elif i == 1 and x != self.materials['width'] - 1:
+                    walls.append('east')
+                elif i == 2 and y != self.materials['height'] - 1:
+                    walls.append('south')
+                elif i == 3 and x != 0:
+                    walls.append('west')
         return walls
 
     #  remove walls between two cells (cell, neighbor)
