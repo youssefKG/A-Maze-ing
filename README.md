@@ -104,12 +104,22 @@ Multiple generation algorithms and theme switching are supported and can be trig
 
 ## Reusable Code
 
-- `mlx/` and `my_mlx/`: MLX wrapper can be reused in any 2D visualization project.
-- `mazegen/algorithms/`: algorithm implementations can be reused in CLI or other renderers.
-- `parser/Parser.py`: reusable key/value config parser with validation.
-- `maze/maze_state.py`: singleton state model for grid-based simulations.
+- [mlx/mlx.py](mlx/mlx.py): Python ctypes wrapper around the MLX C library.
+- [my_mlx/my_mlx.py](my_mlx/my_mlx.py): simplified MLX API wrapper (window, images, hooks).
+- [renderer/images/image.py](renderer/images/image.py) and [renderer/images/cellImg.py](renderer/images/cellImg.py): generic image buffer + grid cell renderer.
+- [renderer/colors.py](renderer/colors.py) and [renderer/themes.py](renderer/themes.py): color utilities and theme switching.
+- [parser/Parser.py](parser/Parser.py): key/value config parser with validation.
+- [maze/cell.py](maze/cell.py) and [maze/maze_state.py](maze/maze_state.py): grid cell model and singleton state container.
+- [generators/maze_generator_algo.py](generators/maze_generator_algo.py): generator base class, with implementations in [generators/dfs_maze_generator.py](generators/dfs_maze_generator.py) and [generators/wilson_maze_generator.py](generators/wilson_maze_generator.py).
+- [solver/solver.py](solver/solver.py) and [solver/bfs_solver.py](solver/bfs_solver.py): solver base class and BFS implementation.
+- [mazegen/MazeGenerator.py](mazegen/MazeGenerator.py) and [mazegen/algorithms](mazegen/algorithms): CLI-oriented algorithm implementations and output writer.
 
 ## Team and Project Management
+
+The project was divided between two responsibilities:
+
+- Output/file side: creation of the output file, implementation of DFS/BFS/Wilson algorithms, and parsing.
+- Rendering side: drawing with MLX, generation with animation, and reimplementation of the algorithms for visualization.
 
 ### Roles
 
@@ -132,6 +142,18 @@ Multiple generation algorithms and theme switching are supported and can be trig
 - Additional UI controls (pause/step)
 - Performance tuning for large mazes
 
+### Strong points
+
+- Clean separation between parsing, generation, rendering, and solving.
+- Smooth real-time visualization with animation.
+- Deterministic runs via `SEED` for reproducible demos.
+
+### What we learned
+
+- Implementing and comparing maze algorithms (DFS, Wilson, BFS).
+- Designing a small architecture with clear module boundaries.
+- Building a rendering loop with MLX and handling UI input.
+
 ### Tools used
 
 - Python 3
@@ -143,46 +165,46 @@ Multiple generation algorithms and theme switching are supported and can be trig
 
 ```
 A-Maze-ing/
-├── a_maze_ing.py
-├── config.txt
-├── Makefile
-├── assets/
+├── a_maze_ing.py                  # Main entry point (loads config, runs app)
+├── config.txt                     # Sample configuration file
+├── Makefile                       # Build and run helpers
+├── assets/                        # Static assets (images/backgrounds)
 │   └── (images and backgrounds)
-├── controll_pannel/
-│   └── controll_pannel.py
-├── generators/
-│   ├── algo_factory.py
-│   ├── dfs_maze_generator.py
-│   ├── maze_generator_algo.py
-│   └── wilson_maze_generator.py
-├── maze/
-│   ├── cell.py
-│   └── maze_state.py
-├── mazegen/
-│   ├── MazeGenerator.py
-│   └── algorithms/
-│       ├── Algo.py
-│       ├── BFSAlgo.py
-│       ├── DFSAlgo.py
-│       └── WilsonAlgo.py
-├── mlx/
-│   └── mlx.py
-├── my_mlx/
-│   └── my_mlx.py
-├── parser/
-│   └── Parser.py
-├── renderer/
-│   ├── colors.py
-│   ├── renderer.py
-│   ├── themes.py
-│   └── images/
-│       ├── image.py
-│       ├── cellImg.py
-│       └── background/
-│           └── background_img.py
-└── solver/
-	├── solver.py
-	└── bfs_solver.py
+├── controll_pannel/               # UI controls and input handling
+│   └── controll_pannel.py         # Control panel logic
+├── generators/                    # Maze generation implementations (output side)
+│   ├── algo_factory.py            # Factory to select generation algorithm
+│   ├── dfs_maze_generator.py      # DFS generator implementation
+│   ├── maze_generator_algo.py     # Base generator interface
+│   └── wilson_maze_generator.py   # Wilson generator implementation
+├── maze/                          # Core maze model/state
+│   ├── cell.py                    # Cell representation and helpers
+│   └── maze_state.py              # Singleton maze state container
+├── mazegen/                       # Alternative/CLI-oriented generator package
+│   ├── MazeGenerator.py           # Maze generator orchestrator
+│   └── algorithms/                # Algorithm implementations for mazegen
+│       ├── Algo.py                # Base algorithm class
+│       ├── BFSAlgo.py             # BFS solver algorithm
+│       ├── DFSAlgo.py             # DFS generator algorithm
+│       └── WilsonAlgo.py          # Wilson generator algorithm
+├── mlx/                           # MLX Python bindings
+│   └── mlx.py                     # MLX wrapper entry
+├── my_mlx/                        # Project-specific MLX helpers
+│   └── my_mlx.py                  # Higher-level MLX utilities
+├── parser/                        # Config parsing and validation
+│   └── Parser.py                  # Key/value config parser
+├── renderer/                      # Rendering and theme system
+│   ├── colors.py                  # Color constants
+│   ├── renderer.py                # Renderer and draw pipeline
+│   ├── themes.py                  # Theme definitions
+│   └── images/                    # Image helpers and assets
+│       ├── image.py               # Base image wrapper
+│       ├── cellImg.py             # Cell image composition
+│       └── background/            # Background images
+│           └── background_img.py  # Background image loader
+└── solver/                        # Solvers
+    ├── solver.py                  # Solver base interface
+    └── bfs_solver.py              # BFS solver implementation
 ```
 
 ## Resources
@@ -195,4 +217,4 @@ A-Maze-ing/
 
 ## AI Usage
 
-AI was used for documentation structure and wording only. No code or algorithm logic was generated by AI.
+No AI was used in this project.
