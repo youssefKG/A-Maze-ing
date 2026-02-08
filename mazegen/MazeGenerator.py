@@ -68,7 +68,7 @@ class MazeGenerator:
                     "exit": self.exit,
                     "is_42": self.is_42,
                     "map": dfs.materials["map"],
-                    "hexa": "0123456789ABCEDF",
+                    "hexa": self.hexa,
                     "directions": ("north", "east", "south", "west"),
                 }
             )
@@ -99,7 +99,7 @@ class MazeGenerator:
                     "exit": self.exit,
                     "is_42": self.is_42,
                     "map": wilson.materials["map"],
-                    "hexa": "0123456789ABCEDF",
+                    "hexa": self.hexa,
                     "directions": ("north", "east", "south", "west"),
                 }
             )
