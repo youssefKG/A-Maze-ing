@@ -23,7 +23,9 @@ class DfsMazeGenerator(MazeGeneratorAlgo):
         if not len(self.stack):
             self.is_running = False
             self.cells_img.draw_cell(self.current_cell, Theme.background)
+            self.draw_entry_exit_cells()
             self.is_finished = True
+            self.break_wall_in_imperfect()
             self.put_cells_img_to_window()
             return
         self.cells_img.draw_cell(self.current_cell, Theme.background)

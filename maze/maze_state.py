@@ -36,7 +36,7 @@ class MazeState:
         self.exit_cell = self.cells_grid[y][x]
         return self
 
-    def set_is_perfect(self, is_perfect: int):
+    def set_is_perfect(self, is_perfect: bool):
         self.is_perfect = is_perfect
         return self
 

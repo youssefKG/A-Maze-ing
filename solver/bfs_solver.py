@@ -42,15 +42,18 @@ class BfsSolver(Solver):
         self.is_running = False
         self.set_entry_cell()
         self.set_exit_cell()
+        self.meeting_points = []
 
     def get_neighboors(self) -> list[Cell]:
         neighboors = []
         x = self.current_cell.x
         y = self.current_cell.y
         # west
-        if x > 0:
+        if x - 1 >= 0:
             neighboor = self.maze_state.cells_grid[y][x - 1]
             if not self.current_cell.west:
+                if neighboor in self.visited:
+                    self.meeting_points.append((self.current_cell, neighboor))
                 neighboors.append(neighboor)
                 self.cells_img.draw_wall_between_two_cell(
                     self.current_cell, neighboor, Theme.neighboor
@@ -60,13 +63,17 @@ class BfsSolver(Solver):
             neighboor = self.maze_state.cells_grid[y][x + 1]
             if not self.current_cell.east:
                 neighboors.append(neighboor)
+                if neighboor in self.visited:
+                    self.meeting_points.append((self.current_cell, neighboor))
                 self.cells_img.draw_wall_between_two_cell(
                     self.current_cell, neighboor, Theme.neighboor
                 )
         # north
-        if y > 0:
+        if y - 1 >= 0:
             neighboor = self.maze_state.cells_grid[y - 1][x]
             if not self.current_cell.north:
+                if neighboor in self.visited:
+                    self.meeting_points.append((self.current_cell, neighboor))
                 neighboors.append(neighboor)
                 self.cells_img.draw_wall_between_two_cell(
                     self.current_cell, neighboor, Theme.neighboor
@@ -75,6 +82,8 @@ class BfsSolver(Solver):
         if y + 1 < self.maze_state.vertical_cells:
             neighboor = self.maze_state.cells_grid[y + 1][x]
             if not self.current_cell.south:
+                if neighboor in self.visited:
+                    self.meeting_points.append((self.current_cell, neighboor))
                 neighboors.append(neighboor)
                 self.cells_img.draw_wall_between_two_cell(
                     self.current_cell, neighboor, Theme.neighboor
@@ -130,7 +139,10 @@ class BfsSolver(Solver):
     def draw_neighboors(self, neighboors: list[Cell]) -> None:
         # get neighboors
         for neighboor in neighboors:
-            if neighboor not in self.visited and neighboor not in self.bfs_queue:
+            if (
+                neighboor not in self.visited
+                and neighboor not in self.bfs_queue
+            ):
                 self.bfs_queue.append(neighboor)
                 self.visited.append(neighboor)
                 self.path[neighboor] = self.current_cell
@@ -150,6 +162,12 @@ class BfsSolver(Solver):
                 self.cells_img.draw_wall_between_two_cell(
                     cell, self.path[cell], Theme.background
                 )
+        for points in self.meeting_points:
+            cell, next_cell = points
+            self.cells_img.draw_wall_between_two_cell(
+                cell, next_cell, Theme.background
+            )
+
         self.put_cells_img_to_window()
 
     def toggle_path(self) -> None:

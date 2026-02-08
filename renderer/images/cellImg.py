@@ -19,7 +19,9 @@ class CellsImage:
         self.set_cell_height()
         self.set_border()
         self.ptr = MyMlx.new_image(self.width + 10, self.height + 10)
-        self.data, self.bpp, self.sl, self.format = MyMlx.get_data_addr(self.ptr)
+        self.data, self.bpp, self.sl, self.format = MyMlx.get_data_addr(
+            self.ptr
+        )
         self.clear_image()
         return self
 
@@ -43,7 +45,9 @@ class CellsImage:
         self.height = int(cell_dim * self.horizontal_cells - 4)
         return self
 
-    def draw_cell(self, cell: Cell, backgroundColor: int | None = None) -> None:
+    def draw_cell(
+        self, cell: Cell, backgroundColor: int | None = None
+    ) -> None:
         border_color: int = Theme.border
         if backgroundColor is not None:
             for y in range(self.cell_border, self.cell_height):
@@ -127,8 +131,8 @@ class CellsImage:
 
     def put_pixel(self, x: int, y: int, color: int) -> None:
         offset = int((y * self.sl) + (x * (self.bpp / 8)))
-        self.data[offset : offset + 4] = (color).to_bytes(4, "little")
+        self.data[offset:offset + 4] = (color).to_bytes(4, "little")
 
     def clear_image(self):
         for i in range(0, len(self.data), 4):
-            self.data[i : i + 4] = (0x0000000).to_bytes(4, "little")
+            self.data[i:i + 4] = (0x0000000).to_bytes(4, "little")
