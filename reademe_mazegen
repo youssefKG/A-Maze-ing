@@ -1,0 +1,16 @@
+# mazegen
+
+Reusable Python maze generator module.
+
+This package provides a single, self-contained maze generator class that can be
+imported and reused in other projects.
+
+---
+
+## Installation
+
+From a built wheel or source archive:
+
+```bash
+pip install mazegen-1.0.0-py3-none-any.whl
+
