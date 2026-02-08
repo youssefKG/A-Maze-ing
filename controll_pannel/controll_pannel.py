@@ -48,7 +48,6 @@ class ControllPannel:
                 self.solver = AlgoFactory.create_solver("bfs")
                 self.solver.hide_path()
                 self.solver.generate()
-                print("bfs")
 
     def run_wilson(self, keynum: int) -> None:
         if keynum == 98:  # B key
@@ -86,7 +85,10 @@ class ControllPannel:
     def change_color(self, keynum) -> None:
         if keynum == 99:  # C key
             if not self.solver.is_running:
-                if self.algo.is_running and AlgoFactory.generator_name == "wilson":
+                if (
+                    self.algo.is_running
+                    and AlgoFactory.generator_name == "wilson"
+                ):
                     return
                 Theme.change()
                 Theme.background_img.put_image_to_window()
