@@ -48,6 +48,7 @@ class WilsonMazeGenerator(MazeGeneratorAlgo):
             exit_cell = self.maze_state.get_exit_cell()
             self.cells_img.draw_cell(entry_cell, Theme.entry_cell)
             self.cells_img.draw_cell(exit_cell, Theme.exit_cell)
+            self.break_wall_in_imperfect()
             self.put_cells_img_to_window()
             self.is_finished = True
             self.is_running = False
