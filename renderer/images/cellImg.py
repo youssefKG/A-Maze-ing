@@ -28,15 +28,15 @@ class CellsImage:
         return self
 
     def set_cell_width(self):
-        self.cell_width = int(self.cell_dim * 0.8)
+        self.cell_width = int(self.cell_dim * 0.70)
         return self
 
     def set_cell_height(self):
-        self.cell_height = int(self.cell_dim * 0.8)
+        self.cell_height = int(self.cell_dim * 0.70)
         return self
 
     def set_border(self):
-        self.cell_border = int(self.cell_dim * 0.1 + 0.2)
+        self.cell_border = int(self.cell_dim * 0.15 + 0.8)
         return self
 
     def set_image_dimension(self):
@@ -69,9 +69,10 @@ class CellsImage:
             end_y = start_y + self.cell_border
             start_x = cell.x * self.cell_dim
             end_x = start_x + self.cell_dim
-            if not  self.is_corner_cell(cell) or cell.y == self.vertical_cells - 1:
-                end_x += self.cell_border
+            if cell.x != 0:
                 start_x -= self.cell_border
+            if cell.x != self.horizontal_cells - 1:
+                end_x += self.cell_border
             for x in range(start_x, end_x):
                 for y in range(start_y, end_y):
                     self.put_pixel(x, y, Theme.border)
@@ -81,36 +82,35 @@ class CellsImage:
             end_y = start_y + self.cell_border
             start_x = cell.x * self.cell_dim
             end_x = start_x + self.cell_dim
-            if not self.is_corner_cell(cell) or cell.y == 0:
+            if cell.x != 0:
                 start_x -= self.cell_border
+            if cell.x != self.horizontal_cells - 1:
                 end_x += self.cell_border
-
             for x in range(start_x, end_x):
                 for y in range(start_y, end_y):
                     self.put_pixel(x, y, Theme.border)
                     
         if cell.west:
             start_y = cell.y * self.cell_dim
-            end_y = start_y + self.cell_dim
-            start_x = cell.x * self.cell_dim 
+            end_y = start_y + (self.cell_height +  2 * self.cell_border)
+            start_x = cell.x * self.cell_dim
             end_x = start_x + self.cell_border
-            if not self.is_corner_cell(cell) or cell.x == 0 or cell.y == self.horizontal_cells - 1:
+            if cell.x != 0:
                 start_y -= self.cell_border
-                if cell.y != self.horizontal_cells - 1:
-                    end_y += self.cell_border
+            if cell.y != self.vertical_cells - 1:
+                end_y += self.cell_border
             for y in range(start_y, end_y):
                 for x in range(start_x, end_x):
                     self.put_pixel(x, y, Theme.border)
-
         if cell.east:
             start_y = cell.y * (self.cell_dim)
-            end_y = start_y + self.cell_dim
+            end_y = start_y + (self.cell_height +  2 *self.cell_border)
             start_x = cell.x * (self.cell_dim) + self.cell_width + self.cell_border
             end_x = start_x + self.cell_border
-            if not self.is_corner_cell(cell) or cell.x == 0 or cell.y == self.horizontal_cells - 1:
+            if cell.y != 0:
                 start_y -= self.cell_border
-                if cell.y != self.horizontal_cells - 1:
-                    end_y += self.cell_border
+            if cell.y != self.vertical_cells - 1:
+                end_y += self.cell_border
             for y in range(start_y, end_y):
                 for x in range(start_x, end_x):
                     self.put_pixel(x, y, Theme.border)
