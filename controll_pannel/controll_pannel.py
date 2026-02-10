@@ -51,9 +51,18 @@ class ControllPannel:
 
     def run_wilson(self, keynum: int) -> None:
         if keynum == 98:  # B key
-            self.solver.hide_path()
             self.maze_gen.generate("wilson")
+            self.maze_state.set_cells_grid()
             self.algo = AlgoFactory.create("wilson")
+            self.algo.generate()
+            self.solver.hide_path()
+
+    def run_dfs(self, keynum: int) -> None:
+        if keynum == 113:  # q key
+            self.solver.hide_path()
+            self.maze_state.set_cells_grid()
+            self.algo = AlgoFactory.create("dfs")
+            self.maze_gen.generate("dfs")
             self.algo.generate()
 
     def start_maze(self, keynum: int) -> None:
@@ -63,13 +72,6 @@ class ControllPannel:
                 Theme.background_img.put_image_to_window()
                 self.algo.generate()
 
-    def run_dfs(self, keynum: int) -> None:
-        if keynum == 113:  # q key
-            #self.maze_gen.generate("dfs")
-            self.solver.hide_path()
-            self.maze_state.set_cells_grid()
-            self.algo = AlgoFactory.create("dfs")
-            self.algo.generate()
 
     def toggle_path(self, keynum: int) -> None:
         if keynum == 104:  # toogle path on press H
