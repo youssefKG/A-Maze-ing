@@ -1,5 +1,5 @@
 from generators.algo_factory import AlgoFactory
-from MazeGenerator import MazeGenerator
+from mazegen.MazeGenerator import MazeGenerator
 from my_mlx.my_mlx import MyMlx
 from renderer.themes import Theme
 from solver.solver import Solver
