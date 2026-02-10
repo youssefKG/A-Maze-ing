@@ -51,9 +51,9 @@ class MyMlx:
         cls.mlx.mlx_key_hook(cls.win_ptr, callback, data)
 
     @classmethod
-    def xpm_file_to_image(cls, filename: str) -> tuple[Any, int, int]:
+    def xpm_file_to_image(cls, filename: str) -> Any:
         return cls.mlx.mlx_xpm_file_to_image(cls.mlx_ptr, filename)
 
     @classmethod
-    def png_file_to_image(cls, filename: str) -> tuple[Any, int, int]:
+    def png_file_to_image(cls, filename: str) -> Any:
         return cls.mlx.mlx_png_file_to_image(cls.mlx_ptr, filename)

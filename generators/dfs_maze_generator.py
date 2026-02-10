@@ -1,12 +1,13 @@
 from generators.maze_generator_algo import MazeGeneratorAlgo
 from my_mlx.my_mlx import MyMlx
 from renderer.themes import Theme
+from typing import Any
 
 
 class DfsMazeGenerator(MazeGeneratorAlgo):
     def __init__(self) -> None:
         super().__init__()
-        self.stack = []
+        self.stack: list[Any] = []
 
     def generate(self) -> None:
         super().generate()

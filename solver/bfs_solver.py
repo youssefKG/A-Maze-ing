@@ -35,14 +35,14 @@ while True:
 class BfsSolver(Solver):
     def __init__(self) -> None:
         super().__init__()
-        self.visited = []
-        self.bfs_queue = deque()
-        self.path = {}
+        self.visited: list[Cell] = []
+        self.bfs_queue: deque[Cell] = deque()
+        self.path: dict[Cell, Cell] = {}
         self.is_solution_found = False
         self.is_running = False
         self.set_entry_cell()
         self.set_exit_cell()
-        self.meeting_points = []
+        self.meeting_points: list[tuple[Cell, Cell]] = []
 
     def get_neighboors(self) -> list[Cell]:
         neighboors = []
@@ -207,8 +207,8 @@ class BfsSolver(Solver):
             self.is_path_shown = True
             self.put_cells_img_to_window()
 
-    def set_entry_cell(self):
+    def set_entry_cell(self) -> None:
         self.entry_cell = self.maze_state.get_entry_cell()
 
-    def set_exit_cell(self):
+    def set_exit_cell(self) -> None:
         self.exit_cell = self.maze_state.get_exit_cell()

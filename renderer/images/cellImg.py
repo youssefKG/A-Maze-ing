@@ -8,7 +8,7 @@ from typing import Any
 class CellsImage:
     _instance = None
 
-    def __new__(cls) -> object:
+    def __new__(cls) -> CellsImage:
         if cls._instance is None:
             cls._instance = super().__new__(cls)
         return cls._instance
@@ -222,6 +222,6 @@ class CellsImage:
         offset = int((y * self.sl) + (x * (self.bpp / 8)))
         self.data[offset:offset + 4] = (color).to_bytes(4, "little")
 
-    def clear_image(self):
+    def clear_image(self) -> None:
         for i in range(0, len(self.data), 4):
             self.data[i : i + 4] = (0x0000000).to_bytes(4, "little")

@@ -81,7 +81,7 @@ class MazeGeneratorAlgo(ABC):
                     neighbors.append(west)
             if len(neighbors) != 0:
                 return choice(neighbors)
-            return None
+        return None
 
     def redraw_maze(self) -> None:
         for row_cells in self.maze_state.cells_grid:
@@ -148,7 +148,7 @@ class MazeGeneratorAlgo(ABC):
             count += 1
         return count
 
-    def break_wall(self, cell: Cell):
+    def break_wall(self, cell: Cell) -> None:
 
         vertical_cells = self.maze_state.vertical_cells
         horizontal_cells = self.maze_state.horizontal_cells
@@ -174,7 +174,7 @@ class MazeGeneratorAlgo(ABC):
                 Theme.background,
             )
 
-    def break_wall_in_imperfect(self):
+    def break_wall_in_imperfect(self) -> None:
         if self.maze_state.is_perfect:
             return
         v_cells = self.maze_state.vertical_cells

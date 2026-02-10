@@ -13,11 +13,11 @@ class Solver(ABC):
         self.cells_img = CellsImage()
         self.is_path_shown: bool = False
 
-    def set_horizontal_cells(self, horizontal_cells: int):
+    def set_horizontal_cells(self, horizontal_cells: int) -> object:
         self.horizontal_cells = horizontal_cells
         return self
 
-    def set_vertical_cells(self, vertical_cells: int):
+    def set_vertical_cells(self, vertical_cells: int) -> object:
         self.vertical_cells = vertical_cells
         return self
 
@@ -27,10 +27,10 @@ class Solver(ABC):
     def draw_path(self) -> None:
         pass
 
-    def hide_path(self):
+    def hide_path(self) -> None:
         pass
 
-    def toggle_path(self):
+    def toggle_path(self) -> None:
         pass
 
     def redraw_maze(self) -> None:
