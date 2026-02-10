@@ -122,6 +122,28 @@ The reusable maze generator is exposed as the `mazegen` Python package:
 - Constructor parameters: `width`, `height`, `entry`, `exit`, `seed`, `filename`, and `perfect` (whether the maze should be perfect or allow loops).
 - Usage pattern: create a `MazeGenerator` instance, call `generate("dfs")` or `generate("wilson")`, then read the in-memory maze with `get_map()` or the solution string with `get_solution()`, in addition to the generated file.
 
+## mazegen
+
+A lightweight, reusable Python maze generator.
+
+`mazegen` provides a single, self-contained `MazeGenerator` class for generating mazes programmatically. It is designed to be easy to integrate, dependency-free, and reusable across different projects such as games, simulations, and algorithm experiments.
+
+### Features (mazegen package)
+
+- Simple, reusable `MazeGenerator` class
+- No external dependencies
+- Suitable for games, AI pathfinding, and procedural generation
+- Easy to embed into existing Python projects
+- Clean and minimal API
+
+### Installation
+
+Install from the built wheel shipped in this repository:
+
+```bash
+pip install mazegen-1.0.0-py3-none-any.whl
+```
+
 ## Team and Project Management
 
 The project was divided between two responsibilities:
@@ -222,4 +244,4 @@ A-Maze-ing/
 - DFS maze generation references
 - Wilson’s algorithm references
 - BFS shortest path references
-- AI tools: — used to help structure and edit this README (Description, Instructions, Resources, Reusable Code, and Team and Project Management sections).
+- AI tools: GitHub Copilot (GPT-5.1) — used to help structure and edit this README (Description, Instructions, Resources, Reusable Code, mazegen, and Team and Project Management sections). Any additional AI assistance for code or other artifacts should be documented here with the corresponding tasks and files.
