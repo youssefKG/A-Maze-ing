@@ -12,10 +12,10 @@ class Parser:
             print(e)
             sys.exit(42)
         self.filename = argv[1]
-        self.width = 0
-        self.height = 0
+        self.width = 11
+        self.height = 11
         self.entry = (0, 0)
-        self.exit = (0, 0)
+        self.exit = (10, 10)
         self.output_file = ''
         self.perfect = False
         self.content_file = ''
@@ -40,9 +40,10 @@ class Parser:
         try:
             lines = self.content_file.split('\n')
             for line in lines:
+                line = line.strip()
                 if line == '' or line[0] == '#':
                     continue
-                splitted = line.strip().split('=')
+                splitted = line.split('=')
                 if splitted[0] in 'WIDTH':
                     self.width = int(splitted[1])
                     if self.width <= 0:
@@ -53,6 +54,8 @@ class Parser:
                         raise Exception("height must be greather than 0")
                 elif splitted[0] == 'ENTRY':
                     coord = splitted[1].split(',')
+                    if len(coord) != 2:
+                        raise ValueError("incorrect tuple of entry!")
                     self.entry = (int(coord[0]), int(coord[1]))
                     if self.entry[0] < 0 or self.entry[0] >= self.width:
                         raise Exception("entry must be inside the map")
@@ -60,13 +63,16 @@ class Parser:
                         raise Exception("entry must be inside the map")
                 elif splitted[0] == 'EXIT':
                     coord = splitted[1].split(',')
+                    if len(coord) != 2:
+                        raise ValueError("incorrect tuple of exit")
                     self.exit = (int(coord[0]), int(coord[1]))
                     if self.exit[0] < 0 or self.exit[0] >= self.width:
                         raise Exception("exit must be inside the map")
                     elif self.exit[1] < 0 or self.exit[1] >= self.height:
                         raise Exception("exit must be inside the map")
                 elif splitted[0] == 'OUTPUT_FILE':
-                    self.output_file = splitted[1]
+                    self.output_file = splitted[1].strip("'")
+                    self.output_file = splitted[1].strip("\"")
                 elif splitted[0] == 'PERFECT':
                     if splitted[1] == 'True':
                         self.perfect = True
@@ -82,12 +88,23 @@ class Parser:
                     raise Exception(e)
             if self.height > 6 and self.width > 8:
                 self.is_42_cells = True
+
             x, y = self.entry
             if self.in_map_quarante_deux(x, y) and self.is_42_cells:
                 raise Exception("coordinates entry is inside The 42")
+            if x < 0 or x >= self.width \
+                or y < 0 or y >= self.height:
+                    raise ValueError("entry must be inside the map")
+
             x, y = self.exit
             if self.in_map_quarante_deux(x, y) and self.is_42_cells:
                 raise Exception("coordinates exit is inside the 42")
+            if x < 0 or x >= self.width \
+                or y < 0 or y >= self.height:
+                raise ValueError("exit must be inside the map")
+            if self.entry[0] == self.exit[0] and \
+                    self.entry[1] == self.exit[1]:
+                        raise ValueError("exit and entry in same cell")
             return True
         except Exception as e:
             print(e)
