@@ -614,22 +614,25 @@ class MazeGenerator:
             self.create_output_file()
 
     def create_output_file(self) -> None:
-        with open(self.output_file, "w") as file:
-            for row in self.map:
-                for col in row:
-                    file.write(col)
+        try:
+            with open(self.output_file, "w") as file:
+                for row in self.map:
+                    for col in row:
+                        file.write(col)
                 file.write("\n")
-            file.write("\n(")
-            file.write(str(self.entry[0]))
-            file.write(",")
-            file.write(str(self.entry[1]))
-            file.write(")\n(")
-            file.write(str(self.exit[0]))
-            file.write(",")
-            file.write(str(self.exit[1]))
-            file.write(")\n")
-            file.write(self.shortest_path)
-            file.write("\n")
+                file.write("\n(")
+                file.write(str(self.entry[0]))
+                file.write(",")
+                file.write(str(self.entry[1]))
+                file.write(")\n(")
+                file.write(str(self.exit[0]))
+                file.write(",")
+                file.write(str(self.exit[1]))
+                file.write(")\n")
+                file.write(self.shortest_path)
+                file.write("\n")
+        except Exception as e:
+            print(e)
 
     def get_map(self) -> List[Any]:
         return self.map

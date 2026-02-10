@@ -54,6 +54,8 @@ class Parser:
                         raise Exception("height must be greather than 0")
                 elif splitted[0] == 'ENTRY':
                     coord = splitted[1].split(',')
+                    if len(coord) != 2:
+                        raise ValueError("incorrect tuple of entry!")
                     self.entry = (int(coord[0]), int(coord[1]))
                     if self.entry[0] < 0 or self.entry[0] >= self.width:
                         raise Exception("entry must be inside the map")
@@ -61,6 +63,8 @@ class Parser:
                         raise Exception("entry must be inside the map")
                 elif splitted[0] == 'EXIT':
                     coord = splitted[1].split(',')
+                    if len(coord) != 2:
+                        raise ValueError("incorrect tuple of exit")
                     self.exit = (int(coord[0]), int(coord[1]))
                     if self.exit[0] < 0 or self.exit[0] >= self.width:
                         raise Exception("exit must be inside the map")
@@ -98,6 +102,9 @@ class Parser:
             if x < 0 or x >= self.width \
                 or y < 0 or y >= self.height:
                 raise ValueError("exit must be inside the map")
+            if self.entry[0] == self.exit[0] and \
+                    self.entry[1] == self.exit[1]:
+                        raise ValueError("exit and entry in same cell")
             return True
         except Exception as e:
             print(e)
