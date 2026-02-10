@@ -19,11 +19,10 @@ class CellsImage:
         self.set_cell_width()
         self.set_cell_height()
         self.set_border()
-        self.ptr = MyMlx.new_image(self.width + self.cell_border + 4, self.height + self.cell_border + 4)
-        self.data, self.bpp, self.sl, self.format = MyMlx.get_data_addr(
-            self.ptr
+        self.ptr = MyMlx.new_image(
+            self.width + self.cell_border + 4, self.height + self.cell_border + 4
         )
-        print(self.cell_dim, self.cell_border, self.cell_height)
+        self.data, self.bpp, self.sl, self.format = MyMlx.get_data_addr(self.ptr)
         self.clear_image()
         return self
 
@@ -48,13 +47,9 @@ class CellsImage:
         self.height = int(self.cell_dim * self.vertical_cells)
         return self
 
-    def draw_cell(
-        self, cell: Cell, backgroundColor: int | None = None
-    ) -> None:
-        border_color: int = Theme.border
-
+    def draw_cell(self, cell: Cell, backgroundColor: int | None = None) -> None:
         if backgroundColor is not None:
-            start_x  = self.cell_dim * cell.x  + self.cell_border
+            start_x = self.cell_dim * cell.x + self.cell_border
             end_x = start_x + self.cell_width
             start_y = self.cell_dim * cell.y + self.cell_border
             end_y = start_y + self.cell_height
@@ -65,7 +60,7 @@ class CellsImage:
         # draw north wall
 
         if cell.north:
-            start_y = cell.y * self.cell_dim 
+            start_y = cell.y * self.cell_dim
             end_y = start_y + self.cell_border
             start_x = cell.x * self.cell_dim
             end_x = start_x + self.cell_dim
@@ -89,13 +84,13 @@ class CellsImage:
             for x in range(start_x, end_x):
                 for y in range(start_y, end_y):
                     self.put_pixel(x, y, Theme.border)
-                    
+
         if cell.west:
             start_y = cell.y * self.cell_dim
-            end_y = start_y + (self.cell_height +  2 * self.cell_border)
+            end_y = start_y + (self.cell_height + 2 * self.cell_border)
             start_x = cell.x * self.cell_dim
             end_x = start_x + self.cell_border
-            if cell.x != 0:
+            if cell.y != 0:
                 start_y -= self.cell_border
             if cell.y != self.vertical_cells - 1:
                 end_y += self.cell_border
@@ -104,7 +99,7 @@ class CellsImage:
                     self.put_pixel(x, y, Theme.border)
         if cell.east:
             start_y = cell.y * (self.cell_dim)
-            end_y = start_y + (self.cell_height +  2 *self.cell_border)
+            end_y = start_y + (self.cell_height + 2 * self.cell_border)
             start_x = cell.x * (self.cell_dim) + self.cell_width + self.cell_border
             end_x = start_x + self.cell_border
             if cell.y != 0:
@@ -116,7 +111,12 @@ class CellsImage:
                     self.put_pixel(x, y, Theme.border)
 
     def is_corner_cell(self, cell: Cell) -> bool:
-        if cell.x > 0 and cell.x < self.horizontal_cells - 1 and cell.y > 0 and cell.y < self.vertical_cells - 1:
+        if (
+            cell.x > 0
+            and cell.x < self.horizontal_cells - 1
+            and cell.y > 0
+            and cell.y < self.vertical_cells - 1
+        ):
             return False
         return True
 
@@ -128,7 +128,7 @@ class CellsImage:
 
         if y_axis == 1:  # draw noth wall
             start_y = self.cell_dim * cell_one.y
-            end_y = start_y + self.cell_border 
+            end_y = start_y + self.cell_border
             start_x = self.cell_dim * cell_one.x + self.cell_border
             end_x = start_x + self.cell_width
             for y in range(start_y, end_y):
@@ -142,7 +142,6 @@ class CellsImage:
             for y in range(start_y, end_y):
                 for x in range(start_x, end_x):
                     self.put_pixel(x, y, color)
-
 
         if y_axis == -1:  # draw noth wall
             start_y = self.cell_dim * cell_two.y
@@ -162,7 +161,7 @@ class CellsImage:
                     self.put_pixel(x, y, color)
 
         if x_axis == 1:  # west wall
-            start_y = self.cell_dim  * cell_one.y + self.cell_border
+            start_y = self.cell_dim * cell_one.y + self.cell_border
             end_y = self.cell_height + start_y
             start_x = self.cell_dim * cell_one.x
             end_x = start_x + self.cell_border
@@ -170,24 +169,23 @@ class CellsImage:
                 for x in range(start_x, end_x):
                     self.put_pixel(x, y, color)
 
-            start_y = self.cell_dim  * cell_two.y + self.cell_border 
+            start_y = self.cell_dim * cell_two.y + self.cell_border
             end_y = self.cell_height + start_y
             start_x = self.cell_dim * cell_two.x + self.cell_width + self.cell_border
             end_x = start_x + self.cell_border
             for y in range(start_y, end_y):
                 for x in range(start_x, end_x):
                     self.put_pixel(x, y, color)
-    
 
         if x_axis == -1:  # east wall
-            start_y = self.cell_dim  * cell_two.y + self.cell_border
+            start_y = self.cell_dim * cell_two.y + self.cell_border
             end_y = self.cell_height + start_y
             start_x = self.cell_dim * cell_two.x
             end_x = start_x + self.cell_border
             for y in range(start_y, end_y):
                 for x in range(start_x, end_x):
                     self.put_pixel(x, y, color)
-            start_y = self.cell_dim  * cell_one.y + self.cell_border 
+            start_y = self.cell_dim * cell_one.y + self.cell_border
             end_y = self.cell_height + start_y
             start_x = self.cell_dim * cell_one.x + self.cell_width + self.cell_border
             end_x = start_x + self.cell_border
@@ -195,11 +193,10 @@ class CellsImage:
                 for x in range(start_x, end_x):
                     self.put_pixel(x, y, color)
 
-
     def put_pixel(self, x: int, y: int, color: int) -> None:
         offset = int((y * self.sl) + (x * (self.bpp / 8)))
-        self.data[offset:offset + 4] = (color).to_bytes(4, "little")
+        self.data[offset : offset + 4] = (color).to_bytes(4, "little")
 
     def clear_image(self):
         for i in range(0, len(self.data), 4):
-            self.data[i:i + 4] = (0x0000000).to_bytes(4, "little")
+            self.data[i : i + 4] = (0x0000000).to_bytes(4, "little")

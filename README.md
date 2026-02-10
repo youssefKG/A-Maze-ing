@@ -1,4 +1,4 @@
-_This project has been created as part of the 42 curriculum by <login1>, <login2>._
+_This project has been created as part of the 42 curriculum by hel-hamo, ytaoussi._
 
 # A-Maze-ing: This is the way
 
@@ -114,6 +114,14 @@ Multiple generation algorithms and theme switching are supported and can be trig
 - [solver/solver.py](solver/solver.py) and [solver/bfs_solver.py](solver/bfs_solver.py): solver base class and BFS implementation.
 - [mazegen/MazeGenerator.py](mazegen/MazeGenerator.py) and [mazegen/algorithms](mazegen/algorithms): CLI-oriented algorithm implementations and output writer.
 
+### Maze generator reusable module
+
+The reusable maze generator is exposed as the `mazegen` Python package:
+
+- Core class: `MazeGenerator` in [mazegen/MazeGenerator.py](mazegen/MazeGenerator.py) orchestrates DFS or Wilson generation plus BFS solving and output-file creation.
+- Constructor parameters: `width`, `height`, `entry`, `exit`, `seed`, `filename`, and `perfect` (whether the maze should be perfect or allow loops).
+- Usage pattern: create a `MazeGenerator` instance, call `generate("dfs")` or `generate("wilson")`, then read the in-memory maze with `get_map()` or the solution string with `get_solution()`, in addition to the generated file.
+
 ## Team and Project Management
 
 The project was divided between two responsibilities:
@@ -123,8 +131,8 @@ The project was divided between two responsibilities:
 
 ### Roles
 
-- <login1>: algorithm design, maze generation, BFS solver
-- <login2>: rendering, MLX wrapper, themes, UI controls
+- hel-hamo: algorithm design, maze generation, BFS solver
+- ytaoussi: rendering, MLX wrapper, themes, UI controls, DFS, WILSON
 
 ### Planning and evolution
 
@@ -214,7 +222,4 @@ A-Maze-ing/
 - DFS maze generation references
 - Wilson’s algorithm references
 - BFS shortest path references
-
-## AI Usage
-
-No AI was used in this project.
+- AI tools: — used to help structure and edit this README (Description, Instructions, Resources, Reusable Code, and Team and Project Management sections).
