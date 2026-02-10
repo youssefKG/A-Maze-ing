@@ -1,5 +1,6 @@
 from maze.cell import Cell
 from renderer.themes import Theme
+from renderer.colors import Colors
 from my_mlx.my_mlx import MyMlx
 
 
@@ -25,7 +26,6 @@ class CellsImage:
         self.data, self.bpp, self.sl, self.format = MyMlx.get_data_addr(
             self.ptr
         )
-        self.clear_image()
         return self
 
     def set_cell_width(self):
@@ -37,7 +37,9 @@ class CellsImage:
         return self
 
     def set_border(self):
-        self.cell_border = int(self.cell_dim * 0.15 + 1.8)
+        self.ecart = 2 * self.cell_dim * 0.70
+        self.ecart = 2 * self.cell_dim * 0.70 - int(self.ecart)
+        self.cell_border = round(self.cell_dim * 0.15 + self.ecart)
         return self
 
     def set_image_dimension(self):
@@ -218,7 +220,3 @@ class CellsImage:
     def put_pixel(self, x: int, y: int, color: int) -> None:
         offset = int((y * self.sl) + (x * (self.bpp / 8)))
         self.data[offset:offset + 4] = (color).to_bytes(4, "little")
-
-    def clear_image(self):
-        for i in range(0, len(self.data), 4):
-            self.data[i:i + 4] = (0x0000000).to_bytes(4, "little")

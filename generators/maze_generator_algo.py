@@ -132,7 +132,7 @@ class MazeGeneratorAlgo(ABC):
     def stop(self) -> None:
         self.is_running = False
 
-    def set_cells_img(self, cells_img: CellsImage):
+    def set_cells_img(self, cells_img: CellsImage) -> object:
         self.cells_img = cells_img
         return self
 

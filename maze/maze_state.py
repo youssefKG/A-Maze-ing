@@ -1,6 +1,5 @@
 from maze.cell import Cell
-from typing import Self
-
+from typing import Any
 
 class MazeState:
     _instance = None
@@ -10,15 +9,15 @@ class MazeState:
             cls._instance = super().__new__(cls)
         return cls._instance
 
-    def set_vertical_cells(self, vertical_cells: int) -> Self:
+    def set_vertical_cells(self, vertical_cells: int) -> object:
         self.vertical_cells = vertical_cells
         return self
 
-    def set_horizontal_cells(self, horizontal_cells: int) -> Self:
+    def set_horizontal_cells(self, horizontal_cells: int) -> object:
         self.horizontal_cells = horizontal_cells
         return self
 
-    def set_cells_grid(self) -> Self:
+    def set_cells_grid(self) -> object:
         self.cells_grid = []
         for y in range(self.vertical_cells):
             row = []
@@ -27,21 +26,21 @@ class MazeState:
             self.cells_grid.append(row)
         return self
 
-    def set_entry_cell(self, entry_cell: tuple[int, int]):
+    def set_entry_cell(self, entry_cell: tuple[int, int]) -> object:
         x, y = entry_cell
         self.entry_cell = self.cells_grid[y][x]
         return self
 
-    def set_exit_cell(self, exit_cell: tuple[int, int]):
+    def set_exit_cell(self, exit_cell: tuple[int, int]) -> object:
         x, y = exit_cell
         self.exit_cell = self.cells_grid[y][x]
         return self
 
-    def set_is_perfect(self, is_perfect: bool):
+    def set_is_perfect(self, is_perfect: bool) -> object:
         self.is_perfect = is_perfect
         return self
 
-    def set_seed(self, seed_value: int):
+    def set_seed(self, seed_value: int) -> object:
         self.seed = seed_value
         return self
 
@@ -55,6 +54,6 @@ class MazeState:
         y = self.exit_cell.y
         return self.cells_grid[y][x]
 
-    def set_output_file(self, filename: str):
+    def set_output_file(self, filename: str) -> object:
         self.filename = filename
         return self

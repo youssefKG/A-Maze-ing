@@ -1,7 +1,7 @@
-WIDTH=40		
-HEIGHT=40
+WIDTH=100		
+HEIGHT=100
 ENTRY=0,0
-EXIT=2                                                                  ,    2
+EXIT=29,29                                                                ,    2
 SEED=8
 OUTPUT_FILE=maze.txt
 PERFECT=False
