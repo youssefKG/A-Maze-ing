@@ -1,4 +1,5 @@
 from maze.cell import Cell
+from typing import Self
 
 
 class MazeState:
@@ -9,15 +10,15 @@ class MazeState:
             cls._instance = super().__new__(cls)
         return cls._instance
 
-    def set_vertical_cells(self, vertical_cells: int):
+    def set_vertical_cells(self, vertical_cells: int) -> Self:
         self.vertical_cells = vertical_cells
         return self
 
-    def set_horizontal_cells(self, horizontal_cells: int):
+    def set_horizontal_cells(self, horizontal_cells: int) -> Self:
         self.horizontal_cells = horizontal_cells
         return self
 
-    def set_cells_grid(self):
+    def set_cells_grid(self) -> Self:
         self.cells_grid = []
         for y in range(self.vertical_cells):
             row = []

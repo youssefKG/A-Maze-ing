@@ -1,5 +1,5 @@
 VENV = venv
-PYTHON = $(VENV)/bin/python3
+PYTHON = $(VENV)/bin/python
 SYS_PYTHON = python3
 PIP = $(VENV)/bin/pip
 FILES = parser/Parser.py \
