@@ -18,9 +18,4 @@ class Cell:
         self.is_42_cell: bool = False
 
     def get_walls(self) -> tuple[bool, bool, bool, bool]:
-        return (
-                self.north,
-                self.south,
-                self.west,
-                self.east
-               )
+        return (self.north, self.south, self.west, self.east)

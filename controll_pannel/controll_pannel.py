@@ -62,7 +62,7 @@ class ControllPannel:
             self.solver.hide_path()
             self.maze_state.set_cells_grid()
             self.algo = AlgoFactory.create("dfs")
-            self.maze_gen.generate("dfs")
+            # self.maze_gen.generate("dfs")
             self.algo.generate()
 
     def start_maze(self, keynum: int) -> None:
@@ -71,7 +71,6 @@ class ControllPannel:
                 self.is_started = True
                 Theme.background_img.put_image_to_window()
                 self.algo.generate()
-
 
     def toggle_path(self, keynum: int) -> None:
         if keynum == 104:  # toogle path on press H

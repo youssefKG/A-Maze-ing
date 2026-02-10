@@ -6,7 +6,7 @@ class Amazeing:
         self.renderer = Renderer()
 
 
-def main():
+def main() -> None:
     amazeing = Amazeing()
     amazeing.renderer.render()
 

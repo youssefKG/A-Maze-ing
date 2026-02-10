@@ -15,49 +15,49 @@ class Algo(ABC):
 
     @abstractmethod
     def get_index_of_position(self, x: int, y: int) -> int:
-        if self.materials['map'][y][x] == '0':
+        if self.materials["map"][y][x] == "0":
             return 0
-        elif self.materials['map'][y][x] == '1':
+        elif self.materials["map"][y][x] == "1":
             return 1
-        elif self.materials['map'][y][x] == '2':
+        elif self.materials["map"][y][x] == "2":
             return 2
-        elif self.materials['map'][y][x] == '3':
+        elif self.materials["map"][y][x] == "3":
             return 3
-        elif self.materials['map'][y][x] == '4':
+        elif self.materials["map"][y][x] == "4":
             return 4
-        elif self.materials['map'][y][x] == '5':
+        elif self.materials["map"][y][x] == "5":
             return 5
-        elif self.materials['map'][y][x] == '6':
+        elif self.materials["map"][y][x] == "6":
             return 6
-        elif self.materials['map'][y][x] == '7':
+        elif self.materials["map"][y][x] == "7":
             return 7
-        elif self.materials['map'][y][x] == '8':
+        elif self.materials["map"][y][x] == "8":
             return 8
-        elif self.materials['map'][y][x] == '9':
+        elif self.materials["map"][y][x] == "9":
             return 9
-        elif self.materials['map'][y][x] == 'A':
+        elif self.materials["map"][y][x] == "A":
             return 10
-        elif self.materials['map'][y][x] == 'B':
+        elif self.materials["map"][y][x] == "B":
             return 11
-        elif self.materials['map'][y][x] == 'C':
+        elif self.materials["map"][y][x] == "C":
             return 12
-        elif self.materials['map'][y][x] == 'D':
+        elif self.materials["map"][y][x] == "D":
             return 13
-        elif self.materials['map'][y][x] == 'E':
+        elif self.materials["map"][y][x] == "E":
             return 14
-        elif self.materials['map'][y][x] == 'F':
+        elif self.materials["map"][y][x] == "F":
             return 15
         else:
             return -1
 
     def in_map_quarante_deux(self, x: int, y: int) -> bool:
-        r = int((self.materials['height'] / 2)) - 2
-        c = int((self.materials['width'] / 2)) - 3
+        r = int((self.materials["height"] / 2)) - 2
+        c = int((self.materials["width"] / 2)) - 3
         if y == r and x in [c, c + 4, c + 5, c + 6]:
             return True
         elif y == r + 1 and x in [c, c + 6]:
             return True
-        elif y == r + 2 and x in [c, c + 1, c + 2,  c + 4, c + 5, c + 6]:
+        elif y == r + 2 and x in [c, c + 1, c + 2, c + 4, c + 5, c + 6]:
             return True
         elif y == r + 3 and x in [c + 2, c + 4]:
             return True
@@ -69,21 +69,20 @@ class Algo(ABC):
     @abstractmethod
     def create_map(self) -> List[list[str]]:
         my_map: List[Any] = []
-        for i in range(self.materials['height']):
+        for i in range(self.materials["height"]):
             cols = []
-            for j in range(self.materials['width']):
-                cols.append('F')
+            for j in range(self.materials["width"]):
+                cols.append("F")
             my_map.append(cols)
         return my_map
 
 
 class BFSAlgo(Algo):
     def __init__(
-            self,
-            materials: dict[str, Union[Tuple, int, str, bool]]
+        self, materials: dict[str, Union[Tuple, int, str, bool]]
     ) -> None:
         super().__init__(materials)
-        self.shortest_path = ''
+        self.shortest_path = ""
         self.visited: list[tuple[int, int]] = []
 
     def get_shortest_path(self, path: List[tuple[int, int]]) -> str:
@@ -97,33 +96,33 @@ class BFSAlgo(Algo):
                 res_x, res_y = current_x - x, current_y - y
                 x, y = current_x, current_y
                 if res_x == 0 and res_y == -1:
-                    self.shortest_path += 'N'
+                    self.shortest_path += "N"
                 elif res_x == 1 and res_y == 0:
-                    self.shortest_path += 'E'
+                    self.shortest_path += "E"
                 elif res_x == 0 and res_y == 1:
-                    self.shortest_path += 'S'
+                    self.shortest_path += "S"
                 else:
-                    self.shortest_path += 'W'
+                    self.shortest_path += "W"
         return self.shortest_path
 
     def algo_run(self) -> Any:
         queue: deque = deque()
-        queue.append((self.materials['entry'], [self.materials['entry']]))
-        self.visited.append(self.materials['entry'])
+        queue.append((self.materials["entry"], [self.materials["entry"]]))
+        self.visited.append(self.materials["entry"])
         while len(queue):
             current, path = queue.popleft()
-            if current == self.materials['exit']:
+            if current == self.materials["exit"]:
                 self.get_shortest_path(path)
                 return path
             dirs = self.get_valid_neighboors(current)
             for dir in dirs:
-                if dir == 'north':
+                if dir == "north":
                     new_x = current[0]
                     new_y = current[1] - 1
-                elif dir == 'east':
+                elif dir == "east":
                     new_x = current[0] + 1
                     new_y = current[1]
-                elif dir == 'south':
+                elif dir == "south":
                     new_x = current[0]
                     new_y = current[1] + 1
                 else:
@@ -137,28 +136,26 @@ class BFSAlgo(Algo):
         return []
 
     def get_valid_neighboors(self, position: Tuple) -> List[str]:
-        directions = list(self.materials['directions'])
+        directions = list(self.materials["directions"])
         x, y = position
         index = self.get_index_of_position(x, y)
         return self.remove_direction_to_wall(directions, index)
 
     def remove_direction_to_wall(
-        self,
-        directions: List[str],
-        index: int
+        self, directions: List[str], index: int
     ) -> List[str]:
         if index >= 8:
             index -= 8
-            directions.remove('west')
+            directions.remove("west")
         if index >= 4:
             index -= 4
-            directions.remove('south')
+            directions.remove("south")
         if index >= 2:
             index -= 2
-            directions.remove('east')
+            directions.remove("east")
         if index >= 1:
             index -= 1
-            directions.remove('north')
+            directions.remove("north")
         return directions
 
     def get_index_of_position(self, x: int, y: int) -> int:
@@ -172,21 +169,21 @@ class DFSAlgo(Algo):
     #  the constructor of class
     def __init__(self, materials: dict[str, Any]) -> None:
         super().__init__(materials)
-        self.materials['map'] = self.create_map()
+        self.materials["map"] = self.create_map()
         self.unvisited = self.get_all_cells()
         self.visited: list[tuple[int, int]] = []
 
     def get_all_cells(self) -> List[Tuple]:
         unvisited = list()
-        for y in range(0, self.materials['height']):
-            for x in range(0, self.materials['width']):
+        for y in range(0, self.materials["height"]):
+            for x in range(0, self.materials["width"]):
                 unvisited.append((x, y))
         return unvisited
 
     #  DFS is executed to to made  perfect map
     def algo_run(self) -> list[Any]:
 
-        if self.materials['is_42'] is True:
+        if self.materials["is_42"] is True:
             self.put_cells_42_as_visited()
 
         curr_cell = (0, 0)
@@ -205,58 +202,67 @@ class DFSAlgo(Algo):
             else:
                 curr_cell = stack.pop()
         #  for imperfect maze
-        if not self.materials['perfect'] \
-            and self.materials['height'] > 1 and self.materials['width'] > 1:
+        if (
+            not self.materials["perfect"]
+            and self.materials["height"] > 1
+            and self.materials["width"] > 1
+        ):
             self.remove_for_imperfect()
 
         return []
 
     # for imperfect maze:
     def remove_for_imperfect(self) -> None:
-        for y in range(0, self.materials['height']):
-            for x in range(0, self.materials['width']):
+        for y in range(0, self.materials["height"]):
+            for x in range(0, self.materials["width"]):
                 index: int = self.get_index_of_position(x, y)
                 walls: list[Any] = self.get_walls_of_index(index, x, y)
                 if index in [14, 13, 11, 7] and len(walls):
                     wall = random.choice(walls)
-                    if wall == 'north':
-                        self.materials['map'][y][x] = self.hexa[index - 1]
+                    if wall == "north":
+                        self.materials["map"][y][x] = self.hexa[index - 1]
                         index_2 = self.get_index_of_position(x, y - 1)
-                        self.materials['map'][y - 1][x] = self.hexa[index_2 - 4]
-                    elif wall == 'east':
-                        self.materials['map'][y][x] = self.hexa[index - 2]
+                        self.materials["map"][y - 1][x] = self.hexa[
+                            index_2 - 4
+                        ]
+                    elif wall == "east":
+                        self.materials["map"][y][x] = self.hexa[index - 2]
                         index_2 = self.get_index_of_position(x + 1, y)
-                        self.materials['map'][y][x + 1] = self.hexa[index_2 - 8]
-                    elif wall == 'south':
-                        self.materials['map'][y][x] = self.hexa[index - 4]
+                        self.materials["map"][y][x + 1] = self.hexa[
+                            index_2 - 8
+                        ]
+                    elif wall == "south":
+                        self.materials["map"][y][x] = self.hexa[index - 4]
                         index_2 = self.get_index_of_position(x, y + 1)
-                        self.materials['map'][y + 1][x] = self.hexa[index_2 - 1]
+                        self.materials["map"][y + 1][x] = self.hexa[
+                            index_2 - 1
+                        ]
                     else:
-                        self.materials['map'][y][x] = self.hexa[index - 8]
+                        self.materials["map"][y][x] = self.hexa[index - 8]
                         index_2 = self.get_index_of_position(x - 1, y)
-                        self.materials['map'][y][x - 1] = self.hexa[index_2 - 2]
+                        self.materials["map"][y][x - 1] = self.hexa[
+                            index_2 - 2
+                        ]
                     return
-    
+
     def get_walls_of_index(self, index: int, x: int, y: int) -> list[Any]:
         walls: list[Any] = []
 
         for i in range(4):
             if index >> i & 1:
                 if i == 0 and y != 0:
-                    walls.append('north')
-                elif i == 1 and x != self.materials['width'] - 1:
-                    walls.append('east')
-                elif i == 2 and y != self.materials['height'] - 1:
-                    walls.append('south')
+                    walls.append("north")
+                elif i == 1 and x != self.materials["width"] - 1:
+                    walls.append("east")
+                elif i == 2 and y != self.materials["height"] - 1:
+                    walls.append("south")
                 elif i == 3 and x != 0:
-                    walls.append('west')
+                    walls.append("west")
         return walls
 
     #  remove walls between two cells (cell, neighbor)
     def remove_walls(
-        self,
-        cell: Tuple[int, int],
-        neighboor: Tuple[int, int]
+        self, cell: Tuple[int, int], neighboor: Tuple[int, int]
     ) -> None:
         cell_x, cell_y = cell
         neigh_x, neigh_y = neighboor
@@ -265,23 +271,22 @@ class DFSAlgo(Algo):
         idx_n = self.get_index_of_position(neigh_x, neigh_y)
 
         if cell_x > neigh_x:
-            self.materials['map'][cell_y][cell_x] = self.hexa[idx_c - 8]
-            self.materials['map'][neigh_y][neigh_x] = self.hexa[idx_n - 2]
+            self.materials["map"][cell_y][cell_x] = self.hexa[idx_c - 8]
+            self.materials["map"][neigh_y][neigh_x] = self.hexa[idx_n - 2]
         elif cell_x < neigh_x:
-            self.materials['map'][cell_y][cell_x] = self.hexa[idx_c - 2]
-            self.materials['map'][neigh_y][neigh_x] = self.hexa[idx_n - 8]
+            self.materials["map"][cell_y][cell_x] = self.hexa[idx_c - 2]
+            self.materials["map"][neigh_y][neigh_x] = self.hexa[idx_n - 8]
         else:
             if cell_y > neigh_y:
-                self.materials['map'][cell_y][cell_x] = self.hexa[idx_c - 1]
-                self.materials['map'][neigh_y][neigh_x] = self.hexa[idx_n - 4]
+                self.materials["map"][cell_y][cell_x] = self.hexa[idx_c - 1]
+                self.materials["map"][neigh_y][neigh_x] = self.hexa[idx_n - 4]
             else:
-                self.materials['map'][cell_y][cell_x] = self.hexa[idx_c - 4]
-                self.materials['map'][neigh_y][neigh_x] = self.hexa[idx_n - 1]
+                self.materials["map"][cell_y][cell_x] = self.hexa[idx_c - 4]
+                self.materials["map"][neigh_y][neigh_x] = self.hexa[idx_n - 1]
 
     #  get neighboors from unvisited only valid
     def get_neighboors_from_unvisited(
-        self,
-        position: Tuple
+        self, position: Tuple
     ) -> Tuple[int, int] | None:
         neighboors = list()
         x, y = position
@@ -290,11 +295,11 @@ class DFSAlgo(Algo):
             north = (x, y - 1)
             if north not in self.visited:
                 neighboors.append(north)
-        if y + 1 < self.materials['height']:
+        if y + 1 < self.materials["height"]:
             south = (x, y + 1)
             if south not in self.visited:
                 neighboors.append(south)
-        if x + 1 < self.materials['width']:
+        if x + 1 < self.materials["width"]:
             east = (x + 1, y)
             if east not in self.visited:
                 neighboors.append(east)
@@ -308,8 +313,8 @@ class DFSAlgo(Algo):
 
     #  if map has 42 set cells as visited and rmeove it from unvisited
     def put_cells_42_as_visited(self) -> None:
-        for y in range(self.materials['height']):
-            for x in range(self.materials['width']):
+        for y in range(self.materials["height"]):
+            for x in range(self.materials["width"]):
                 if self.in_map_quarante_deux(x, y):
                     self.visited.append((x, y))
                     self.unvisited.remove((x, y))
@@ -329,8 +334,7 @@ class DFSAlgo(Algo):
 
 class WilsonAlgo(Algo):
     def __init__(
-        self,
-        materials: dict[str, Union[Tuple, int, str, bool]]
+        self, materials: dict[str, Union[Tuple, int, str, bool]]
     ) -> None:
         super().__init__(materials)
         self.materials["map"] = self.create_map()
@@ -363,8 +367,9 @@ class WilsonAlgo(Algo):
             current = random.choice(self.unvisited)
             path.append(current)
             while current not in self.visited:
-                next: tuple[int, int] | None = \
-                    self.get_rand_valid_neighboors(current)
+                next: tuple[int, int] | None = self.get_rand_valid_neighboors(
+                    current
+                )
                 if not next:
                     return []
                 try:
@@ -379,35 +384,46 @@ class WilsonAlgo(Algo):
                 if cell in self.unvisited:
                     self.unvisited.remove(cell)
 
-        if not self.materials['perfect'] \
-            and self.materials['height'] > 1 and self.materials['width'] > 1:
+        if (
+            not self.materials["perfect"]
+            and self.materials["height"] > 1
+            and self.materials["width"] > 1
+        ):
             self.remove_for_imperfect()
 
         return []
 
     def remove_for_imperfect(self) -> None:
-        for y in range(0, self.materials['height']):
-            for x in range(0, self.materials['width']):
+        for y in range(0, self.materials["height"]):
+            for x in range(0, self.materials["width"]):
                 index: int = self.get_index_of_position(x, y)
                 walls: list[Any] = self.get_walls_of_index(index, x, y)
                 if index in [14, 13, 11, 7] and len(walls):
                     wall = random.choice(walls)
-                    if wall == 'north':
-                        self.materials['map'][y][x] = self.hexa[index - 1]
+                    if wall == "north":
+                        self.materials["map"][y][x] = self.hexa[index - 1]
                         index_2 = self.get_index_of_position(x, y - 1)
-                        self.materials['map'][y - 1][x] = self.hexa[index_2 - 4]
-                    elif wall == 'east':
-                        self.materials['map'][y][x] = self.hexa[index - 2]
+                        self.materials["map"][y - 1][x] = self.hexa[
+                            index_2 - 4
+                        ]
+                    elif wall == "east":
+                        self.materials["map"][y][x] = self.hexa[index - 2]
                         index_2 = self.get_index_of_position(x + 1, y)
-                        self.materials['map'][y][x + 1] = self.hexa[index_2 - 8]
-                    elif wall == 'south':
-                        self.materials['map'][y][x] = self.hexa[index - 4]
+                        self.materials["map"][y][x + 1] = self.hexa[
+                            index_2 - 8
+                        ]
+                    elif wall == "south":
+                        self.materials["map"][y][x] = self.hexa[index - 4]
                         index_2 = self.get_index_of_position(x, y + 1)
-                        self.materials['map'][y + 1][x] = self.hexa[index_2 - 1]
+                        self.materials["map"][y + 1][x] = self.hexa[
+                            index_2 - 1
+                        ]
                     else:
-                        self.materials['map'][y][x] = self.hexa[index - 8]
+                        self.materials["map"][y][x] = self.hexa[index - 8]
                         index_2 = self.get_index_of_position(x - 1, y)
-                        self.materials['map'][y][x - 1] = self.hexa[index_2 - 2]
+                        self.materials["map"][y][x - 1] = self.hexa[
+                            index_2 - 2
+                        ]
                     return
 
     def get_walls_of_index(self, index: int, x: int, y: int) -> list[Any]:
@@ -416,13 +432,13 @@ class WilsonAlgo(Algo):
         for i in range(4):
             if index >> i & 1:
                 if i == 0 and y != 0:
-                    walls.append('north')
-                elif i == 1 and x != self.materials['width'] - 1:
-                    walls.append('east')
-                elif i == 2 and y != self.materials['height'] - 1:
-                    walls.append('south')
+                    walls.append("north")
+                elif i == 1 and x != self.materials["width"] - 1:
+                    walls.append("east")
+                elif i == 2 and y != self.materials["height"] - 1:
+                    walls.append("south")
                 elif i == 3 and x != 0:
-                    walls.append('west')
+                    walls.append("west")
         return walls
 
     def remove_walls_of_path(self, path: List[tuple]) -> None:
@@ -454,8 +470,7 @@ class WilsonAlgo(Algo):
                     map[next_y][next_x] = self.hexa[index - 1]
 
     def get_rand_valid_neighboors(
-        self,
-        position: Tuple
+        self, position: Tuple
     ) -> Tuple[int, int] | None:
         x, y = position
         directions = list()
@@ -520,7 +535,7 @@ class MazeGenerator:
         exit: Tuple[int, int],
         seed: int,
         filename: str,
-        perfect: bool
+        perfect: bool,
     ) -> None:
         self.width = width
         self.height = height

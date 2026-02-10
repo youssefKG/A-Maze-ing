@@ -5,8 +5,8 @@ from typing import Any
 class MyMlx:
     mlx = Mlx()
     mlx_ptr = mlx.mlx_init()
-    _, screen_width, screen_height = mlx.mlx_get_screen_size(mlx_ptr)
-    screen_width: int = int(screen_width * 0.7)
+    _, screen_width_temp, screen_height = mlx.mlx_get_screen_size(mlx_ptr)
+    screen_width: int = int(screen_width_temp * 0.7)
     screen_height = int(screen_height * 0.8)
     win_ptr = mlx.mlx_new_window(
         mlx_ptr, screen_width, screen_height, "A-Maze-ing"

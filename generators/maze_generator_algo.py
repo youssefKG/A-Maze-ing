@@ -189,7 +189,7 @@ class MazeGeneratorAlgo(ABC):
                     self.break_wall(cell)
                     return
 
-    def draw_entry_exit_cells(self):
+    def draw_entry_exit_cells(self) -> None:
         entry_cell = self.maze_state.get_entry_cell()
         exit_cell = self.maze_state.get_exit_cell()
         self.cells_img.draw_cell(entry_cell, Theme.entry_cell)

@@ -1,46 +1,47 @@
 from renderer.colors import Colors
 from renderer.images.background.background_img import BackgroundImg
+from typing import Any
 
 
 class ColorScheme:
 
-    def set_border(self, border: int):
+    def set_border(self, border: int) -> Any:
         self.border = border
         return self
 
-    def set_background(self, background: int):
+    def set_background(self, background: int) -> Any:
         self.background = background
         return self
 
-    def set_cell_background(self, cell_background: int):
+    def set_cell_background(self, cell_background: int) -> Any:
         self.cell_background = cell_background
         return self
 
-    def set_cell_42(self, cell_42: int):
+    def set_cell_42(self, cell_42: int) -> Any:
         self.cell_42 = cell_42
         return self
 
-    def set_tracker(self, tracker: int):
+    def set_tracker(self, tracker: int) -> Any:
         self.tracker = tracker
         return self
 
-    def set_path(self, path: int):
+    def set_path(self, path: int) -> Any:
         self.path = path
         return self
 
-    def set_exit_cell(self, exit_cell: int):
+    def set_exit_cell(self, exit_cell: int) -> Any:
         self.exit_cell = exit_cell
         return self
 
-    def set_entry_cell(self, entry_cell: int):
+    def set_entry_cell(self, entry_cell: int) -> Any:
         self.entry_cell = entry_cell
         return self
 
-    def set_neighboor(self, neighboor: int):
+    def set_neighboor(self, neighboor: int) -> Any:
         self.neighboor = neighboor
         return self
 
-    def set_background_img(self, filename: str, image_type: str):
+    def set_background_img(self, filename: str, image_type: str) -> Any:
         self.background_img = BackgroundImg(filename, image_type)
         return self
 

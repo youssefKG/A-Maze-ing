@@ -2,17 +2,18 @@ from maze.cell import Cell
 from renderer.themes import Theme
 from renderer.colors import Colors
 from my_mlx.my_mlx import MyMlx
+from typing import Any
 
 
 class CellsImage:
     _instance = None
 
-    def __new__(cls):
+    def __new__(cls) -> object:
         if cls._instance is None:
             cls._instance = super().__new__(cls)
         return cls._instance
 
-    def set_cells(self, vertical_cells: int, horizontal_cells: int):
+    def set_cells(self, vertical_cells: int, horizontal_cells: int) -> object:
         self.vertical_cells = vertical_cells
         self.horizontal_cells = horizontal_cells
         self.set_image_dimension()
@@ -26,29 +27,29 @@ class CellsImage:
         self.data, self.bpp, self.sl, self.format = MyMlx.get_data_addr(
             self.ptr
         )
+        self.clear_image()
         return self
 
-    def set_cell_width(self):
+    def set_cell_width(self) -> Any:
         self.cell_width = int(self.cell_dim * 0.70)
         return self
 
-    def set_cell_height(self):
+    def set_cell_height(self) -> Any:
         self.cell_height = int(self.cell_dim * 0.70)
         return self
 
-    def set_border(self):
+    def set_border(self) -> Any:
         self.ecart = 2 * self.cell_dim * 0.70
         self.ecart = 2 * self.cell_dim * 0.70 - int(self.ecart)
         self.cell_border = round(self.cell_dim * 0.15 + self.ecart)
         return self
 
-    def set_image_dimension(self):
+    def set_image_dimension(self) -> Any:
         max_cell = int(max(self.vertical_cells, self.horizontal_cells))
         min_screen = int(
             min(MyMlx.screen_width, int(MyMlx.screen_height * 0.8))
         )
         self.cell_dim = int(min_screen / max_cell)
-        self.cell_dim = self.cell_dim
         self.width = int(self.cell_dim * self.horizontal_cells)
         self.height = int(self.cell_dim * self.vertical_cells)
         return self
@@ -220,3 +221,7 @@ class CellsImage:
     def put_pixel(self, x: int, y: int, color: int) -> None:
         offset = int((y * self.sl) + (x * (self.bpp / 8)))
         self.data[offset:offset + 4] = (color).to_bytes(4, "little")
+
+    def clear_image(self):
+        for i in range(0, len(self.data), 4):
+            self.data[i : i + 4] = (0x0000000).to_bytes(4, "little")

@@ -4,10 +4,6 @@ SYS_PYTHON = python3
 PIP = $(VENV)/bin/pip
 FILES = parser/Parser.py \
 		mazegen/MazeGenerator.py \
-		mazegen/algorithms/Algo.py \
-		mazegen/algorithms/BFSAlgo.py \
-		mazegen/algorithms/DFSAlgo.py \
-		mazegen/algorithms/WilsonAlgo.py \
 		controll_pannel/controll_pannel.py \
 		generators/algo_factory.py \
 		generators/dfs_maze_generator.py \
