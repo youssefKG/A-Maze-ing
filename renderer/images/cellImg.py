@@ -221,7 +221,7 @@ class CellsImage:
         offset = int((y * self.sl) + (x * (self.bpp / 8)))
         self.data[offset : offset + 4] = (color).to_bytes(4, "little")
 
-    def clear_image(self, color: int = None) -> None:
+    def clear_image(self, color: int | None = None) -> None:
         if color is None:
             for y in range(self.height):
                 for x in range(self.width):
