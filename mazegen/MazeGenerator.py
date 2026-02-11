@@ -634,7 +634,7 @@ class MazeGenerator:
                 for row in self.map:
                     for col in row:
                         file.write(col)
-                file.write("\n")
+                    file.write("\n")
                 file.write("\n(")
                 file.write(str(self.entry[0]))
                 file.write(",")
