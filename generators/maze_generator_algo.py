@@ -81,7 +81,7 @@ class MazeGeneratorAlgo(ABC):
                     neighbors.append(west)
             if len(neighbors) != 0:
                 return choice(neighbors)
-            return None
+        return None
 
     def redraw_maze(self) -> None:
         for row_cells in self.maze_state.cells_grid:

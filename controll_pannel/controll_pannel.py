@@ -52,7 +52,7 @@ class ControllPannel:
     def run_wilson(self, keynum: int) -> None:
         if keynum == 98:  # B key
             self.solver.hide_path()
-            self.maze_gen.generate("wilson")
+            #self.maze_gen.generate("wilson")
             self.maze_state.set_cells_grid()
             self.algo = AlgoFactory.create("wilson")
             self.algo.generate()

@@ -6,7 +6,7 @@ from my_mlx.my_mlx import MyMlx
 class CellsImage:
     _instance = None
 
-    def __new__(cls):
+    def __new__(cls) -> object:
         if cls._instance is None:
             cls._instance = super().__new__(cls)
         return cls._instance

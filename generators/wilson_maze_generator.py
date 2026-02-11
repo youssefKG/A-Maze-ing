@@ -9,11 +9,11 @@ from renderer.themes import Theme
 class WilsonMazeGenerator(MazeGeneratorAlgo):
     def __init__(self) -> None:
         super().__init__()
-        self.unvisited = []
-        self.visited = []
+        self.unvisited: list[Cell] = []
+        self.visited: list[Cell] = []
         self.next = None
         self.path_start = 0
-        self.path = []
+        self.path: list[Cell] = []
         self.frames = 0
 
     def generate(self) -> None:
@@ -42,6 +42,7 @@ class WilsonMazeGenerator(MazeGeneratorAlgo):
             return
         if not self.is_running:
             return
+        print("infinite loop")
         if len(self.unvisited) == 0:
             self.redraw_maze()
             self.break_wall_in_imperfect()
