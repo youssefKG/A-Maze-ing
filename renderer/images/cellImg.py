@@ -26,7 +26,7 @@ class CellsImage:
         self.data, self.bpp, self.sl, self.format = MyMlx.get_data_addr(
             self.ptr
         )
-        self.clear_image()
+        self.clear_image(0x0000000)
         return self
 
     def set_cell_width(self) -> Any:
@@ -221,6 +221,6 @@ class CellsImage:
         offset = int((y * self.sl) + (x * (self.bpp / 8)))
         self.data[offset : offset + 4] = (color).to_bytes(4, "little")
 
-    def clear_image(self) -> None:
+    def clear_image(self, color: int) -> None:
         for i in range(0, len(self.data), 4):
-            self.data[i : i + 4] = (0x0000000).to_bytes(4, "little")
+            self.data[i : i + 4] = (color).to_bytes(4, "little")

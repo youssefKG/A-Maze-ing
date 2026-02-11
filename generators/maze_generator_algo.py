@@ -153,22 +153,23 @@ class MazeGeneratorAlgo(ABC):
 
         vertical_cells = self.maze_state.vertical_cells
         horizontal_cells = self.maze_state.horizontal_cells
-        north, south, east, west = cell.get_walls()
+        walls = self.get_valid_walls(cell)
+        target_wall = choice(walls)
         x, y = (cell.x, cell.y)
+        next_cell = cell
+        print(walls)
 
-        elif north and east and west and y - 1 >= 0:
-            next_cell = self.maze_state.cells_grid[y - 1][x]
-
-        elif south and east and west and y + 1 < vertical_cells:
-            next_cell = self.maze_state.cells_grid[y + 1][x]
-
-        elif east and north and south and x + 1 < horizontal_cells:
-            next_cell = self.maze_state.cells_grid[y][x + 1]
-
-        elif west and north and south and x - 1 >= 0:
-            next_cell = self.maze_state.cells_grid[y][x - 1]
-
-        if next_cell is not cell:
+        match target_wall:
+            case "north" if y - 1 >= 0:
+                next_cell = self.maze_state.cells_grid[y - 1][x]
+            case "south" if y + 1 < vertical_cells:
+                next_cell = self.maze_state.cells_grid[y + 1][x]
+            case "east" if x + 1 < horizontal_cells:
+                next_cell = self.maze_state.cells_grid[y][x + 1]
+            case "west" if x - 1 >= 0:
+                next_cell = self.maze_state.cells_grid[y][x - 1]
+        if next_cell is not cell and not next_cell.is_42_cell:
+            print(cell.x, cell.y)
             self.remove_wall(cell, next_cell)
             self.cells_img.draw_wall_between_two_cell(
                 cell,
@@ -176,18 +177,35 @@ class MazeGeneratorAlgo(ABC):
                 Theme.background,
             )
 
+    def get_valid_walls(self, cell: Cell) -> list[str]:
+        valid_walls = []
+        height = self.maze_state.vertical_cells
+        width = self.maze_state.horizontal_cells
+        if cell.north:
+            if cell.y != 0:
+                valid_walls.append("north")
+        if cell.east:
+            if cell.x != width - 1:
+                valid_walls.append("east")
+        if cell.south:
+            if cell.y != height - 1:
+                valid_walls.append("south")
+        if cell.west:
+            if cell.x != 0:
+                valid_walls.append("west")
+        return valid_walls
+
     def break_wall_in_imperfect(self) -> None:
         if self.maze_state.is_perfect:
             return
-        v_cells = self.maze_state.vertical_cells
-        h_cells = self.maze_state.horizontal_cells
         for y in range(self.maze_state.vertical_cells):
             for x in range(self.maze_state.horizontal_cells):
                 cell = self.maze_state.cells_grid[y][x]
-                count_walls = self.count_cell_walls(cell)
-                if count_walls == 3:
-                    self.break_wall(cell)
-                    return
+                if not cell.is_42_cell:
+                    count_walls = self.count_cell_walls(cell)
+                    if count_walls == 3:
+                        self.break_wall(cell)
+                        return
 
     def draw_entry_exit_cells(self) -> None:
         entry_cell = self.maze_state.get_entry_cell()

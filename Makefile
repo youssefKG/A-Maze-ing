@@ -16,7 +16,8 @@ FILES = parser/Parser.py \
 		renderer/themes.py \
 		solver/bfs_solver.py \
 		solver/solver.py \
-		a_maze_ing.py
+		a_maze_ing.py \
+		my_mlx
 
 install: $(VENV)
 	$(PIP) install flake8
