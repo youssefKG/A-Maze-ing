@@ -1,6 +1,5 @@
 from maze.cell import Cell
 from renderer.themes import Theme
-from renderer.colors import Colors
 from my_mlx.my_mlx import MyMlx
 from typing import Any
 
@@ -8,12 +7,12 @@ from typing import Any
 class CellsImage:
     _instance = None
 
-    def __new__(cls) -> CellsImage:
+    def __new__(cls) -> Any:
         if cls._instance is None:
             cls._instance = super().__new__(cls)
         return cls._instance
 
-    def set_cells(self, vertical_cells: int, horizontal_cells: int) -> object:
+    def set_cells(self, vertical_cells: int, horizontal_cells: int) -> Any:
         self.vertical_cells = vertical_cells
         self.horizontal_cells = horizontal_cells
         self.set_image_dimension()

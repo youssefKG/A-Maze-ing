@@ -1,4 +1,5 @@
 from abc import ABC
+from typing import Any
 from maze.cell import Cell
 from my_mlx.my_mlx import MyMlx
 from random import choice, seed
@@ -58,7 +59,7 @@ class MazeGeneratorAlgo(ABC):
             current_cell, next_cell, Theme.background
         )
 
-    def check_neighbors(self) -> Cell | None:
+    def check_neighbors(self) -> Any:
         if self.current_cell:
             x = self.current_cell.x
             y = self.current_cell.y
@@ -132,7 +133,7 @@ class MazeGeneratorAlgo(ABC):
     def stop(self) -> None:
         self.is_running = False
 
-    def set_cells_img(self, cells_img: CellsImage) -> object:
+    def set_cells_img(self, cells_img: CellsImage) -> Any:
         self.cells_img = cells_img
         return self
 

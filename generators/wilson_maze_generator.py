@@ -88,5 +88,5 @@ class WilsonMazeGenerator(MazeGeneratorAlgo):
             cell = choice(list(self.unvisited))
             self.current_cell = cell
             self.path_start = 0
-            self.path: list[cell] = []
+            self.path = []
             return

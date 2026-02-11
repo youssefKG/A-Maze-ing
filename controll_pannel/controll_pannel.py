@@ -82,7 +82,7 @@ class ControllPannel:
                 self.algo.redraw_maze()
                 self.solver.toggle_path()
 
-    def change_color(self, keynum) -> None:
+    def change_color(self, keynum: int) -> None:
         if keynum == 99:  # C key
             if not self.solver.is_running:
                 if (

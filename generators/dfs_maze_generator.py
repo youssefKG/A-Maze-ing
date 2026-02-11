@@ -11,7 +11,7 @@ class DfsMazeGenerator(MazeGeneratorAlgo):
 
     def generate(self) -> None:
         super().generate()
-        self.current_cell = self.maze_state.cells_grid[0][0]
+        self.current_cell: Any = self.maze_state.cells_grid[0][0]
         self.current_cell.is_visited = True
         self.stack.append(self.current_cell)
         MyMlx.loop_hook(self.generate_DFS_animation, None)

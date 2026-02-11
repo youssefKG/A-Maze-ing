@@ -1,4 +1,5 @@
 from sys import argv
+from typing import Any
 from maze.maze_state import MazeState
 from my_mlx.my_mlx import MyMlx
 from controll_pannel.controll_pannel import ControllPannel
@@ -8,7 +9,8 @@ from parser.Parser import Parser
 
 class Renderer:
     def __init__(self) -> None:
-        parser = Parser(argv)
+        args: Any = argv
+        parser = Parser(args)
         parser.parse()
         self.maze_state = MazeState()
         (

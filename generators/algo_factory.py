@@ -1,3 +1,4 @@
+from typing import Any
 from generators.dfs_maze_generator import DfsMazeGenerator
 from generators.maze_generator_algo import MazeGeneratorAlgo
 from generators.wilson_maze_generator import WilsonMazeGenerator
@@ -10,7 +11,7 @@ class AlgoFactory:
     generator_name = "default"
 
     @classmethod
-    def create(cls, name: str | None = None) -> MazeGeneratorAlgo:
+    def create(cls, name: str | None = None) -> Any:
         if name:
             cls.generator_name = name
         algo_generator = MazeGeneratorAlgo()
