@@ -8,7 +8,7 @@ from maze.maze_state import MazeState
 
 
 class ControllPannel:
-    def __init__(self) -> None:
+    def __init__(self, maze_gen: MazeGenerator) -> None:
         self.algo = AlgoFactory.create()
         self.is_started = False
         self.solver = Solver()
@@ -16,15 +16,7 @@ class ControllPannel:
         start_image.put_image_to_window()
         MyMlx.key_hook(self.on_press, None)
         self.maze_state = MazeState()
-        self.maze_gen = MazeGenerator(
-            self.maze_state.horizontal_cells,
-            self.maze_state.vertical_cells,
-            (self.maze_state.entry_cell.x, self.maze_state.entry_cell.y),
-            (self.maze_state.exit_cell.x, self.maze_state.exit_cell.y),
-            self.maze_state.seed,
-            self.maze_state.filename,
-            self.maze_state.is_perfect,
-        )
+        self.maze_gen = maze_gen
 
     def draw(self) -> None:
         pass

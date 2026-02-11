@@ -10,8 +10,8 @@ class Image:
             self.ptr
         )
         for i in range(0, len(self.data), 4):
-            self.data[i:i + 4] = (0x0000000).to_bytes(4, "little")
+            self.data[i : i + 4] = (0x0000000).to_bytes(4, "little")
 
     def put_pixel(self, x: int, y: int, color: int) -> None:
         offset = int((y * self.sl) + (x * (self.bpp / 8)))
-        self.data[offset:offset + 4] = (color).to_bytes(4, "little")
+        self.data[offset : offset + 4] = (color).to_bytes(4, "little")

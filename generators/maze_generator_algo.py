@@ -155,7 +155,8 @@ class MazeGeneratorAlgo(ABC):
         horizontal_cells = self.maze_state.horizontal_cells
         north, south, east, west = cell.get_walls()
         x, y = (cell.x, cell.y)
-        if north and east and west and y - 1 >= 0:
+
+        elif north and east and west and y - 1 >= 0:
             next_cell = self.maze_state.cells_grid[y - 1][x]
 
         elif south and east and west and y + 1 < vertical_cells:
@@ -180,10 +181,8 @@ class MazeGeneratorAlgo(ABC):
             return
         v_cells = self.maze_state.vertical_cells
         h_cells = self.maze_state.horizontal_cells
-        if v_cells < 3 or h_cells < 3:
-            return
-        for y in range(1, self.maze_state.vertical_cells - 1):
-            for x in range(1, self.maze_state.horizontal_cells - 1):
+        for y in range(self.maze_state.vertical_cells):
+            for x in range(self.maze_state.horizontal_cells):
                 cell = self.maze_state.cells_grid[y][x]
                 count_walls = self.count_cell_walls(cell)
                 if count_walls == 3:
