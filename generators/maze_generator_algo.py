@@ -2,7 +2,7 @@ from abc import ABC
 from typing import Any
 from maze.cell import Cell
 from my_mlx.my_mlx import MyMlx
-from random import choice, seed
+from random import choice
 from maze.maze_state import MazeState
 from renderer.images.cellImg import CellsImage
 from renderer.themes import Theme
@@ -15,7 +15,6 @@ class MazeGeneratorAlgo(ABC):
         self.is_finished = False
         self.maze_state = MazeState()
         self.is_running = False
-        seed(self.maze_state.seed)
 
     def generate(self) -> None:
         self.is_running = True

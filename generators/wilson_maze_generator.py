@@ -47,6 +47,7 @@ class WilsonMazeGenerator(MazeGeneratorAlgo):
         if len(self.unvisited) == 0:
             self.redraw_maze()
             self.break_wall_in_imperfect()
+            self.draw_entry_exit_cells()
             self.put_cells_img_to_window()
             self.is_finished = True
             self.is_running = False

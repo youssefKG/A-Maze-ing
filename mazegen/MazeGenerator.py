@@ -548,7 +548,6 @@ class MazeGenerator:
         self.shortest_path: str = ""
         self.is_42 = self.logo_in_map()
         self.hexa = "0123456789ABCEDF"
-        random.seed(seed)
 
     def logo_in_map(self) -> bool:
         if self.height > 6 and self.width > 8:

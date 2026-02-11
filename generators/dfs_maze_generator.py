@@ -27,7 +27,6 @@ class DfsMazeGenerator(MazeGeneratorAlgo):
             self.is_finished = True
             self.break_wall_in_imperfect()
             self.draw_entry_exit_cells()
-            self.draw_entry_exit_cells()
             self.put_cells_img_to_window()
             return
         self.cells_img.draw_cell(self.current_cell, Theme.background)
