@@ -203,6 +203,8 @@ class MazeGeneratorAlgo(ABC):
                     count_walls = self.count_cell_walls(cell)
                     if count_walls == 3:
                         self.break_wall(cell)
+                        self.cells_img.clear_image()
+                        self.redraw_maze()
                         return
 
     def draw_entry_exit_cells(self) -> None:

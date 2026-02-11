@@ -244,4 +244,4 @@ A-Maze-ing/
 - DFS maze generation references
 - Wilson’s algorithm references
 - BFS shortest path references
-- AI tools: GitHub Copilot (GPT-5.1) — used to help structure and edit this README (Description, Instructions, Resources, Reusable Code, mazegen, and Team and Project Management sections). Any additional AI assistance for code or other artifacts should be documented here with the corresponding tasks and files.
+- AI tools:  — used to help structure and edit this README (Description, Instructions, Resources, Reusable Code, mazegen, and Team and Project Management sections).
