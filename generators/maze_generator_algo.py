@@ -157,7 +157,6 @@ class MazeGeneratorAlgo(ABC):
         target_wall = choice(walls)
         x, y = (cell.x, cell.y)
         next_cell = cell
-        print(walls)
 
         match target_wall:
             case "north" if y - 1 >= 0:
@@ -169,7 +168,6 @@ class MazeGeneratorAlgo(ABC):
             case "west" if x - 1 >= 0:
                 next_cell = self.maze_state.cells_grid[y][x - 1]
         if next_cell is not cell and not next_cell.is_42_cell:
-            print(cell.x, cell.y)
             self.remove_wall(cell, next_cell)
             self.cells_img.draw_wall_between_two_cell(
                 cell,
