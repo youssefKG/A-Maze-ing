@@ -240,8 +240,8 @@ A-Maze-ing/
 ## Resources
 
 - MLX documentation
-- SDL2 documentation
-- DFS maze generation references
-- Wilson’s algorithm references
-- BFS shortest path references
+- DFS maze generation references (Wikepedia)
+- Wilson’s algorithm references (Articles)
+- BFS shortest path references (Youtube)
+
 - AI tools:  — used to help structure and edit this README (Description, Instructions, Resources, Reusable Code, mazegen, and Team and Project Management sections).

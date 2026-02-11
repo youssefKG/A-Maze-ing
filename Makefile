@@ -32,10 +32,14 @@ $(VENV):
 
 clean:
 	rm -rf  __pycache__ */__pycache__ */*/__pycache__
-	rm -rf $(VENV) dist/ *egg-info
+	rm -rf $(VENV) dist/ *egg-info build *dist-info
 
 lint:
 	$(VENV)/bin/flake8 $(FILES) 
 	$(VENV)/bin/mypy $(FILES) --warn-return-any --warn-unused-ignores --ignore-missing-imports --disallow-untyped-defs --check-untyped-defs	
+
+
+pdb:
+	$(PYTHON) -m pdb a_maze_ing.py config.txt
 
 .PHONY: dependecies clean lint install

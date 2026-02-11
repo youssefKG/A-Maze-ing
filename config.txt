@@ -4,4 +4,4 @@ SEED=50
 ENTRY=0,0
 EXIT=9,9
 PERFECT=False
-OUTPUT_FILE=output_file.txt
+OUTPUT_FILE=maze.txt
