@@ -43,7 +43,7 @@ class ControllPannel:
 
     def run_wilson(self, keynum: int) -> None:
         if keynum == 98:  # B key
-            # self.maze_gen.generate("wilson")
+            self.maze_gen.generate("wilson")
             self.maze_state.set_cells_grid()
             self.algo = AlgoFactory.create("wilson")
             self.algo.generate()
@@ -54,7 +54,7 @@ class ControllPannel:
             self.solver.hide_path()
             self.maze_state.set_cells_grid()
             self.algo = AlgoFactory.create("dfs")
-            # self.maze_gen.generate("dfs")
+            self.maze_gen.generate("dfs")
             self.algo.generate()
 
     def start_maze(self, keynum: int) -> None:
