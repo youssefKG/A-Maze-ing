@@ -1,3 +1,10 @@
+"""Wilson's algorithm maze generator.
+
+This module provides an implementation of Wilson's algorithm that
+builds a uniform spanning tree by performing loop-erased random walks
+from unvisited cells.
+"""
+
 from my_mlx.my_mlx import MyMlx
 from generators.maze_generator_algo import MazeGeneratorAlgo
 from random import choice
@@ -8,7 +15,10 @@ from typing import Any
 
 
 class WilsonMazeGenerator(MazeGeneratorAlgo):
+    """Maze generator based on Wilson's loop-erased random walks."""
+
     def __init__(self) -> None:
+        """Initialize Wilson's algorithm state collections."""
         super().__init__()
         self.unvisited: list[Any] = []
         self.visited: list[Any] = []
@@ -18,6 +28,7 @@ class WilsonMazeGenerator(MazeGeneratorAlgo):
         self.frames = 0
 
     def generate(self) -> None:
+        """Start Wilson's algorithm and register the animation hook."""
         super().generate()
         self._init_unvisited()
         target_cell = choice(list(self.unvisited))
@@ -31,12 +42,18 @@ class WilsonMazeGenerator(MazeGeneratorAlgo):
         MyMlx.loop_hook(self.generate_wilson_animations, None)
 
     def _init_unvisited(self) -> None:
+        """Populate the list of unvisited cells, skipping decorative ones."""
         for cell_row in self.maze_state.cells_grid:
             for cell in cell_row:
                 if not cell.is_42_cell:
                     self.unvisited.append(cell)
 
     def generate_wilson_animations(self, _: object) -> None:
+        """Perform one animation step of Wilson's algorithm.
+
+        This drives the random walks, loop erasure, and wall removal
+        while updating the visual representation of the maze.
+        """
         self.frames += 1
         if self.frames % 1 != 0:
             return

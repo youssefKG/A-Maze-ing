@@ -1,9 +1,15 @@
+"""Color utilities and predefined ARGB color constants for rendering."""
+
+
 def create_color(r: int, g: int, b: int) -> int:
+    """Create a 32-bit ARGB color value from RGB components."""
     col = 0xFF000000 | (r << 16) | (g << 8) | b
     return col
 
 
 class Colors:
+    """Collection of commonly used color constants."""
+
     WHITE = create_color(255, 255, 255)
     BLACK = create_color(0, 0, 0)
 

@@ -1,3 +1,9 @@
+"""Top-level renderer that wires together state, images, and controls.
+
+This module prepares the maze state, initializes the cell image buffer
+and control panel, and ultimately starts the MLX loop.
+"""
+
 from maze.maze_state import MazeState
 from my_mlx.my_mlx import MyMlx
 from controll_pannel.controll_pannel import ControllPannel
@@ -7,7 +13,14 @@ from mazegen.MazeGenerator import MazeGenerator
 
 
 class Renderer:
+    """Configure the maze rendering pipeline and start the main loop."""
+
     def __init__(self, maze_gen: MazeGenerator, parser: Parser) -> None:
+        """Create a renderer bound to a maze generator and parser.
+
+        The parser provides maze dimensions, entry/exit positions,
+        randomness configuration, and output options.
+        """
         self.maze_state = MazeState()
         self.maze_gen: MazeGenerator = maze_gen
         (
@@ -37,4 +50,5 @@ class Renderer:
         self.controll_pannel = ControllPannel(self.maze_gen)
 
     def render(self) -> None:
+        """Enter the MLX event loop to display and animate the maze."""
         MyMlx.loop()

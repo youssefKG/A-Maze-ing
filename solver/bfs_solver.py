@@ -1,3 +1,5 @@
+"""Breadth-first search maze solver with animation support."""
+
 from typing import Any
 from maze.cell import Cell
 from solver.solver import Solver
@@ -5,35 +7,12 @@ from renderer.themes import Theme
 from collections import deque
 from my_mlx.my_mlx import MyMlx
 
-"""
-procedure BFS_Algorithm(graph, initial_vertex):
-create a queue called frontier
-create a list called visited_vertex
-add the initial vertex in the frontier
-while True:
-    if frontier is empty then
-    print("No Solution Found")
-    break
-
-    selected_node = remove the first node of the frontier
-    add the selected_node to the visited_vertex list
-
-    // Check if the selected_node is the solution
-    if selected_node is the solution then
-    print(selected_node)
-    break
-
-    // Extend the node
-    new_nodes = extend the selected_node
-    // Add the extended nodes in the frontier
-    for all nodes from new_nodes do
-    if node not in visited_vertex and node not in frontier then
-    add node at the end of the queue
-"""
-
 
 class BfsSolver(Solver):
+    """Solve the maze using BFS and animate the search and path."""
+
     def __init__(self) -> None:
+        """Initialize BFS data structures and derive entry/exit cells."""
         super().__init__()
         self.visited: list[Cell] = []
         self.bfs_queue: deque[Cell] = deque()
@@ -45,6 +24,11 @@ class BfsSolver(Solver):
         self.meeting_points: list[tuple[Cell, Cell]] = []
 
     def get_neighboors(self) -> list[Cell]:
+        """Return all reachable neighboring cells of the current cell.
+
+        While doing so, this method also highlights neighbor walls and
+        records any meeting points with already-visited cells.
+        """
         neighboors = []
         x = self.current_cell.x
         y = self.current_cell.y
@@ -91,6 +75,7 @@ class BfsSolver(Solver):
         return neighboors
 
     def generate(self) -> None:
+        """Kick off the BFS process and register the animation hook."""
         if not self.is_running:
 
             self.current_cell = self.entry_cell
@@ -100,6 +85,7 @@ class BfsSolver(Solver):
             MyMlx.loop_hook(self.generate_solution_path_with_animation, None)
 
     def generate_solution_path_with_animation(self, _: Any) -> None:
+        """Advance the BFS search or draw the final path one step."""
         self.frames += 1
 
         if self.frames % 1 != 0:
@@ -137,6 +123,7 @@ class BfsSolver(Solver):
 
     # draw neightboors
     def draw_neighboors(self, neighboors: list[Cell]) -> None:
+        """Enqueue neighbors, record parents, and color them on screen."""
         # get neighboors
         for neighboor in neighboors:
             if (
@@ -150,6 +137,7 @@ class BfsSolver(Solver):
             self.put_cells_img_to_window()
 
     def redraw_maze(self) -> None:
+        """Redraw the maze and remove any temporary BFS highlights."""
         for row_cells in self.maze_state.cells_grid:
             for cell in row_cells:
                 if not cell.is_42_cell:
@@ -171,6 +159,7 @@ class BfsSolver(Solver):
         self.put_cells_img_to_window()
 
     def toggle_path(self) -> None:
+        """Toggle visibility of the already-computed BFS solution path."""
         # if the path is found and the algo is finished
         if not self.is_path_shown and self.is_finished:
             self.draw_path()
@@ -180,6 +169,7 @@ class BfsSolver(Solver):
             self.is_path_shown = False
 
     def hide_path(self) -> None:
+        """Erase the drawn solution path while keeping the maze structure."""
         cell = self.exit_cell
         if self.is_solution_found and self.is_finished:
             while cell is not self.entry_cell:
@@ -194,6 +184,7 @@ class BfsSolver(Solver):
             self.is_path_shown = False
 
     def draw_path(self) -> None:
+        """Draw the full BFS solution path from exit back to entry."""
         cell = self.exit_cell
         if self.is_solution_found and self.is_finished:
             while cell is not self.entry_cell:
@@ -208,7 +199,9 @@ class BfsSolver(Solver):
             self.put_cells_img_to_window()
 
     def set_entry_cell(self) -> None:
+        """Cache the maze's entry cell from shared maze state."""
         self.entry_cell = self.maze_state.get_entry_cell()
 
     def set_exit_cell(self) -> None:
+        """Cache the maze's exit cell from shared maze state."""
         self.exit_cell = self.maze_state.get_exit_cell()

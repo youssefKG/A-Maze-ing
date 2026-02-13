@@ -1,3 +1,10 @@
+"""Abstract base class for maze generation algorithms.
+
+Concrete generators inherit from :class:`MazeGeneratorAlgo` and reuse
+its grid drawing, wall manipulation, and helper utilities while
+providing their own generation strategy.
+"""
+
 from abc import ABC
 from typing import Any
 from maze.cell import Cell
@@ -9,7 +16,10 @@ from renderer.themes import Theme
 
 
 class MazeGeneratorAlgo(ABC):
+    """Shared functionality for animated maze generation algorithms."""
+
     def __init__(self) -> None:
+        """Initialize shared maze generator state objects."""
         self.current_cell = None
         self.frames = 0
         self.is_finished = False
@@ -17,6 +27,7 @@ class MazeGeneratorAlgo(ABC):
         self.is_running = False
 
     def generate(self) -> None:
+        """Prepare the maze grid for generation and initial drawing."""
         self.is_running = True
         vertical_cells = self.maze_state.vertical_cells
         horizontal_cells = self.maze_state.horizontal_cells
@@ -34,11 +45,13 @@ class MazeGeneratorAlgo(ABC):
         self.put_cells_img_to_window()
 
     def put_cells_img_to_window(self) -> None:
+        """Blit the cell image buffer to the window, centered on screen."""
         x = int((MyMlx.screen_width) / 2 - self.cells_img.width / 2)
         y = int(MyMlx.screen_height / 2 - self.cells_img.height / 2)
         MyMlx.put_image_to_window(self.cells_img.ptr, x, y + 20)
 
     def remove_wall(self, current_cell: Cell, next_cell: Cell) -> None:
+        """Remove the wall between two neighboring cells and redraw it."""
         if next_cell:
             x = current_cell.x - next_cell.x
             y = current_cell.y - next_cell.y
@@ -59,6 +72,10 @@ class MazeGeneratorAlgo(ABC):
         )
 
     def check_neighbors(self) -> Any:
+        """Return a random unvisited neighbor of the current cell.
+
+        Returns ``None`` when no suitable neighbor exists.
+        """
         if self.current_cell:
             x = self.current_cell.x
             y = self.current_cell.y
@@ -84,6 +101,7 @@ class MazeGeneratorAlgo(ABC):
         return None
 
     def redraw_maze(self) -> None:
+        """Redraw the whole maze using the current theme settings."""
         for row_cells in self.maze_state.cells_grid:
             for cell in row_cells:
                 if cell.is_42_cell:
@@ -95,6 +113,7 @@ class MazeGeneratorAlgo(ABC):
         self.put_cells_img_to_window()
 
     def draw_42(self) -> None:
+        """Draw a “42” pattern in the maze for decoration."""
         y = int(((self.maze_state.vertical_cells) / 2) - 2)
         x = int(((self.maze_state.horizontal_cells) / 2) - 3)
         cells_grid = self.maze_state.cells_grid
@@ -122,21 +141,26 @@ class MazeGeneratorAlgo(ABC):
             self.draw_cell_42(cells_grid[y + 4][i])
 
     def draw_cell_42(self, cell: Cell) -> None:
+        """Mark a cell as part of the 42 logo and draw it."""
         cell.is_visited = True
         cell.is_42_cell = True
         self.cells_img.draw_cell(cell, Theme.cell_42)
 
     def run(self) -> None:
+        """Mark the generator as running."""
         self.is_running = True
 
     def stop(self) -> None:
+        """Mark the generator as stopped."""
         self.is_running = False
 
     def set_cells_img(self, cells_img: CellsImage) -> Any:
+        """Attach the cell image buffer and return ``self`` for chaining."""
         self.cells_img = cells_img
         return self
 
     def count_cell_walls(self, cell: Cell) -> int:
+        """Count how many walls around a cell are still present."""
         count = 0
         if cell.north:
             count += 1
@@ -149,6 +173,7 @@ class MazeGeneratorAlgo(ABC):
         return count
 
     def break_wall(self, cell: Cell) -> None:
+        """Break a random valid wall around a cell in imperfect mazes."""
 
         vertical_cells = self.maze_state.vertical_cells
         horizontal_cells = self.maze_state.horizontal_cells
@@ -175,6 +200,7 @@ class MazeGeneratorAlgo(ABC):
             )
 
     def get_valid_walls(self, cell: Cell) -> list[str]:
+        """Return a list of wall directions that can be removed safely."""
         valid_walls = []
         height = self.maze_state.vertical_cells
         width = self.maze_state.horizontal_cells
@@ -193,6 +219,7 @@ class MazeGeneratorAlgo(ABC):
         return valid_walls
 
     def break_wall_in_imperfect(self) -> None:
+        """Introduce a single extra opening to make the maze imperfect."""
         if self.maze_state.is_perfect:
             return
         for y in range(self.maze_state.vertical_cells):
@@ -207,6 +234,7 @@ class MazeGeneratorAlgo(ABC):
                         return
 
     def draw_entry_exit_cells(self) -> None:
+        """Highlight the entry and exit cells using the theme colors."""
         entry_cell = self.maze_state.get_entry_cell()
         exit_cell = self.maze_state.get_exit_cell()
         self.cells_img.draw_cell(entry_cell, Theme.entry_cell)

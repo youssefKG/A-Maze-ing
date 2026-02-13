@@ -1,3 +1,5 @@
+"""Image buffer wrapper specialized for drawing maze cells and walls."""
+
 from maze.cell import Cell
 from renderer.themes import Theme
 from my_mlx.my_mlx import MyMlx
@@ -5,14 +7,18 @@ from typing import Any
 
 
 class CellsImage:
+    """Singleton image helper that knows how to paint maze cells."""
+
     _instance = None
 
     def __new__(cls) -> Any:
+        """Return the shared CellsImage instance (singleton pattern)."""
         if cls._instance is None:
             cls._instance = super().__new__(cls)
         return cls._instance
 
     def set_cells(self, vertical_cells: int, horizontal_cells: int) -> Any:
+        """Configure grid dimensions and allocate the underlying image."""
         self.vertical_cells = vertical_cells
         self.horizontal_cells = horizontal_cells
         self.set_image_dimension()
@@ -30,20 +36,24 @@ class CellsImage:
         return self
 
     def set_cell_width(self) -> Any:
+        """Compute and store the width of a single cell in pixels."""
         self.cell_width = int(self.cell_dim * 0.70)
         return self
 
     def set_cell_height(self) -> Any:
+        """Compute and store the height of a single cell in pixels."""
         self.cell_height = int(self.cell_dim * 0.70)
         return self
 
     def set_border(self) -> Any:
+        """Compute the thickness of walls and borders in pixels."""
         self.ecart = 2 * self.cell_dim * 0.70
         self.ecart = 2 * self.cell_dim * 0.70 - int(self.ecart)
         self.cell_border = round(self.cell_dim * 0.15 + self.ecart)
         return self
 
     def set_image_dimension(self) -> Any:
+        """Derive image size and base cell dimensions from screen size."""
         max_cell = int(max(self.vertical_cells, self.horizontal_cells))
         min_screen = int(
             min(MyMlx.screen_width, int(MyMlx.screen_height * 0.8))
@@ -56,6 +66,7 @@ class CellsImage:
     def draw_cell(
         self, cell: Cell, backgroundColor: int | None = None
     ) -> None:
+        """Draw a single cell, its interior, and its surrounding walls."""
         if backgroundColor is not None:
             start_x = self.cell_dim * cell.x + self.cell_border
             end_x = start_x + self.cell_width
@@ -123,6 +134,7 @@ class CellsImage:
                     self.put_pixel(x, y, Theme.border)
 
     def is_corner_cell(self, cell: Cell) -> bool:
+        """Return True if the cell lies on any border of the maze."""
         if (
             cell.x > 0
             and cell.x < self.horizontal_cells - 1
@@ -135,6 +147,7 @@ class CellsImage:
     def draw_wall_between_two_cell(
         self, cell_one: Cell, cell_two: Cell, color: int
     ) -> None:
+        """Draw or erase the wall segment shared by two adjacent cells."""
         x_axis = cell_one.x - cell_two.x
         y_axis = cell_one.y - cell_two.y
 
@@ -218,10 +231,12 @@ class CellsImage:
                     self.put_pixel(x, y, color)
 
     def put_pixel(self, x: int, y: int, color: int) -> None:
+        """Write a single pixel into the backing image buffer."""
         offset = int((y * self.sl) + (x * (self.bpp / 8)))
         self.data[offset : offset + 4] = (color).to_bytes(4, "little")
 
     def clear_image(self, color: int | None = None) -> None:
+        """Fill the entire image with either the theme background or a color."""
         if color is None:
             for y in range(self.height):
                 for x in range(self.width):
