@@ -3,7 +3,25 @@ import sys
 
 
 class Parser:
+    """
+    Configuration file parser for the maze generator.
+
+    This class reads and validates a configuration file,
+    extracts all maze parameters, performs consistency checks,
+    and builds a materials dictionary used by the maze algorithms.
+    """
     def __init__(self, argv: list[str]) -> None:
+        """
+        Initialize the parser using command-line arguments.
+
+        Args:
+            argv (list[str]): Command-line arguments.
+                Expected format:
+                ["program_name", "config.txt"]
+
+        Raises:
+            SystemExit: If the number of arguments is invalid.
+        """
         try:
             if len(argv) != 2:
                 e = "Usage: python3 a_maze_ing.py config.txt"
@@ -23,12 +41,28 @@ class Parser:
         self.seed = 0
 
     def parse(self) -> Dict[str, Any]:
+        """
+        Parse the configuration file and return validated materials.
+
+        Returns:
+            Dict[str, Any]: Dictionary containing all validated
+                configuration parameters for maze generation.
+
+        Raises:
+            SystemExit: If parsing fails.
+        """
         self.read_file()
         if not self.parse_content_file():
             sys.exit(42)
         return self.create_materials()
 
     def read_file(self) -> None:
+        """
+        Read the configuration file content.
+
+        Raises:
+            SystemExit: If the file cannot be opened or read.
+        """
         try:
             with open(self.filename, "r") as file:
                 self.content_file = file.read()
@@ -37,6 +71,28 @@ class Parser:
             sys.exit(42)
 
     def parse_content_file(self) -> bool:
+        """
+        Parse and validate configuration file content.
+
+        Supported keys:
+            - WIDTH
+            - HEIGHT
+            - ENTRY (format: x,y)
+            - EXIT (format: x,y)
+            - OUTPUT_FILE
+            - PERFECT (True or False)
+            - SEED
+
+        Validation includes:
+            - Positive dimensions
+            - Entry and exit inside bounds
+            - Entry and exit not overlapping
+            - Entry/exit not inside reserved "42" logo area
+              (if applicable)
+
+        Returns:
+            bool: True if parsing succeeds, False otherwise.
+        """
         try:
             lines = self.content_file.split("\n")
             for line in lines:
@@ -109,6 +165,18 @@ class Parser:
 
     # check if this direction go throw the map 42 in middle map
     def in_map_quarante_deux(self, x: int, y: int) -> bool:
+        """
+            Check whether a coordinate belongs to the reserved "42" logo area.
+
+            The logo is dynamically centered in the maze grid.
+
+            Args:
+                x (int): X-coordinate.
+                y (int): Y-coordinate.
+
+            Returns:
+                bool: True if the position is inside the 42 logo area.
+        """
         mid_h = int((self.height / 2)) - 2
         mid_w = int((self.width / 2)) - 3
         row_2 = [mid_w, mid_w + 1, mid_w + 2, mid_w + 4, mid_w + 5, mid_w + 6]
@@ -128,6 +196,12 @@ class Parser:
             return False
 
     def create_materials(self) -> Dict[str, Any]:
+        """
+        Build the materials dictionary used by maze algorithms.
+
+        Returns:
+            Dict[str, Any]: Fully prepared configuration dictionary.
+        """
         return {
             "width": self.width,
             "height": self.height,

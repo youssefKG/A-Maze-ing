@@ -73,7 +73,7 @@ class Theme:
         .set_cell_42(Colors.YELLOW)
         .set_tracker(Colors.CYAN)
         .set_path(Colors.CYAN)
-        .set_exit_cell(Colors.GREEN)
+        .set_exit_cell(Colors.BLUE)
         .set_entry_cell(Colors.RED)
         .set_neighboor(Colors.ORANGE)
         .set_background_img("pink_back.png", "png"),
@@ -95,8 +95,8 @@ class Theme:
         .set_cell_42(Colors.RED)
         .set_tracker(Colors.CYAN)
         .set_path(Colors.CYAN)
-        .set_exit_cell(Colors.CYAN)
-        .set_entry_cell(Colors.RED)
+        .set_exit_cell(Colors.RED)
+        .set_entry_cell(Colors.YELLOW)
         .set_neighboor(Colors.CYAN)
         .set_background_img("orange_back.png", "png"),
         ColorScheme()
@@ -106,8 +106,8 @@ class Theme:
         .set_cell_42(Colors.BLUE)
         .set_tracker(Colors.BROWN)
         .set_path(Colors.LIGHT_GRAY)
-        .set_exit_cell(Colors.GREEN)
-        .set_entry_cell(Colors.ORANGE)
+        .set_exit_cell(Colors.WHITE)
+        .set_entry_cell(Colors.RED)
         .set_neighboor(Colors.WHITE)
         .set_background_img("background_img.xpm", "xpm"),
     ]

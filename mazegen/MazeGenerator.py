@@ -5,16 +5,54 @@ from collections import deque
 
 
 class Algo(ABC):
+    """
+        Abstract base class for maze algorithms.
+
+        This class defines the common interface and shared utility methods
+        used by all maze generation and solving algorithms.
+
+        Attributes:
+            materials (dict): Configuration dictionary containing maze
+                parameters such as width, height, map, entry, exit, etc.
+            hexa (str): String of hexadecimal characters used to encode walls.
+    """
     def __init__(self, materials: dict[str, Any]) -> None:
+        """
+            Initialize the algorithm with configuration materials.
+
+            Args:
+                materials (dict[str, Any]): Dictionary containing maze metadata
+                    and runtime parameters.
+        """
         self.materials = materials
         self.hexa = "0123456789ABCDEF"
 
     @abstractmethod
     def algo_run(self) -> list[tuple[int, int]] | None:
+        """
+            Execute the algorithm.
+
+            Returns:
+                list[tuple[int, int]] | None:
+                    Path of coordinates if applicable, otherwise None.
+        """
         pass
 
     @abstractmethod
     def get_index_of_position(self, x: int, y: int) -> int:
+        """
+            Return the wall-encoding index of a cell at position (x, y).
+
+            Each cell stores walls encoded as a hexadecimal character.
+            This method converts that character into its integer value.
+
+            Args:
+                x (int): X-coordinate.
+                y (int): Y-coordinate.
+
+            Returns:
+                int: Integer representation of the cell's wall encoding.
+        """
         if self.materials["map"][y][x] == "0":
             return 0
         elif self.materials["map"][y][x] == "1":
@@ -51,6 +89,17 @@ class Algo(ABC):
             return -1
 
     def in_map_quarante_deux(self, x: int, y: int) -> bool:
+        """
+            Determine whether a coordinate belongs to the embedded "42" logo
+            shape located at the center of the maze.
+
+            Args:
+                x (int): X-coordinate.
+                y (int): Y-coordinate.
+
+            Returns:
+                bool: True if the position belongs to the logo shape.
+        """
         r = int((self.materials["height"] / 2)) - 2
         c = int((self.materials["width"] / 2)) - 3
         if y == r and x in [c, c + 4, c + 5, c + 6]:
@@ -68,6 +117,12 @@ class Algo(ABC):
 
     @abstractmethod
     def create_map(self) -> List[list[str]]:
+        """
+            Create an initialized maze map filled with walls ('F').
+
+            Returns:
+                List[list[str]]: 2D grid representing the maze.
+        """
         my_map: List[Any] = []
         for i in range(self.materials["height"]):
             cols = []
@@ -78,14 +133,33 @@ class Algo(ABC):
 
 
 class BFSAlgo(Algo):
+    """
+        Breadth-First Search algorithm used to compute
+        the shortest path between entry and exit in the maze.
+    """
     def __init__(
         self, materials: dict[str, Union[Tuple, int, str, bool]]
     ) -> None:
+        """
+            Initialize BFS solver.
+
+            Args:
+                materials (dict): Maze configuration and generated map.
+        """
         super().__init__(materials)
         self.shortest_path = ""
         self.visited: list[tuple[int, int]] = []
 
     def get_shortest_path(self, path: List[tuple[int, int]]) -> str:
+        """
+            Convert a coordinate path into directional notation (N/E/S/W).
+
+            Args:
+                path (List[tuple[int, int]]): Ordered list of positions.
+
+            Returns:
+                str: String representing movement directions.
+        """
         x = -1
         y = -1
         for t in path:
@@ -106,6 +180,12 @@ class BFSAlgo(Algo):
         return self.shortest_path
 
     def algo_run(self) -> Any:
+        """
+            Perform Breadth-First Search to find the shortest path.
+
+            Returns:
+                list[tuple[int, int]]: Path from entry to exit.
+        """
         queue: deque = deque()
         queue.append((self.materials["entry"], [self.materials["entry"]]))
         self.visited.append(self.materials["entry"])
@@ -136,6 +216,19 @@ class BFSAlgo(Algo):
         return []
 
     def get_valid_neighboors(self, position: Tuple) -> List[str]:
+        """
+            Retrieve all valid movement directions from a given cell.
+
+            A direction is considered valid if there is no wall blocking it,
+            based on the cell's wall encoding index.
+
+            Args:
+                position (Tuple): (x, y) coordinates of the current cell.
+
+            Returns:
+                List[str]: List of accessible directions
+                    (e.g., 'north', 'east', 'south', 'west').
+        """
         directions = list(self.materials["directions"])
         x, y = position
         index = self.get_index_of_position(x, y)
@@ -144,6 +237,25 @@ class BFSAlgo(Algo):
     def remove_direction_to_wall(
         self, directions: List[str], index: int
     ) -> List[str]:
+        """
+            Remove directions blocked by walls from a direction list.
+
+            The wall configuration is encoded as a bitmask where:
+                - 1 represents a north wall
+                - 2 represents an east wall
+                - 4 represents a south wall
+                - 8 represents a west wall
+
+            If a bit is set in the index, the corresponding direction
+            is removed from the available directions list.
+
+            Args:
+                directions (List[str]): List of potential movement directions.
+                index (int): Bitmask representing wall configuration.
+
+            Returns:
+                List[str]: Filtered list of directions not blocked by walls.
+        """
         if index >= 8:
             index -= 8
             directions.remove("west")
@@ -159,15 +271,42 @@ class BFSAlgo(Algo):
         return directions
 
     def get_index_of_position(self, x: int, y: int) -> int:
+        """
+            Retrieve the wall encoding index of a cell.
+
+            Args:
+                x (int): X-coordinate.
+                y (int): Y-coordinate.
+
+            Returns:
+                int: Integer wall encoding.
+        """
         return super().get_index_of_position(x, y)
 
     def create_map(self) -> list[list[str]]:
+        """
+            Create a new maze grid initialized with full walls.
+
+            Returns:
+                List[List[str]]: 2D grid filled with 'F'.
+        """
         return super().create_map()
 
 
 class DFSAlgo(Algo):
-    #  the constructor of class
+    """
+        Depth-First Search algorithm used to generate a maze.
+
+        This implementation produces a perfect maze unless the
+        'perfect' flag is set to False.
+    """
     def __init__(self, materials: dict[str, Any]) -> None:
+        """
+            Initialize DFS generator.
+
+            Args:
+                materials (dict): Maze configuration.
+        """
         super().__init__(materials)
         self.materials["map"] = self.create_map()
         self.unvisited = self.get_all_cells()
@@ -182,7 +321,12 @@ class DFSAlgo(Algo):
 
     #  DFS is executed to to made  perfect map
     def algo_run(self) -> list[Any]:
+        """
+            Execute DFS maze generation.
 
+            Returns:
+                list[Any]: Empty list (generation modifies map in-place).
+        """
         if self.materials["is_42"] is True:
             self.put_cells_42_as_visited()
 
@@ -213,6 +357,12 @@ class DFSAlgo(Algo):
 
     # for imperfect maze:
     def remove_for_imperfect(self) -> None:
+        """
+            Randomly remove additional walls to create an imperfect maze.
+
+            This introduces cycles by selectively removing certain
+            remaining walls based on predefined wall-encoding indices.
+        """
         for y in range(0, self.materials["height"]):
             for x in range(0, self.materials["width"]):
                 index: int = self.get_index_of_position(x, y)
@@ -246,6 +396,22 @@ class DFSAlgo(Algo):
                     return
 
     def get_walls_of_index(self, index: int, x: int, y: int) -> list[Any]:
+        """
+            Retrieve removable walls for a given cell.
+
+            The wall configuration is encoded as a bitmask.
+            This method extracts which walls can be removed
+            without leaving the grid boundaries.
+
+            Args:
+                index (int): Integer wall encoding.
+                x (int): X-coordinate.
+                y (int): Y-coordinate.
+
+            Returns:
+                list[Any]: List of removable wall directions
+                    ('north', 'east', 'south', 'west').
+        """
         walls: list[Any] = []
 
         for i in range(4):
@@ -264,6 +430,13 @@ class DFSAlgo(Algo):
     def remove_walls(
         self, cell: Tuple[int, int], neighboor: Tuple[int, int]
     ) -> None:
+        """
+            Remove walls between two adjacent cells.
+
+            Args:
+                cell (Tuple[int, int]): Current cell.
+                neighboor (Tuple[int, int]): Adjacent neighbor cell.
+        """
         cell_x, cell_y = cell
         neigh_x, neigh_y = neighboor
 
@@ -288,6 +461,17 @@ class DFSAlgo(Algo):
     def get_neighboors_from_unvisited(
         self, position: Tuple
     ) -> Tuple[int, int] | None:
+        """
+            Select a random unvisited neighbor of a cell.
+
+            Args:
+                position (Tuple): Current cell coordinates.
+
+            Returns:
+                Tuple[int, int] | None:
+                    Random unvisited neighbor if available,
+                    otherwise None.
+        """
         neighboors = list()
         x, y = position
 
@@ -313,6 +497,12 @@ class DFSAlgo(Algo):
 
     #  if map has 42 set cells as visited and rmeove it from unvisited
     def put_cells_42_as_visited(self) -> None:
+        """
+            Mark the predefined "42" logo cells as visited.
+
+            This prevents DFS from generating paths through
+            the reserved logo area in the center of the maze.
+        """
         for y in range(self.materials["height"]):
             for x in range(self.materials["width"]):
                 if self.in_map_quarante_deux(x, y):
@@ -321,30 +511,81 @@ class DFSAlgo(Algo):
 
     #  check if this direction go throw the map 42 in middle map
     def in_map_quarante_deux(self, new_x: int, new_y: int) -> bool:
+        """
+            Check whether a coordinate belongs to the reserved "42" logo area.
+
+            Args:
+                new_x (int): X-coordinate.
+                new_y (int): Y-coordinate.
+
+            Returns:
+                bool: True if inside the logo region.
+        """
         return super().in_map_quarante_deux(new_x, new_y)
 
     #  get index from map
     def get_index_of_position(self, x: int, y: int) -> int:
+        """
+            Retrieve the wall encoding index of a cell.
+
+            Args:
+                x (int): X-coordinate.
+                y (int): Y-coordinate.
+
+            Returns:
+                int: Integer wall encoding.
+        """
         return super().get_index_of_position(x, y)
 
     #  create new_map with walls
     def create_map(self) -> List[list[str]]:
+        """
+            Create a new maze grid initialized with full walls.
+
+            Returns:
+                List[List[str]]: 2D grid filled with 'F'.
+        """
         return super().create_map()
 
 
 class WilsonAlgo(Algo):
+    """
+        Wilson's algorithm for generating a uniform spanning tree maze.
+
+        This algorithm produces an unbiased perfect maze using
+        loop-erased random walks.
+    """
     def __init__(
         self, materials: dict[str, Union[Tuple, int, str, bool]]
     ) -> None:
+        """
+            Initialize Wilson maze generator.
+
+            Args:
+                materials (dict): Maze configuration.
+        """
         super().__init__(materials)
         self.materials["map"] = self.create_map()
         self.visited: list[tuple[int, int]] = list()
         self.unvisited = self.get_all_cells()
 
     def create_map(self) -> List[List[str]]:
+        """
+            Create a new maze grid initialized with full walls.
+
+            Returns:
+                List[List[str]]: 2D maze grid filled with 'F'.
+        """
         return super().create_map()
 
     def remove_map_quarante_deux(self) -> None:
+        """
+            Remove the predefined "42" logo cells from the unvisited set.
+
+            This ensures that Wilson's random walk does not generate
+            paths through the reserved logo area when the feature
+            is enabled.
+        """
         if self.materials["height"] < 6 or self.materials["width"] < 8:
             return
         i = 0
@@ -357,6 +598,23 @@ class WilsonAlgo(Algo):
             i += 1
 
     def algo_run(self) -> list[tuple[int, int]] | None:
+        """
+            Execute Wilson's maze generation algorithm.
+
+            Process:
+                1. Select an initial random cell and mark it visited.
+                2. While unvisited cells remain:
+                    - Perform a loop-erased random walk from a random
+                      unvisited cell until reaching a visited cell.
+                    - Carve the path into the maze.
+                3. Optionally remove additional walls if the maze
+                   is not required to be perfect.
+
+            Returns:
+                list[tuple[int, int]] | None:
+                    Empty list after successful generation,
+                    or empty list if an unexpected condition occurs.
+        """
         if self.materials["is_42"]:
             self.remove_map_quarante_deux()
         target_cell = random.choice(self.unvisited)
@@ -394,6 +652,12 @@ class WilsonAlgo(Algo):
         return []
 
     def remove_for_imperfect(self) -> None:
+        """
+            Randomly remove additional walls to create an imperfect maze.
+
+            This introduces cycles into the maze by selectively
+            removing certain walls based on predefined index values.
+        """
         for y in range(0, self.materials["height"]):
             for x in range(0, self.materials["width"]):
                 index: int = self.get_index_of_position(x, y)
@@ -427,6 +691,17 @@ class WilsonAlgo(Algo):
                     return
 
     def get_walls_of_index(self, index: int, x: int, y: int) -> list[Any]:
+        """
+            Retrieve removable walls for a given cell.
+
+            Args:
+                index (int): Wall encoding index.
+                x (int): X-coordinate.
+                y (int): Y-coordinate.
+
+            Returns:
+                list[Any]: List of removable wall directions.
+        """
         walls: list[Any] = []
 
         for i in range(4):
@@ -442,7 +717,13 @@ class WilsonAlgo(Algo):
         return walls
 
     def remove_walls_of_path(self, path: List[tuple]) -> None:
+        """
+            Remove walls along a generated path.
 
+            Args:
+                path (List[tuple]): Ordered list of coordinates
+                    representing a valid path.
+        """
         map = self.materials["map"]
         for i in range(0, len(path) - 1):
             curr_x, curr_y = path[i]
@@ -472,6 +753,20 @@ class WilsonAlgo(Algo):
     def get_rand_valid_neighboors(
         self, position: Tuple
     ) -> Tuple[int, int] | None:
+        """
+            Select a random valid neighboring cell.
+
+            The neighbor must:
+                - Be inside the grid bounds
+                - Not violate the "42" logo constraint (if enabled)
+
+            Args:
+                position (Tuple): Current cell position.
+
+            Returns:
+                Tuple[int, int] | None:
+                    Random valid neighbor or None if none exist.
+        """
         x, y = position
         directions = list()
 
@@ -513,9 +808,25 @@ class WilsonAlgo(Algo):
         return None
 
     def in_map_quarante_deux(self, new_x: int, new_y: int) -> bool:
+        """
+        Check whether a coordinate belongs to the reserved "42" logo area.
+
+        Args:
+            new_x (int): X-coordinate.
+            new_y (int): Y-coordinate.
+
+        Returns:
+            bool: True if inside the logo region.
+        """
         return super().in_map_quarante_deux(new_x, new_y)
 
     def get_all_cells(self) -> List[Tuple]:
+        """
+            Generate a list of all grid coordinates.
+
+            Returns:
+                List[Tuple]: List of all (x, y) positions.
+        """
         not_visited = list()
         for y in range(0, self.materials["height"]):
             for x in range(0, self.materials["width"]):
@@ -523,10 +834,31 @@ class WilsonAlgo(Algo):
         return not_visited
 
     def get_index_of_position(self, x: int, y: int) -> int:
+        """
+            Retrieve the wall encoding index of a cell.
+
+            Args:
+                x (int): X-coordinate.
+                y (int): Y-coordinate.
+
+            Returns:
+                int: Integer wall encoding.
+        """
         return super().get_index_of_position(x, y)
 
 
 class MazeGenerator:
+    """
+        Main interface class for generating mazes.
+
+        Supports:
+            - DFS maze generation
+            - Wilson's algorithm maze generation
+            - BFS shortest path solving
+
+        After generation, the maze and its solution can be exported
+        to a file.
+    """
     def __init__(
         self,
         width: int,
@@ -537,6 +869,19 @@ class MazeGenerator:
         filename: str,
         perfect: bool,
     ) -> None:
+        """
+            Initialize maze generator configuration.
+
+            Args:
+                width (int): Maze width.
+                height (int): Maze height.
+                entry (Tuple[int, int]): Entry coordinate.
+                exit (Tuple[int, int]): Exit coordinate.
+                seed (int): Random seed.
+                filename (str): Output file name.
+            perfect (bool): Whether the maze is perfect.
+        """
+
         self.width = width
         self.height = height
         self.entry = entry
@@ -550,11 +895,25 @@ class MazeGenerator:
         self.hexa = "0123456789ABCEDF"
 
     def logo_in_map(self) -> bool:
+        """
+            Determine whether the maze is large enough to embed
+            the predefined "42" logo shape in its center.
+
+            Returns:
+                bool: True if the maze dimensions allow embedding
+                the logo, otherwise False.
+        """
         if self.height > 6 and self.width > 8:
             return True
         return False
 
     def create_map(self) -> List[str]:
+        """
+            Create a new maze grid initialized with full walls ('F').
+
+            Returns:
+                List[List[str]]: A 2D list representing the maze grid.
+        """
         my_map: List[Any] = []
         for i in range(self.height):
             cols = []
@@ -564,6 +923,21 @@ class MazeGenerator:
         return my_map
 
     def generate(self, name_algo: str) -> None:
+        """
+            Generate the maze using the selected algorithm.
+
+            Supported algorithms:
+                - "dfs": Depth-First Search maze generation
+                - "wilson": Wilson's algorithm maze generation
+
+            After generation:
+                - The maze grid is stored in self.map
+                - The shortest path is computed using BFS
+                - The result is written to the output file
+
+            Args:
+                name_algo (str): Algorithm identifier ("dfs" or "wilson").
+        """
         if name_algo == "dfs":
             dfs = DFSAlgo(
                 {
@@ -628,6 +1002,15 @@ class MazeGenerator:
             self.create_output_file()
 
     def create_output_file(self) -> None:
+        """
+            Write the generated maze and its solution to the output file.
+
+            The file contains:
+                - The maze grid (one row per line)
+                - Entry coordinates
+                - Exit coordinates
+                - Shortest path as a direction string (N/E/S/W)
+        """
         try:
             with open(self.output_file, "w") as file:
                 for row in self.map:
@@ -649,7 +1032,19 @@ class MazeGenerator:
             print(e)
 
     def get_map(self) -> List[Any]:
+        """
+            Retrieve the generated maze grid.
+
+            Returns:
+                List[List[str]]: The maze representation.
+        """
         return self.map
 
     def get_solution(self) -> str:
+        """
+            Retrieve the computed shortest path.
+
+            Returns:
+                str: Direction string representing the solution path.
+        """
         return self.shortest_path
