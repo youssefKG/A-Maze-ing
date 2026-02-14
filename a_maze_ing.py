@@ -38,4 +38,5 @@ def main() -> None:
 
 
 if __name__ == "__main__":
+    """entry point for a_maze_ing project"""
     main()

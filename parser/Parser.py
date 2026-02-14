@@ -10,6 +10,7 @@ class Parser:
     extracts all maze parameters, performs consistency checks,
     and builds a materials dictionary used by the maze algorithms.
     """
+
     def __init__(self, argv: list[str]) -> None:
         """
         Initialize the parser using command-line arguments.
@@ -102,12 +103,16 @@ class Parser:
                 splitted = line.split("=")
                 if splitted[0] in "WIDTH":
                     self.width = int(splitted[1])
-                    if self.width <= 0:
-                        raise Exception("Width must be greather than 0")
+                    if self.width <= 0 or self.width > 200:
+                        error_message = "Width must be greather "
+                        error_message += "than 0 and less or equal than 200"
+                        raise Exception(error_message)
                 elif splitted[0] == "HEIGHT":
                     self.height = int(splitted[1])
-                    if self.height <= 0:
-                        raise Exception("height must be greather than 0")
+                    if self.height <= 0 or self.height > 200:
+                        error_message = "Hiight must be greather "
+                        error_message += "than 0 and less or equal than 200"
+                        raise Exception(error_message)
                 elif splitted[0] == "ENTRY":
                     coord = splitted[1].split(",")
                     if len(coord) != 2:
@@ -156,7 +161,10 @@ class Parser:
                 raise Exception("coordinates exit is inside the 42")
             if x < 0 or x >= self.width or y < 0 or y >= self.height:
                 raise ValueError("exit must be inside the map")
-            if self.entry[0] == self.exit[0] and self.entry[1] == self.exit[1]:
+            if (
+                self.entry[0] == self.exit[0]
+                and self.entry[1] == self.exit[1]
+            ):
                 raise ValueError("exit and entry in same cell")
             return True
         except Exception as e:
@@ -166,20 +174,27 @@ class Parser:
     # check if this direction go throw the map 42 in middle map
     def in_map_quarante_deux(self, x: int, y: int) -> bool:
         """
-            Check whether a coordinate belongs to the reserved "42" logo area.
+        Check whether a coordinate belongs to the reserved "42" logo area.
 
-            The logo is dynamically centered in the maze grid.
+        The logo is dynamically centered in the maze grid.
 
-            Args:
-                x (int): X-coordinate.
-                y (int): Y-coordinate.
+        Args:
+            x (int): X-coordinate.
+            y (int): Y-coordinate.
 
-            Returns:
-                bool: True if the position is inside the 42 logo area.
+        Returns:
+            bool: True if the position is inside the 42 logo area.
         """
         mid_h = int((self.height / 2)) - 2
         mid_w = int((self.width / 2)) - 3
-        row_2 = [mid_w, mid_w + 1, mid_w + 2, mid_w + 4, mid_w + 5, mid_w + 6]
+        row_2 = [
+            mid_w,
+            mid_w + 1,
+            mid_w + 2,
+            mid_w + 4,
+            mid_w + 5,
+            mid_w + 6,
+        ]
         row_4 = [mid_w + 2, mid_w + 4, mid_w + 5, mid_w + 6]
 
         if y == mid_h and x in [mid_w, mid_w + 4, mid_w + 5, mid_w + 6]:

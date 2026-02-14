@@ -233,14 +233,16 @@ class CellsImage:
     def put_pixel(self, x: int, y: int, color: int) -> None:
         """Write a single pixel into the backing image buffer."""
         offset = int((y * self.sl) + (x * (self.bpp / 8)))
-        self.data[offset : offset + 4] = (color).to_bytes(4, "little")
+        self.data[offset:offset + 4] = (color).to_bytes(4, "little")
 
     def clear_image(self, color: int | None = None) -> None:
-        """Fill the entire image with either the theme background or a color."""
+        """
+        Fill the entire image with either the theme background or a color.
+        """
         if color is None:
             for y in range(self.height):
                 for x in range(self.width):
                     self.put_pixel(x, y, Theme.background)
             return
         for i in range(0, len(self.data), 4):
-            self.data[i : i + 4] = (color).to_bytes(4, "little")
+            self.data[i:i + 4] = (color).to_bytes(4, "little")
