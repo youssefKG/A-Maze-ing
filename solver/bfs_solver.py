@@ -179,8 +179,6 @@ class BfsSolver(Solver):
                 )
                 cell = self.path[cell]
             self.put_cells_img_to_window()
-            self.cells_img.draw_cell(self.entry_cell, Theme.background)
-            self.cells_img.draw_cell(self.exit_cell, Theme.background)
             self.is_path_shown = False
 
     def draw_path(self) -> None:
@@ -193,8 +191,6 @@ class BfsSolver(Solver):
                     cell, self.path[cell], Theme.path
                 )
                 cell = self.path[cell]
-            self.cells_img.draw_cell(self.entry_cell, Theme.entry_cell)
-            self.cells_img.draw_cell(self.exit_cell, Theme.exit_cell)
             self.is_path_shown = True
             self.put_cells_img_to_window()
 

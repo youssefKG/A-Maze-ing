@@ -239,3 +239,4 @@ class MazeGeneratorAlgo(ABC):
         exit_cell = self.maze_state.get_exit_cell()
         self.cells_img.draw_cell(entry_cell, Theme.entry_cell)
         self.cells_img.draw_cell(exit_cell, Theme.exit_cell)
+        self.put_cells_img_to_window()

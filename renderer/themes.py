@@ -81,7 +81,7 @@ class Theme:
         .set_border(Colors.GREEN)
         .set_background(Colors.BLACK)
         .set_cell_background(Colors.DARK_BLUE)
-        .set_cell_42(Colors.YELLOW)
+        .set_cell_42(Colors.BLUE)
         .set_tracker(Colors.BLUE)
         .set_path(Colors.PURPLE)
         .set_exit_cell(Colors.BLUE)

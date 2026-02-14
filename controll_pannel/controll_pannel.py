@@ -123,6 +123,7 @@ class ControllPannel:
             ):
                 self.algo.redraw_maze()
                 self.solver.toggle_path()
+                self.algo.draw_entry_exit_cells()
 
     def change_color(self, keynum: int) -> None:
         """Change the maze color theme when the color key is pressed."""
@@ -138,3 +139,4 @@ class ControllPannel:
                 self.algo.redraw_maze()
                 if self.solver.is_path_shown:
                     self.solver.draw_path()
+                self.algo.draw_entry_exit_cells()
